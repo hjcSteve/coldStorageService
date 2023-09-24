@@ -1,0 +1,77 @@
+System sistema
+
+//DICHIARAZIONE DEI MESSAGGI E DEGLI EVENTI
+Request storerequest       : storerequest(FW)
+//Reply replyrequest     : replyrequest(TICKETNUM)
+Reply replyTicketAccepted :ticketAccepted(TICKETNUMBER)
+Reply replyTicketDenied: ticketDenied(ARG)
+
+Dispatch dischargefood  : dischargefood(TICKETNUM)
+
+//DICHIARAZIONE DEI CONTESTI
+Context ctxColdStorageService ip [host="localhost" port=8055]
+
+Context ctxBasicRobot ip [host="localhost" port=8059]
+
+
+// DICHIARAZIONE DEGLI ATTORI
+QActor serviceaccessgui context ctxColdStorageService{
+
+  State s0 initial {
+  }
+}
+QActor warningdevice context ctxColdStorageService{
+ State s0 initial {
+  } 
+}
+QActor alarmdevice context ctxColdStorageService{
+State s0 initial {
+    
+  }
+}
+QActor coldstorageservice context ctxColdStorageService{
+	[# var currentStorage = 0
+		val maxStorage=100
+		#
+	]
+	State s0 initial {
+		println("--- coldStorageService attivo")
+  } Transition t0
+    whenRequest  storerequest->handleRequestCmd
+	
+
+  State handleRequestCmd{
+    onMsg( storerequest : storerequest(FW) ){
+    	println("--- storeRequest arrived")
+    	[#
+    		val requestStorage = payloadArg(0).toInt()
+    		val leftStorage = currentStorage - requestStorage
+    		if (leftStorage > 0){
+    			val TICKETNUMBER = "A12345"
+    			currentStorage +=  requestStorage
+    		#
+    	]
+  			replyTo storerequest with replyTicketAccepted : ticketAccepted($TICKETNUMBER)
+      [#}else {
+      	#
+      ]
+            replyTo storerequest with replyTicketDenied : ticketDenied("denied")
+      
+      [#}#]
+      
+    }
+  }
+  Goto s0
+}
+QActor transporttrolley context ctxColdStorageService{
+State s0 initial {  
+  }
+}
+QActor servicestatusgui context ctxColdStorageService{
+    State s0 initial {
+      forward coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
+      request coldstorageservice -m storerequest  : storerequest(FW)
+      
+  }
+}
+ExternalQActor basicrobot context ctxBasicRobot

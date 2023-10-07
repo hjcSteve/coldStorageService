@@ -1,6 +1,0 @@
-{"actor":"coldstorageservice", "msgType":"dispatch", "sender":"servicestatusgui", "msgId":"dischargefood"}
-{"actor":"coldstorageservice", "msgType":"request", "sender":"servicestatusgui", "msgId":"storerequest"}
-{"actor":"coldstorageservice", "msgType":"dispatch", "sender":"servicestatusgui", "msgId":"dischargefood"}
-{"actor":"coldstorageservice", "msgType":"request", "sender":"servicestatusgui", "msgId":"storerequest"}
-{"actor":"coldstorageservice", "msgType":"dispatch", "sender":"servicestatusgui", "msgId":"dischargefood"}
-{"actor":"coldstorageservice", "msgType":"request", "sender":"servicestatusgui", "msgId":"storerequest"}

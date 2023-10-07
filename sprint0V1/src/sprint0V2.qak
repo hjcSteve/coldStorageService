@@ -1,0 +1,109 @@
+System sistema
+
+//DICHIARAZIONE DEI MESSAGGI E DEGLI EVENTI
+
+//Quando il truck driver fa una richiesta di store con un certo peso
+Request storerequest       : storerequest(FW)
+//Reply replyrequest     : replyrequest(TICKETNUM)
+Reply replyTicketAccepted :ticketAccepted(TICKETNUMBER)
+Reply replyTicketDenied: ticketDenied(ARG)
+
+//Quando il truck driver arriva e chiede di scaricare immettendo il TICKETNUMBER
+Request dischargefood  : dischargefood(TICKETNUM)
+Reply replyChargeTaken : replyChargeTaken(ARG)
+Reply replyTicketExpired:  replyTicketExpired(ARG)
+
+
+//DICHIARAZIONE DEI CONTESTI
+Context ctxColdStorageService ip [host="localhost" port=8055]
+ 	
+Context ctxBasicRobot ip [host="localhost" port=8059]
+
+
+// DICHIARAZIONE DEGLI ATTORI
+QActor serviceaccessgui context ctxColdStorageService{
+
+  State s0 initial {
+  }
+}
+
+QActor servicestatusgui context ctxColdStorageService{
+    State s0 initial {
+//      forward coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
+//      request coldstorageservice -m storerequest  : storerequest(FW)
+      
+  }
+}
+//IL SERVIZIO DI COLDSTORAGE
+QActor coldstorageservice context ctxColdStorageService{
+	[# var currentStorage = 0
+		val maxStorage=100
+		var ready = true
+		# 
+	]
+	State s0 initial {
+		println("--- coldStorageService active")
+		println("currentMsg=${currentMsg}")
+  } Transition t0
+    whenRequest  storerequest->handleStorageRequest
+    whenRequest dischargefood->handleDiscargeFood
+	
+//entra in uno stato in cui risponde alle richieste di storage
+  State handleStorageRequest{
+    onMsg( storerequest : storerequest(FW) ){
+    	println("--- storeRequest arrived")
+    	[#
+    		val requestStorage = payloadArg(0).toInt()
+    		val leftStorage = currentStorage - requestStorage
+    		if (leftStorage > 0){
+    			val TICKETNUMBER = "A12345"
+    			currentStorage +=  requestStorage
+    		#
+    	]
+  			replyTo storerequest with replyTicketAccepted : ticketAccepted($TICKETNUMBER)
+      [#}else {
+      	#
+      ]
+            replyTo storerequest with replyTicketDenied : ticketDenied(denied)
+      [#}#]
+    }
+  }
+  Goto s0
+  
+  //entra in uno stato in cui risponde alle richieste di storage
+  State handleDiscargeFood{
+    onMsg( dischargefood : dischargefood(TICKETNUMBER) ){
+    	println("--- dischargefood arrived")
+    	[#
+    		val ticketNumber = payloadArg(0)
+    		if (ticketNumber !== "EXPIRED"){
+    		#
+    	]
+  			replyTo dischargefood with replyChargeTaken : replyChargeTaken(ARG)
+      [#}else {
+      	# 
+      ]
+            replyTo dischargefood with replyTicketExpired : replyTicketExpired(ARG)
+      [#}#]
+    }
+  }
+  Goto s0
+}
+
+
+QActor warningdevice context ctxColdStorageService{
+ State s0 initial {
+  } 
+}
+QActor alarmdevice context ctxColdStorageService{
+State s0 initial {
+    
+  }
+}
+
+QActor transporttrolley context ctxColdStorageService{
+State s0 initial {  
+  }
+}
+
+ExternalQActor basicrobot context ctxBasicRobot

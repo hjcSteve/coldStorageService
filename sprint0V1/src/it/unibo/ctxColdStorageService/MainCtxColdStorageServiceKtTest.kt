@@ -3,8 +3,17 @@ package it.unibo.ctxColdStorageService
 import org.junit.*
 import org.junit.Assert.*
 import org.junit.jupiter.api.DisplayName
+import java.net.Socket
 
 class MainCtxColdStorageServiceKtTest {
+    val port=8055;
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun setUp(): Unit {
+            println("set up");
+        }
+    }
 
     @Test
     fun `Il test per il main`() {
@@ -23,4 +32,6 @@ class MainCtxColdStorageServiceKtTest {
         assertTrue("TEST___ il ticket accettato o rifiutato",
                 replyContent.contains("ticketaccepted") || replyContent.contains("ticketdenied"));
     }
+
+
 }

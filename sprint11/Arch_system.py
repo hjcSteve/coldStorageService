@@ -17,7 +17,7 @@ eventedgeattr = {
     'color': 'red',
     'style': 'dotted'
 }
-with Diagram('porcozioArch', show=False, outformat='png', graph_attr=graphattr) as diag:
+with Diagram('systemArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
@@ -31,6 +31,8 @@ with Diagram('porcozioArch', show=False, outformat='png', graph_attr=graphattr) 
           servicestatusgui=Custom('servicestatusgui','./qakicons/symActorSmall.png')
      with Cluster('ctxBasicRobot', graph_attr=nodeattr):
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
+     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<kgUpdateRequest &nbsp; >',  fontcolor='magenta') >> transporttrolley
      servicestatusgui >> Edge(color='magenta', style='solid', decorate='true', label='<dischargefood &nbsp; storerequest &nbsp; >',  fontcolor='magenta') >> coldstorageservice
-     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<storerequest &nbsp; >',  fontcolor='magenta') >> coldroom
+     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; >',  fontcolor='magenta') >> basicrobot
+     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<currentloadrequest &nbsp; >',  fontcolor='magenta') >> coldroom
 diag

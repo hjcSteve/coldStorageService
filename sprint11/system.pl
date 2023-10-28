@@ -1,12 +1,15 @@
 %====================================================================================
-% porcozio description   
+% system description   
 %====================================================================================
 request( storerequest, storerequest(FW) ).
 request( dischargefood, dischargefood(TICKETNUM) ).
+request( kgAvailableRequest, kgAvailableRequest(D) ).
+request( kgUpdateRequest, kgUpdateRequest(KG) ).
+request( moverobot, moverobot(TARGETX,TARGETY) ).
+request( engage, engage(ARG) ).
 request( robotposition, robotposition(D) ).
 request( currentstatusrequest, currentstatusrequest(D) ).
 request( currentloadrequest, currentloadrequest(R) ).
-request( kgAvailableRequest, kgAvailableRequest(D) ).
 %====================================================================================
 context(ctxcoldstorageservice, "localhost",  "TCP", "8056").
 context(ctxbasicrobot, "localhost",  "TCP", "8059").

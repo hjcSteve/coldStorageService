@@ -19,13 +19,11 @@ eventedgeattr = {
 with Diagram('sistemaArch', show=False, outformat='png', graph_attr=graphattr) as diag:
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
-     with Cluster('ctxColdStorageService', graph_attr=nodeattr):
+     with Cluster('ctxcoldstorageservice', graph_attr=nodeattr):
           serviceaccessgui=Custom('serviceaccessgui','./qakicons/symActorSmall.png')
           servicestatusgui=Custom('servicestatusgui','./qakicons/symActorSmall.png')
           coldstorageservice=Custom('coldstorageservice','./qakicons/symActorSmall.png')
           warningdevice=Custom('warningdevice','./qakicons/symActorSmall.png')
           alarmdevice=Custom('alarmdevice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
-     with Cluster('ctxBasicRobot', graph_attr=nodeattr):
-          basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
 diag

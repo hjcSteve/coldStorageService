@@ -15,19 +15,19 @@ Reply replyTicketExpired:  replyTicketExpired(ARG)
 
 
 //DICHIARAZIONE DEI CONTESTI
-Context ctxColdStorageService ip [host="localhost" port=8055]
+Context ctxcoldstorageservice ip [host="localhost" port=8055]  
  	
-Context ctxBasicRobot ip [host="localhost" port=8059]
-
+//Context ctxbasicrobot ip [host="localhost" port=8059]
+ 
 
 // DICHIARAZIONE DEGLI ATTORI
-QActor serviceaccessgui context ctxColdStorageService{
+QActor serviceaccessgui context ctxcoldstorageservice{
 
   State s0 initial {
-  }
+  } 
 }
 
-QActor servicestatusgui context ctxColdStorageService{
+QActor servicestatusgui context ctxcoldstorageservice{
     State s0 initial {
 //      forward coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
 //      request coldstorageservice -m storerequest  : storerequest(FW)
@@ -35,7 +35,7 @@ QActor servicestatusgui context ctxColdStorageService{
   }
 }
 //IL SERVIZIO DI COLDSTORAGE
-QActor coldstorageservice context ctxColdStorageService{
+QActor coldstorageservice context ctxcoldstorageservice{
 	[# var currentStorage = 0
 		val maxStorage=100
 		var ready = true
@@ -50,7 +50,7 @@ QActor coldstorageservice context ctxColdStorageService{
 	
 //entra in uno stato in cui risponde alle richieste di storage
   State handleStorageRequest{
-    onMsg( storerequest : storerequest(FW) ){
+    onMsg( storerequest : storerequest(FW) ){ 
     	println("--- storeRequest arrived")
     	[#
     		val requestStorage = payloadArg(0).toInt()
@@ -60,6 +60,8 @@ QActor coldstorageservice context ctxColdStorageService{
     			currentStorage +=  requestStorage
     		#
     	]
+    	println("--- storeRequest accepted $$TICKETNUMBER") 
+    	
   			replyTo storerequest with replyTicketAccepted : ticketAccepted($TICKETNUMBER)
       [#}else {
       	#
@@ -74,7 +76,7 @@ QActor coldstorageservice context ctxColdStorageService{
   State handleDiscargeFood{
     onMsg( dischargefood : dischargefood(TICKETNUMBER) ){
     	println("--- dischargefood arrived")
-    	[#
+    	[# 
     		val ticketNumber = payloadArg(0)
     		if (ticketNumber !== "EXPIRED"){
     		#
@@ -91,19 +93,19 @@ QActor coldstorageservice context ctxColdStorageService{
 }
 
 
-QActor warningdevice context ctxColdStorageService{
+QActor warningdevice context ctxcoldstorageservice{
  State s0 initial {
   } 
 }
-QActor alarmdevice context ctxColdStorageService{
+QActor alarmdevice context ctxcoldstorageservice{
 State s0 initial {
     
   }
 }
 
-QActor transporttrolley context ctxColdStorageService{
+QActor transporttrolley context ctxcoldstorageservice{
 State s0 initial {  
   }
 }
 
-ExternalQActor basicrobot context ctxBasicRobot
+//ExternalQActor basicrobot context ctxbasicrobot

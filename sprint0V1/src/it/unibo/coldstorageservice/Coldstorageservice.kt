@@ -39,15 +39,18 @@ class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								CommUtils.outblack("--- storeRequest arrived")
-								
-								    		val requestStorage = payloadArg(0).toInt()
+									CommUtils.outblack("--- storeRequest ")
+
+
+							val requestStorage = payloadArg(0).toInt()
 								    		val leftStorage = currentStorage - requestStorage
 								    		if (leftStorage > 0){
 								    			val TICKETNUMBER = "A12345"
 								    			currentStorage +=  requestStorage
-								answer("storerequest", "replyTicketAccepted", "ticketAccepted($TICKETNUMBER)"   )  
+								CommUtils.outblack("--- storeRequest accepted $TICKETNUMBER")
+								answer("storerequest", "replyTicketAccepted", "ticketAccepted($TICKETNUMBER)"   )
 								}else {
-								answer("storerequest", "replyTicketDenied", "ticketDenied(denied)"   )  
+								answer("storerequest", "replyTicketDenied", "ticketDenied(denied)"   )
 								} 
 						}
 						//genTimer( actor, state )
@@ -62,7 +65,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 						if( checkMsgContent( Term.createTerm("dischargefood(TICKETNUM)"), Term.createTerm("dischargefood(TICKETNUMBER)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								CommUtils.outblack("--- dischargefood arrived")
-								
+								 
 								    		val ticketNumber = payloadArg(0)
 								    		if (ticketNumber !== "EXPIRED"){
 								answer("dischargefood", "replyChargeTaken", "replyChargeTaken(ARG)"   )  

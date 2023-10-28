@@ -1,6 +1,0 @@
-{"actor":"called", "msgType":"request", "sender":"caller", "msgId":"r1"}
-{"actor":"called", "msgType":"request", "sender":"caller", "msgId":"r1"}
-{"actor":"w1", "msgType":"dispatch", "sender":"datahandler", "msgId":"start"}
-{"actor":"w2", "msgType":"dispatch", "sender":"datahandler", "msgId":"start"}
-{"actor":"w3", "msgType":"dispatch", "sender":"datahandler", "msgId":"start"}
-{"actor":"datahandler", "msgType":"eventtransition", "sender":"sys", "msgId":"alarm"}

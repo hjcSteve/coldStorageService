@@ -63,6 +63,19 @@ State s0 initial {
     
   }
 }
+
+QActor coldroom context ctxColdStorageService{
+State s0 initial {  
+  }
+}
+QActor servicestatusgui context ctxColdStorageService{
+    State s0 initial {
+      request coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
+      request coldstorageservice -m storerequest  : storerequest(FW)
+      
+  }
+}
+ExternalQActor basicrobot context ctxBasicRobot
 QActor coldstorageservice context ctxColdStorageService{
 	[#
 	var KgWaitingDischarge : Long = 0;
@@ -170,27 +183,32 @@ QActor transporttrolley context ctxColdStorageService{
 	val (ColdRoomX, ColdRoomY) = Pair(4, 3);
 	var LoadTrolley : Long = 0;
 	#]
-	
+	  	
+  State terminating {
+  	println("$name ) Robot already engaged!")
+  }
+  
   State s0 initial {  
 	discardMsg Off
 	println("$name ) has started, now let's engage the robot!")
   	request basicrobot -m engage : engage(ARG)
   } Transition t0
-  whenReply engagedone -> goinghome
+//  whenReply engagedone -> goinghome
   whenReply engagerefused -> terminating
   
+  State isHome {
+  	println("$name ) Robot in home waiting for trucks!")
+  }
+  //whenMsg dischargeTrolley -> GoingOutdoor
   
   State goinghome {
   	println("$name) Sending Robot to Home")
-  	Request basicrobot -m moverobot : moverobot(HomeX,HomeY)
+  	request basicrobot -m moverobot : moverobot(HomeX,HomeY)
   } Transition t2
-  whenReply moverobotdone -> IsHome 
-  whenReply moverobotfailed -> ErrorState 
+  whenReply moverobotdone ->isHome 
+ // whenReply moverobotfailed -> ErrorState 
  
-  State IsHome {
-  	println("$name ) Robot in home waiting for trucks!")
-  }
-  whenMsg dischargeTrolley -> GoingOutdoor
+
   
   State GoingOutdoor {
   	println("$name ) Robot has received a discharge request, let's go to the Outdoor.")
@@ -208,24 +226,9 @@ QActor transporttrolley context ctxColdStorageService{
   	println("$name ) Robot already engaged!")
   } Goto s0 whenTime 1000
   
-  	
-  State terminating {
-  	println("$name ) Robot already engaged!")
-  }
+
   
 }
 
 
 
-QActor coldroom context ctxColdStorageService{
-State s0 initial {  
-  }
-}
-QActor servicestatusgui context ctxColdStorageService{
-    State s0 initial {
-      request coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
-      request coldstorageservice -m storerequest  : storerequest(FW)
-      
-  }
-}
-ExternalQActor basicrobot context ctxBasicRobot

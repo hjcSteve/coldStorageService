@@ -19,31 +19,59 @@ class MainCtxcoldstorageserviceKtTest {
         fun setUp(): Unit {
             println("set up");
         }
-
+        val conn = TcpClientSupport.connect("localhost",8055,5)
     }
 
-    @Test
-    fun `Il test per il main`() {
-
-    }
-    @Test
-    fun ` test di una funzione a caso`(){
-
-    }
     @Test
     fun ` test store request`(){
-        val conn = TcpClientSupport.connect("localhost",8055,5)
         //mandiamo la request
         val truckRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(10)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
-
         println(responseMessage)
 
         //otteniamo la risposta inm qualche modo
-        val replyContent= "testo di risposta di un ticketaccepted";
-        assertTrue("TEST___ il ticket accettato o rifiutato",
-                replyContent.contains("ticketaccepted") || replyContent.contains("ticketdenied"));
+        assertTrue("TEST___ il ticket accettato ",
+                responseMessage.contains("ticketAccepted"));
+    }
+
+    @Test
+    fun ` test store request 1000`(){
+        //mandiamo la request
+        val truckRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(1000)", "coldstorageservice").toString()
+        println(truckRequestStr);
+        val responseMessage = conn.request(truckRequestStr)
+        println(responseMessage)
+
+        //otteniamo la risposta inm qualche modo
+        assertTrue("TEST___ il ticket rifiutato",
+                responseMessage.contains("ticketDenied"));
+    }
+
+    @Test
+    fun ` test discarge request no exipired`(){
+        //mandiamo la request
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(NOEXPIRED)", "coldstorageservice").toString()
+        println(truckRequestStr);
+        val responseMessage = conn.request(truckRequestStr)
+        println(responseMessage)
+
+        //otteniamo la risposta inm qualche modo
+        assertTrue("TEST___ charge taken",
+                responseMessage.contains("replyChargeTaken"));
+    }
+
+    @Test
+    fun ` test discarge request exipired`(){
+        //mandiamo la request
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(EXPIRED)", "coldstorageservice").toString()
+        println(truckRequestStr);
+        val responseMessage = conn.request(truckRequestStr)
+        println(responseMessage)
+
+        //otteniamo la risposta inm qualche modo
+        assertTrue("TEST___ ticket expired",
+                responseMessage.contains("replyTicketExpired"));
     }
 
 

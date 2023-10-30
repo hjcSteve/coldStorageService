@@ -54,18 +54,18 @@ QActor coldstorageservice context ctxcoldstorageservice{
     	println("--- storeRequest arrived")
     	[#
     		val requestStorage = payloadArg(0).toInt()
-    		val leftStorage = currentStorage - requestStorage
+    		val leftStorage = maxStorage -(currentStorage + requestStorage)
     		if (leftStorage > 0){
     			val TICKETNUMBER = "A12345"
     			currentStorage +=  requestStorage
     		#
     	]
-    	println("--- storeRequest accepted $$TICKETNUMBER") 
-    	
+    		println("--- ticket accepted $TICKETNUMBER") 
   			replyTo storerequest with replyTicketAccepted : ticketAccepted($TICKETNUMBER)
       [#}else {
       	#
       ]
+          	println("--- ticket denied ")     
             replyTo storerequest with replyTicketDenied : ticketDenied(denied)
       [#}#]
     }
@@ -78,13 +78,15 @@ QActor coldstorageservice context ctxcoldstorageservice{
     	println("--- dischargefood arrived")
     	[# 
     		val ticketNumber = payloadArg(0)
-    		if (ticketNumber !== "EXPIRED"){
+    		if (ticketNumber != "EXPIRED"){
     		#
     	]
+          	println("--- charge taken $ticketNumber")     
   			replyTo dischargefood with replyChargeTaken : replyChargeTaken(ARG)
       [#}else {
       	# 
       ]
+        	println("--- ticket expired $ticketNumber")     
             replyTo dischargefood with replyTicketExpired : replyTicketExpired(ARG)
       [#}#]
     }

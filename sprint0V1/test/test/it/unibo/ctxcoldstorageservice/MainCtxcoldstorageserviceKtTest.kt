@@ -29,8 +29,6 @@ class MainCtxcoldstorageserviceKtTest {
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
-
-        //otteniamo la risposta inm qualche modo
         assertTrue("TEST___ il ticket accettato ",
                 responseMessage.contains("ticketAccepted"));
     }
@@ -42,8 +40,6 @@ class MainCtxcoldstorageserviceKtTest {
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
-
-        //otteniamo la risposta inm qualche modo
         assertTrue("TEST___ il ticket rifiutato",
                 responseMessage.contains("ticketDenied"));
     }
@@ -55,8 +51,6 @@ class MainCtxcoldstorageserviceKtTest {
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
-
-        //otteniamo la risposta inm qualche modo
         assertTrue("TEST___ charge taken",
                 responseMessage.contains("replyChargeTaken"));
     }
@@ -68,8 +62,6 @@ class MainCtxcoldstorageserviceKtTest {
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
-
-        //otteniamo la risposta inm qualche modo
         assertTrue("TEST___ ticket expired",
                 responseMessage.contains("replyTicketExpired"));
     }

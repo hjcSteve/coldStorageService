@@ -26,4 +26,6 @@ with Diagram('sistemaArch', show=False, outformat='png', graph_attr=graphattr) a
           warningdevice=Custom('warningdevice','./qakicons/symActorSmall.png')
           alarmdevice=Custom('alarmdevice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
+     servicestatusgui >> Edge(color='magenta', style='solid', xlabel='dischargefood', fontcolor='magenta') >> coldstorageservice
+     servicestatusgui >> Edge(color='magenta', style='solid', xlabel='storerequest', fontcolor='magenta') >> coldstorageservice
 diag

@@ -25,12 +25,12 @@ QActor serviceaccessgui context ctxcoldstorageservice{
 
   State s0 initial {
   } 
-}
+} 
 
 QActor servicestatusgui context ctxcoldstorageservice{
     State s0 initial {
-//      forward coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
-//      request coldstorageservice -m storerequest  : storerequest(FW)
+      request coldstorageservice -m dischargefood : dischargefood(EXPIRED)
+      request coldstorageservice -m storerequest  : storerequest(10)
       
   }
 }
@@ -67,9 +67,9 @@ QActor coldstorageservice context ctxcoldstorageservice{
       ]
           	println("--- ticket denied ")     
             replyTo storerequest with replyTicketDenied : ticketDenied(denied)
-      [#}#]
+      [#}#] 
     }
-  }
+  } 
   Goto s0
   
   //entra in uno stato in cui risponde alle richieste di storage
@@ -94,7 +94,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
   Goto s0
 }
 
-
+  
 QActor warningdevice context ctxcoldstorageservice{
  State s0 initial {
   } 

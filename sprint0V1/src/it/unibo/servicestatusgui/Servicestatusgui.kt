@@ -21,6 +21,8 @@ class Servicestatusgui ( name: String, scope: CoroutineScope  ) : ActorBasicFsm(
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
+						request("dischargefood", "dischargefood(EXPIRED)" ,"coldstorageservice" )  
+						request("storerequest", "storerequest(10)" ,"coldstorageservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

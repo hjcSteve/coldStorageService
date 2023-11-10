@@ -5,52 +5,45 @@ System sistema
 //Quando il truck driver fa una richiesta di store con un certo peso
 Request storerequest       : storerequest(FW)
 //Reply replyrequest     : replyrequest(TICKETNUM)
-Reply replyTicketAccepted :ticketAccepted(TICKETNUMBER)
-Reply replyTicketDenied: ticketDenied(ARG)
+Reply ticketAccepted :ticketAccepted(TICKETNUMBER) for storerequest
+Reply replyTicketDenied: ticketDenied(ARG) for storerequest
 
 //Quando il truck driver arriva e chiede di scaricare immettendo il TICKETNUMBER
 Request dischargefood  : dischargefood(TICKETNUM)
-Reply replyChargeTaken : replyChargeTaken(ARG)
-Reply replyTicketExpired:  replyTicketExpired(ARG)
+Reply replyChargeTaken : replyChargeTaken(ARG) for dischargefood
+Reply replyTicketExpired:  replyTicketExpired(ARG) for dischargefood
 
 
 //DICHIARAZIONE DEI CONTESTI
 Context ctxcoldstorageservice ip [host="localhost" port=8055]  
- 	
-//Context ctxbasicrobot ip [host="localhost" port=8059]
- 
+
+Context ctxbasicrobot ip [host="localhost" port=8059]
+  
 
 // DICHIARAZIONE DEGLI ATTORI
-QActor serviceaccessgui context ctxcoldstorageservice{
+QActor servicestatusgui context ctxcoldstorageservice{
 
   State s0 initial {
   } 
 } 
 
-QActor servicestatusgui context ctxcoldstorageservice{
-    State s0 initial {
-      request coldstorageservice -m dischargefood : dischargefood(EXPIRED)
-      request coldstorageservice -m storerequest  : storerequest(10)
-      
-  }
-}
+
 //IL SERVIZIO DI COLDSTORAGE
 QActor coldstorageservice context ctxcoldstorageservice{
 	[# var currentStorage = 0
 		val maxStorage=100
 		var ready = true
-		# 
-	]
+		#  
+	] 
 	State s0 initial {
 		println("--- coldStorageService active")
-		println("currentMsg=${currentMsg}")
   } Transition t0
     whenRequest  storerequest->handleStorageRequest
     whenRequest dischargefood->handleDiscargeFood
 	
 //entra in uno stato in cui risponde alle richieste di storage
   State handleStorageRequest{
-    onMsg( storerequest : storerequest(FW) ){ 
+    onMsg( storerequest : storerequest(FW) ){  
     	println("--- storeRequest arrived")
     	[#
     		val requestStorage = payloadArg(0).toInt()
@@ -61,7 +54,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
     		#
     	]
     		println("--- ticket accepted $TICKETNUMBER") 
-  			replyTo storerequest with replyTicketAccepted : ticketAccepted($TICKETNUMBER)
+  			replyTo storerequest with ticketAccepted : ticketAccepted($TICKETNUMBER) 
       [#}else {
       	#
       ]
@@ -93,9 +86,19 @@ QActor coldstorageservice context ctxcoldstorageservice{
   }
   Goto s0
 }
-
+QActor serviceaccessgui context ctxcoldstorageservice{
+    State s0 initial {
+      request coldstorageservice -m dischargefood : dischargefood(EXPIRED)
+      request coldstorageservice -m storerequest  : storerequest(10)
+      
+  }
+}
   
 QActor warningdevice context ctxcoldstorageservice{
+ State s0 initial {
+  } 
+}
+QActor coldroom context ctxcoldstorageservice{
  State s0 initial {
   } 
 }
@@ -110,4 +113,4 @@ State s0 initial {
   }
 }
 
-//ExternalQActor basicrobot context ctxbasicrobot
+ExternalQActor basicrobot context ctxbasicrobot

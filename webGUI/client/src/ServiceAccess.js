@@ -17,9 +17,7 @@ function ServiceAccess() {
 
     return(
         <button onClick={ storerequest} >store request </button>   
-        <div>displays
-            
-        </div>
+
         
     )
     

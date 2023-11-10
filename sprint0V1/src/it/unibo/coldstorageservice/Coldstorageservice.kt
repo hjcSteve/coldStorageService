@@ -10,8 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-	
-class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFsm( name, scope ){
+import it.unibo.kactor.sysUtil.createActor   //Sept2023
+class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
@@ -21,11 +21,10 @@ class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 		 var currentStorage = 0
 				val maxStorage=100
 				var ready = true
-		return { //this:ActionBasciFsm
+				return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblack("--- coldStorageService active")
-						CommUtils.outblack("currentMsg=${currentMsg}")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -46,7 +45,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 								    			val TICKETNUMBER = "A12345"
 								    			currentStorage +=  requestStorage
 								CommUtils.outblack("--- ticket accepted $TICKETNUMBER")
-								answer("storerequest", "replyTicketAccepted", "ticketAccepted($TICKETNUMBER)"   )  
+								answer("storerequest", "ticketAccepted", "ticketAccepted($TICKETNUMBER)"   )  
 								}else {
 								CommUtils.outblack("--- ticket denied ")
 								answer("storerequest", "replyTicketDenied", "ticketDenied(denied)"   )  
@@ -83,4 +82,4 @@ class Coldstorageservice ( name: String, scope: CoroutineScope  ) : ActorBasicFs
 				}	 
 			}
 		}
-}
+} 

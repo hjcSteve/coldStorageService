@@ -1,0 +1,217 @@
+System sprint1
+
+//store request e ricevi ticket
+Request storerequest : storerequest(FW)
+Reply requestaccepted     : requestaccepted(TICKETNUM,TIMESTAMP) for storerequest
+Reply requestdenied : requestdenied(D) for storerequest
+
+//scarichi esigendo il ticket 
+Request dischargefood  : dischargefood(TICKETNUM)
+Reply serviceterminated : serviceterminated(ACKNOWLEDGEMENT)
+
+//richiedi i kg alla coldroom (utili per stato e calcolo dei ticket)
+Request kgAvailableRequest : kgAvailableRequest(D)
+Reply kgAvailableReply : kgAvailableReply(KG)
+
+//quando il trolley è alla coldRoom scarica aggiornando il peso
+Request kgUpdateRequest : kgUpdateRequest(KG)
+Reply kgUpdateReply : kgUpdateReply(D)
+
+//dopo l'engagement del basic robot, lo mandi in home per iniziare ad attendere comandi
+Dispatch gohome : gohome(ARG)
+
+
+Dispatch dischargeTrolley : dischargeTrolley(WEIGHT)
+
+//robotpos messages
+Request moverobot    :  moverobot(TARGETX, TARGETY)
+Reply moverobotdone  :  moverobotok(ARG)
+Reply moverobotfailed:  moverobotfailed(ARG)
+
+//engaging robotpos
+Request engage : engage(ARG)
+Reply   engagedone    : engagedone(ARG) 
+Reply   engagerefused : engagerefused(ARG)
+
+
+//internal - external status messages
+Request robotposition : robotposition(D)
+Reply replyposition : replyposition(X,Y)
+
+Request currentstatusrequest : currentstatusrequest(D)
+Reply replystatus : replystatus(X,Y,WEIGHT)
+
+Request currentloadrequest : currentloadrequest(ARG)
+Reply replycurrentload : replycurrentload(WEIGHT)
+
+
+
+Context ctxColdStorageService ip [host="localhost" port=8056]
+Context ctxBasicRobot ip [host="localhost" port=8059]
+
+QActor serviceaccessgui context ctxColdStorageService{
+
+  State s0 initial {
+  }
+}
+QActor warningdevice context ctxColdStorageService{
+ State s0 initial {
+  }
+}
+QActor alarmdevice context ctxColdStorageService{
+State s0 initial {
+    
+  }
+}
+
+QActor coldroom context ctxColdStorageService{
+State s0 initial {  
+  }
+}
+QActor servicestatusgui context ctxColdStorageService{
+    State s0 initial {
+      request coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
+      request coldstorageservice -m storerequest  : storerequest(FW)
+      
+  }
+}
+ExternalQActor basicrobot context ctxBasicRobot
+QActor coldstorageservice context ctxColdStorageService{
+	[#
+	var KgWaitingDischarge : Long = 0;
+	var	KgtoLoad : Long = 0;
+	var List = tickets.TicketList(Expiration); 	
+	
+	#]
+	
+	//---------------------------------------------------------------------------------------------------------------
+	//INITIALIZE THE COLD STORAGE SERVICE
+State s0 initial {
+	println("$name ) waiting for a new message...") color black
+	discardMsg Off
+	
+  } Transition t0
+    whenRequest  storerequest->handleStoreRequest
+    whenRequest dischargefood->handleDischargeRequest
+    whenRequest currentloadrequest ->handleLoadRequest
+    whenRequest currentstatusrequest -> handleStatusRequest
+	
+	
+ 	//-------------------------------------------------------------------------------------------------------------
+ 	//ASK COLD ROOM HOW MANY KG ARE ALREADY INSIDE
+  State handleStoreRequest{
+    onMsg( storerequest : storerequest(FW) ){
+    	[#
+    		KgtoLoad = payloadArg(0).toLong();
+    	#]
+    	
+   	 }
+   	 request coldroom -m currentloadrequest : currentloadrequest(D)
+    } Transition t0
+    whenReply replycurrentload -> handleTicketGeneration   
+    
+//------------------------------------------------------------------------------------------------------------------    
+   //TICKET GENERATION AND CURRENT LOAD CONTROL
+  State handleTicketGeneration{
+    onMsg( replycurrentload : replycurrentload(CURRLOAD) ){
+    	[#
+    		var KgAvailable = payloadArg(0).toLong();	 	
+    	#]
+    	if [# KgAvailable - KgWaitingDischarge >= KgtoLoad #]{
+    		[#
+    			KgWaitingDischarge += KgtoLoad;
+    			var ticket=List.createTicket(KgtoLoad);
+			    var TICKETCODE = ticket.getTicketNumber;
+			    var TIMESTAMP = ticket.getTimestamp(); 	
+    		#]
+    		replyTo storerequest with requestaccepted : requestaccepted($TICKETCODE,$TIMESTAMP)
+    		println("$name ) ticket accepted!")
+    	}
+    	
+      else{
+		replyTo storerequest with requestdenied : requestdenied(D)   
+		println("$name ) ticket denied, not enough space.")   	
+      }
+    }
+  }
+  Goto s0 
+  
+  
+  
+   //-----------------------------------------------------------------------------------------------------------------
+   //DISCHARGE AND TICKET CHECKING
+  State handleDischargeRequest{
+    onMsg( dischargefood : dischargefood(TICKETNUM) ){
+      [#
+      	var Ticketnum = payloadArg(0);
+      	Ticket ticket = List.getTicket(Ticketnum);
+      	boolean Expired = List.isExpired(ticket);
+      #]
+      if [# !Expired #]{
+      	[#
+      		var KgToStore = ticket.getKgToStore()
+			KgWaitingDischarge -= KgToStore;
+      	#]
+      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina")
+      	forward transporttrolley -m dischargeTrolley : dischargeTrolley(KgToStore) 
+      }
+    }
+  }
+  Goto s0 
+  
+  State handleLoadRequest{
+    onMsg( storerequest : storerequest(FW) ){
+    	
+      replyTo storerequest with requestaccepted : requestaccepted($TICKET)
+    }
+  }
+  Goto s0
+  State handleStatusRequest{
+    onMsg( storerequest : storerequest(FW) ){
+      replyTo storerequest with requestaccepted : requestaccepted($TICKET)
+    }
+  }
+  Goto s0
+}
+
+
+
+QActor transporttrolley context ctxColdStorageService{
+	[#
+	val (HomeX, HomeY) = Pair(0, 0);
+	val (IndoorX, IndoorY) = Pair(0, 4);
+	val (ColdRoomX, ColdRoomY) = Pair(4, 3);
+	var LoadTrolley : Long = 0;
+	#]
+	  	
+  State terminating {
+  	println("$name ) Robot already engaged!")
+  }
+  
+  State s0 initial {  
+	discardMsg Off
+	println("$name ) has started, now let's engage the robot!")
+  	request basicrobot -m engage : engage(ARG)
+  } Transition t0
+//  whenReply engagedone -> goinghome
+  whenReply engagerefused -> terminating
+  
+  State isHome {
+  	println("$name ) Robot in home waiting for trucks!")
+  }
+  //whenMsg dischargeTrolley -> GoingOutdoor
+  
+  State goinghome {
+  	println("$name) Sending Robot to Home")
+  	request basicrobot -m moverobot : moverobot(HomeX,HomeY)
+  } Transition t2
+  whenReply moverobotdone ->isHome 
+ // whenReply moverobotfailed -> ErrorState 
+ 
+
+
+  
+}
+
+
+

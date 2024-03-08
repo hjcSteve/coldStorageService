@@ -13,9 +13,17 @@ https://github.com/anatali/issLab23/blob/main/iss23Material/html/TemaFinale23.ht
 
 # Analisi dei requisiti
 
-Dopo una discussione con il committente, si considera come unità spaziale la dimensione fisica  `RU`  del `TRANSPORT TROLLEY` fornito dal committente.
-La `Service area` per tanto può essere modellato come uno spazio rettangolare bidimensionale di dimensioni  `SA_HxRU` e `SA_WxRU`. 
-Ogni sottoarea rettangolare di tale area è caratterizzato da un insieme di coordinate (x,y). Per semplicità indichiamo come origine della `Service area` l'angolo in alto a sinistra.
+Il committente fornisce la documentazione dell'ambiente WEnv in [[VirtualRobot23]]. Questo è rappresentato da una stanza a pianta rettangolare, delimitata da pareti non oltrepassabili e comprensiva di vari ostacoli fissi in varie posizioni.
+![[Pasted image 20231101174744.png]]
+
+Al suo interno è possibile pilotare un DDR robot di forma circolare (documentazione a [[VirtualRobot23]]) che risulta possibile muovere in accordo a due modalità :
+*  Modalità a `step`: il robot ricopre piccoli spazi di lunghezza configurabile (dato il parametro `steptime`) a ogni passo. 
+ *  Modalità a `sprint`: il robot procede finché non incontra un ostacolo, e si ferma.
+ 
+In assenza meccanismi per la misurazione delle distanze nella service area e dopo una discussione con il committente, si considera come unità spaziale la dimensione fisica  `RU`  del `TRANSPORT TROLLEY` fornito dal committente, misurabile in step di durata fissata.
+La `Service area` pertanto può essere modellato come uno spazio rettangolare bidimensionale di dimensioni  `SA_HxRU` e `SA_WxRU`. 
+Ogni posizione nella scena è identificata da un insieme di coordinate (x,y). Per semplicità indichiamo come origine della `Service area` l'angolo in alto a sinistra, asse x e y corrispondenti rispettivamente alla parete superiore e di sinistra.
+
 Definiamo le seguenti sottoaree come insieme di coordinate:
 - `Home.area`: {(0,0)}
 - `ColdRoom.area`: {(4,1),(5,1),(4,2),(5,2)}
@@ -34,16 +42,17 @@ X0 X1 X2 X3 X4 X5 X6
 
 Da requisiti ColdRoom è inoltre caratterizzato da una quantità massima di carico e di conseguenza anche una quantità attuale.
 Modelliamo ColdRoom con questi due campi :
-- `ColdRoom.maxStorage` come un numero intero con un valore all'inizializzazione del sistema
-- `ColdRoom.currentStorage` come un numero intero inizialmente con valore 0
+- `ColdRoom.maxStorage` come un numero intero positivo con un valore all'inizializzazione del sistema
+- `ColdRoom.currentStorage` come un numero intero inizialmente con valore 0, in ogni momento <=`ColdRoom.maxStorage`
 
 
-`TRANSPORT TROLLEY` : entità logica astratta capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot.
+`TRANSPORT TROLLEY` : entità logica astratta capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot, è attiva e nella nostra architettura figura pertanto come un 
+**attore**.
 
 `DDR ROBOT`: entità attiva che implementa le azioni logiche del transport trolley
 Il commitente ha fornito un software che dispone un interfaccia `BasicRobot` per modellare il DDR-ROBOT
 https://github.com/anatali/issLab23/tree/b04de6a7f33fcfabaf93f9e06b46feb31931fa83/unibo.basicrobot23
-L'interazione avviene per mezzo di scambio di messaggi con questi formati
+L'interazione avviene per mezzo di scambio di messaggi con questi formati su un'architettura potenzialmente distribuita e pertanto lo indichiamo come un **attore** su contesto **External**.
 ```
 System basicrobot23
 
@@ -88,10 +97,19 @@ Reply moverobotfailed:  moverobotfailed(PLANDONE, PLANTODO)
 
 `ServiceAccessGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService. Dovendo inviare messaggi ad altri componenti modelliamo ServiceAccessGUI come un **attore**
 
-`ServiceStatusGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService e al ColdRoom. Analogamente al ServiceAccessGUI deve essere modellato come **attore**
+`ServiceStatusGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService e la ColdRoom. Analogamente al ServiceAccessGUI deve essere modellato come **attore**
+
+I requisiti introducono inoltre due componenti attive, vale a dire un `Sonar`  e un `Led`, destinati alla distribuzione su un nodo fisico potenzialmente indipendente dal resto del sistema. Questi seguono il comportamento generale di un `alarm device` il primo e  `warning device` il secondo. 
+
+Un alarm device è caratterizzato da un numero reale positivo **DLIMIT** e dalla variabile `CurrentDistance`, misurata a cadenza regolare. Se questa risulta minore di **DLIMIT**, sarà necessario notificare l'**evento** al transport trolley per l'arresto. 
+
+Un warning device associa la posizione del transport trolley ad un determinato comportamento per la notifica (blink nel caso di un Led).
+
+Entrambi i device sono per il momento descritti nell'ottica di un comportamento **locale**, sul medesimo nodo logico e fisico, destinando ai futuri sprint eventuali distribuzioni su architettura distribuita. I dettagli implementativi verranno sviluppati solamente dallo sprint 2. 
 
 # Macro componenti
-I Macro-Componenti del sistema sono:
+
+I Macro-Componenti del sistema sono dunque:
 - ColdStorageService
 - ColdRoom
 - TransportTrolley
@@ -102,6 +120,8 @@ I Macro-Componenti del sistema sono:
 - WarningDevice
 
 # Architettura logica
+
+**Messaggi**:
 
 ```
 Request storerequest : storerequest(FW)
@@ -115,10 +135,7 @@ Request dischargefood : dischargefood(TICKETNUM)
 Reply replyChargeTaken : replyChargeTaken(ARG)
 Reply replyTicketExpired: replyTicketExpired(ARG)
 ```
-
-
-
-
+![[sprint0V1/sistemaarch.png]]
 # Piano di Test
 
 **Scenario di Test 1: Richiesta con Cold Room Vuota**

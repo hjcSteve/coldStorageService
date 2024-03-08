@@ -1,0 +1,163 @@
+{
+  "main": {
+    "id": "78e024c9439d968c",
+    "type": "split",
+    "children": [
+      {
+        "id": "ed5b6ffe8fdfea69",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "71bc030b65645bfd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "sprint0V1/userDocs/Sprint0V2.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "0b23f8607286e15d",
+    "type": "split",
+    "children": [
+      {
+        "id": "83a82eb3eae0b012",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "eb718b90185060f6",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "5bd9f9ab5ae0acf8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#I",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "d82bb428958ffb7a",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "59dea94605579f8e",
+    "type": "split",
+    "children": [
+      {
+        "id": "a1a39dbfdb9e65e9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d135aa4b8b28d4a6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "sprint0V1/userDocs/Sprint0V2.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a9548c157942bc8f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "sprint0V1/userDocs/Sprint0V2.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "429c54cf58b5f7e5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "acd00026b867336e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "sprint0V1/userDocs/Sprint0V2.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "71bc030b65645bfd",
+  "lastOpenFiles": [
+    "sprint0V1/userDocs/img/sistemaarch.png",
+    "sprint0V1/userDocs/Sprint0V1.md",
+    "sprint0V1/userDocs/Sprint0V2.md",
+    "sprint0V1/userDocs/html/VirtualRobot23.md",
+    "sprint0V1/userDocs/html/VirtualRobot23.html",
+    "sprint0V1/userDocs/img/Pasted image 20231101174744.png",
+    "sprint0V1/userDocs/html",
+    "sprint0V1/userDocs/Cartella senza nome",
+    "sprint0V1/userDocs/img",
+    "sprint0V1/userDocs/Sprint0V1.pdf"
+  ]
+}

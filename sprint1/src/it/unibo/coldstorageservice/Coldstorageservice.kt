@@ -11,19 +11,22 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
+
+//User imports JAN2024
+
 class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		val interruptedStateTransitions = mutableListOf<Transition>()
+		//val interruptedStateTransitions = mutableListOf<Transition>()
 		
 			var KgWaitingDischarge : Long = 0;
 			var	KgtoLoad : Long = 0;
 			var List = tickets.TicketList(Expiration); 	
 			
-				return { //this:ActionBasciFsm
+		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblack("$name ) waiting for a new message...")

@@ -1,5 +1,5 @@
 %====================================================================================
-% sprint1 description   
+% sprint1v2 description   
 %====================================================================================
 request( storerequest, storerequest(FW) ).
 reply( requestaccepted, requestaccepted(TICKETNUM,TIMESTAMP) ).  %%for storerequest

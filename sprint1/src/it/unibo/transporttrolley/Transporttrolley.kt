@@ -11,19 +11,22 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
+
+//User imports JAN2024
+
 class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		val interruptedStateTransitions = mutableListOf<Transition>()
+		//val interruptedStateTransitions = mutableListOf<Transition>()
 		
 			val (HomeX, HomeY) = Pair(0, 0);
 			val (IndoorX, IndoorY) = Pair(0, 4);
 			val (ColdRoomX, ColdRoomY) = Pair(4, 3);
 			var LoadTrolley : Long = 0;
-				return { //this:ActionBasciFsm
+		return { //this:ActionBasciFsm
 				state("terminating") { //this:State
 					action { //it:State
 						CommUtils.outblack("$name ) Robot already engaged!")

@@ -23,11 +23,21 @@ getOtherContextNames(OTHERCTXS, MYSELF) :-
 		(context( CTX, HOST, PROTOCOL, PORT ), CTX \== MYSELF),
 		OTHERCTXS
 	).
-	
+getLocalContextNames(CTXS):-
+	findall(
+		CTX,
+		context( CTX, localhost, PROTOCOL, PORT ) ,
+		CTXS
+	).	
 getTheActors(ACTORS,CTX) :-
 	findall( qactor( A, CTX, CLASS ), qactor( A, CTX, CLASS ),   ACTORS).
 getActorNames(ACTORS,CTX) :-
-    findall( NAME, qactor( NAME, CTX, CLASS ),   ACTORS).
+    findall( NAME, (qactor( NAME, CTX, CLASS ),static(NAME)),   ACTORS).
+getAllActorNames(ACTORS,CTX) :-
+    findall( NAME, (qactor( NAME, CTX, CLASS ),not dynamic(NAME) ),   ACTORS).
+getAllActorNames(ACTORS) :-
+    findall( NAME, qactor( NAME, ANY, CLASS ),   ACTORS).
+
 
 getCtxHost( NAME, HOST )  :- context( NAME, HOST, PROTOCOL, PORT ).
 getCtxPort( NAME,  PORT ) :- context( NAME, HOST, PROTOCOL, PORT ).

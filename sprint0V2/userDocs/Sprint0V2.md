@@ -9,7 +9,8 @@ A conclusione dello Sprint0, verrà definito un piano di lavoro che schedulerà 
 
 I requisiti sono descritti dal committente nel documento: LINK
 
-https://github.com/anatali/issLab23/blob/main/iss23Material/html/TemaFinale23.html
+[[TemaFinale23]]
+
 
 # Analisi dei requisiti
 
@@ -46,11 +47,10 @@ Modelliamo ColdRoom con questi due campi :
 - `ColdRoom.currentStorage` come un numero intero inizialmente con valore 0, in ogni momento <=`ColdRoom.maxStorage`
 
 
-`TRANSPORT TROLLEY` : entità logica astratta capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot, è attiva e nella nostra architettura figura pertanto come un 
-**attore**.
+`TRANSPORT TROLLEY` : entità logica capace di spostarsi nella `Service area`. Gestisce le interfacce al sistema per pilotare un DDR robot. La necessità di assicurare che gli spostamenti del robot avvengano in maniera coerente con quanto descritto dai requisiti per lo scarico di un truck alla volta, e che il sistema risulti tuttavia in ogni momento reattivo ad eventuali altre richieste, ci spingono a modellarlo come **attore**, responsabile che il robot si muova correttamente.
 
-`DDR ROBOT`: entità attiva che implementa le azioni logiche del transport trolley
-Il commitente ha fornito un software che dispone un interfaccia `BasicRobot` per modellare il DDR-ROBOT
+`BASIC ROBOT`: 
+Il commitente ha fornito un software che dispone un interfaccia dal nome`BasicRobot` per utilizzare il DDR robot.
 https://github.com/anatali/issLab23/tree/b04de6a7f33fcfabaf93f9e06b46feb31931fa83/unibo.basicrobot23
 L'interazione avviene per mezzo di scambio di messaggi con questi formati su un'architettura potenzialmente distribuita e pertanto lo indichiamo come un **attore** su contesto **External**.
 ```
@@ -89,21 +89,23 @@ Reply moverobotdone  :  moverobotok(ARG)
 Reply moverobotfailed:  moverobotfailed(PLANDONE, PLANTODO)
 ```
 
+Si evidenzia l'utilità del messaggio preliminare `Engage`, necessario a riservare l'utilizzo del robot ad un client per volta, evitando accessi concorrenti al robot.
 
-`ColdStorageService` è l'entità che racchiude il core business dell'intero sistema. Dovendo interagire con componenti in un sistema distribuito è necessario che sia modellato come **attore**
-`ColdRoom` potrebbe essere modellato come un **POJO** all'interno del ColdStorageService, ma si è scelto di modellarlo come **attore** per i seguenti motivi:
-- ColdStorageService avrebbe troppe responsabilità e quindi deleghiamo la responsibilità in un componente attore separato (principio di singola responsabilità) 
-- Separiamo la logica di dati dalla logica di business
+`ColdStorageService` è l'entità che racchiude il core business dell'intero sistema. Dovendo interagire con diverse componenti realizzando il **Core business** in un sistema distribuito è necessario che sia modellato come **attore**.
 
-`ServiceAccessGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService. Dovendo inviare messaggi ad altri componenti modelliamo ServiceAccessGUI come un **attore**
+`ColdRoom` potrebbe essere modellato come un **POJO** all'interno del ColdStorageService, ma si è scelto di modellarlo come **attore** per il seguente motivo:
+- `ColdStorageService` ne avrebbe l'uso esclusivo.
+- la `Cold Room` sarebbe del tutto passiva. Successive discussioni col committente hanno evidenziato come la possibilità di uno svuotamento della cella frigorifera in maniera indipendente debba essere considerata.
 
-`ServiceStatusGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService e la ColdRoom. Analogamente al ServiceAccessGUI deve essere modellato come **attore**
+`ServiceAccessGUI` è un entità responsabile di interagire con l'utente umano e di inviare messaggi con il ColdStorageService. Dovendo inviare messaggi ad altri componenti su architettura espressamente distribuita via interfacce  web, modelliamo `ServiceAccessGUI` come un **attore**
 
-I requisiti introducono inoltre due componenti attive, vale a dire un `Sonar`  e un `Led`, destinati alla distribuzione su un nodo fisico potenzialmente indipendente dal resto del sistema. Questi seguono il comportamento generale di un `alarm device` il primo e  `warning device` il secondo. 
+`ServiceStatusGUI` è un entità responsabile di mantenere aggiornata finestra di monitoraggio sul sistema. Sebbene i requisiti non esplicitino se questa debba avere una sua implementazione locale o distribuita mediante interfaccia web, si è scelto di procedere nella seconda direzione e analogamente al ServiceAccessGUI, deve essere modellato come **attore**.
 
-Un alarm device è caratterizzato da un numero reale positivo **DLIMIT** e dalla variabile `CurrentDistance`, misurata a cadenza regolare. Se questa risulta minore di **DLIMIT**, sarà necessario notificare l'**evento** al transport trolley per l'arresto. 
+I requisiti introducono inoltre due componenti attive, vale a dire un `Sonar`  e un `Led`, destinati alla distribuzione su un nodo fisico potenzialmente indipendente dal resto del sistema. Questi seguono il comportamento generale di un `alarm device` il primo e  `warning device` il secondo.  Le interazioni col sistema sono al presente stadio non specificate e si riservano ai futuri sprint. Tuttavia, è reso noto che questi possano essere distribuiti su un Raspberry e dunque, entrambi **attori**.
 
-Un warning device associa la posizione del transport trolley ad un determinato comportamento per la notifica (blink nel caso di un Led).
+Un alarm device è caratterizzato da un numero reale positivo **DLIMIT** e dalla variabile `CurrentDistance`, misurata a cadenza regolare. 
+
+Un warning device deve associare diversi comportamenti a diversi stati del sistema.
 
 Entrambi i device sono per il momento descritti nell'ottica di un comportamento **locale**, sul medesimo nodo logico e fisico, destinando ai futuri sprint eventuali distribuzioni su architettura distribuita. I dettagli implementativi verranno sviluppati solamente dallo sprint 2. 
 
@@ -198,7 +200,7 @@ Reply replyTicketExpired: replyTicketExpired(ARG)
 ```
 
 
-# Piano di lavoro
+# Piano di lavoro iniziale
 Si è valutato di suddividere il sistema in 4 step di avanzamento
 ## Sprint 1
 **Obiettivo**: 

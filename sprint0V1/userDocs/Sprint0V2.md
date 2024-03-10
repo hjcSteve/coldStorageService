@@ -46,8 +46,7 @@ Modelliamo ColdRoom con questi due campi :
 - `ColdRoom.currentStorage` come un numero intero inizialmente con valore 0, in ogni momento <=`ColdRoom.maxStorage`
 
 
-`TRANSPORT TROLLEY` : entità logica astratta capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot, è attiva e nella nostra architettura figura pertanto come un 
-**attore**.
+`TRANSPORT TROLLEY` : entità logica capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot, è attiva e nella nostra architettura figura pertanto come un **attore**.
 
 `DDR ROBOT`: entità attiva che implementa le azioni logiche del transport trolley
 Il commitente ha fornito un software che dispone un interfaccia `BasicRobot` per modellare il DDR-ROBOT
@@ -101,7 +100,7 @@ Reply moverobotfailed:  moverobotfailed(PLANDONE, PLANTODO)
 
 I requisiti introducono inoltre due componenti attive, vale a dire un `Sonar`  e un `Led`, destinati alla distribuzione su un nodo fisico potenzialmente indipendente dal resto del sistema. Questi seguono il comportamento generale di un `alarm device` il primo e  `warning device` il secondo. 
 
-Un alarm device è caratterizzato da un numero reale positivo **DLIMIT** e dalla variabile `CurrentDistance`, misurata a cadenza regolare. Se questa risulta minore di **DLIMIT**, sarà necessario notificare l'**evento** al transport trolley per l'arresto. 
+Un alarm device è caratterizzato da un numero reale positivo **DLIMIT** e dalla variabile `CurrentDistance`, misurata a cadenza regolare. (Se questa risulta minore di **DLIMIT**, sarà necessario notificare l'**evento** al transport trolley per l'arresto...analisi del problema) 
 
 Un warning device associa la posizione del transport trolley ad un determinato comportamento per la notifica (blink nel caso di un Led).
 
@@ -199,7 +198,7 @@ Reply replyTicketExpired: replyTicketExpired(ARG)
 
 
 # Piano di lavoro
-Si è valutato di suddividere il sistema in 4 step di avanzamento
+Si è valutato di suddividere il sistema in 5 step di avanzamento
 ## Sprint 1
 **Obiettivo**: 
 - Prototipo del `coldStorageService` (corebusiness del sistema)

@@ -16,6 +16,7 @@ public class TicketList {
 
     public TicketList(long expirationTime) {
         tickets = new ArrayList<>();
+        //fetchTicktesformFIle 
         lastNumber = 0;
         this.expirationTime = expirationTime;
     }
@@ -26,33 +27,33 @@ public class TicketList {
         lastNumber++;
         ticket.setTicketNumber(lastNumber);
         ticket.setStatus(0);
-        ticket.setTicketSecret(generateSecret(7));
+        //ticket.setTicketSecret(generateSecret(7));
         ticket.setTimestamp(Instant.now().toEpochMilli());
         tickets.add(ticket);
         return ticket;
     }
 
-    private String generateSecret(int n) {
-        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuilder sb = new StringBuilder(n);
-
-        for (int i = 0; i < n; i++) {
-
-            // generate a random number between
-            // 0 to AlphaNumericString variable length
-            int index
-                    = (int) (letters.length()
-                    * Math.random());
-
-            // add Character one by one in end of sb
-            sb.append(letters
-                    .charAt(index));
-        }
-
-        return sb.toString();
-
-    }
-
+//    private String generateSecret(int n) {
+//        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//        StringBuilder sb = new StringBuilder(n);
+//
+//        for (int i = 0; i < n; i++) {
+//
+//            // generate a random number between
+//            // 0 to AlphaNumericString variable length
+//            int index
+//                    = (int) (letters.length()
+//                    * Math.random());
+//
+//            // add Character one by one in end of sb
+//            sb.append(letters
+//                    .charAt(index));
+//        }
+//
+//        return sb.toString();
+//
+//    }
+//
     public synchronized Ticket getTicket(int ticketNumber) {
         for (Ticket ticket : tickets) {
             if (ticket.getTicketNumber() == ticketNumber) {

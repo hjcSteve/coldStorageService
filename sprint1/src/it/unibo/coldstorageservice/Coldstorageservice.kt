@@ -38,15 +38,13 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					}	 	 
 					 transition(edgeName="t00",targetState="handleStoreRequest",cond=whenRequest("storerequest"))
 					transition(edgeName="t01",targetState="handleDischargeRequest",cond=whenRequest("dischargefood"))
-					transition(edgeName="t02",targetState="handleLoadRequest",cond=whenRequest("currentloadrequest"))
-					transition(edgeName="t03",targetState="handleStatusRequest",cond=whenRequest("currentstatusrequest"))
 				}	 
 				state("handleStoreRequest") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-								    		KgtoLoad = payloadArg(0).toLong();
+								    		KgtoLoad = payloadArg(0).toInt();
 						}
 						request("currentloadrequest", "currentloadrequest(D)" ,"coldroom" )  
 						//genTimer( actor, state )
@@ -54,14 +52,14 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t04",targetState="handleTicketGeneration",cond=whenReply("replycurrentload"))
+					 transition(edgeName="t02",targetState="handleTicketGeneration",cond=whenReply("replycurrentload"))
 				}	 
 				state("handleTicketGeneration") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("replycurrentload(WEIGHT)"), Term.createTerm("replycurrentload(CURRLOAD)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-								    		var KgAvailable = payloadArg(0).toLong();	 	
+								    		val KgAvailable = payloadArg(0).toInt();	 	
 								if(  KgAvailable - KgWaitingDischarge >= KgtoLoad  
 								 ){
 								    			KgWaitingDischarge += KgtoLoad;

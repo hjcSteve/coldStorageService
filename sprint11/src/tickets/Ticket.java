@@ -2,14 +2,16 @@ package tickets;
 
 public class Ticket{
     private int ticketNumber;
-    private String ticketSecret;
+//    private String ticketSecret;
     private long timestamp;
     private int kgToStore;
     //legend 
     //0=emitted but not reinserted
     //1=emitted and reinserted
-    private int status;
+    private int status; // 0 valid, 1 reclaimed, 2 expired
     
+
+// pls da gnerare il costruttoire
 
     public int getTicketNumber() {
         return ticketNumber;

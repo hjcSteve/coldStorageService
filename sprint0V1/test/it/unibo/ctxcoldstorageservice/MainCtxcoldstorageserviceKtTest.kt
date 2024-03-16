@@ -20,6 +20,7 @@ class MainCtxcoldstorageserviceKtTest {
             println("set up");
         }
         val conn = TcpClientSupport.connect("localhost",8055,5)
+        val robotconn = TcpClientSupport.connect("localhost",8090,5)
     }
 
     @Test
@@ -61,6 +62,16 @@ class MainCtxcoldstorageserviceKtTest {
         val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(EXPIRED)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
+        println(responseMessage)
+        assertTrue("TEST___ ticket expired",
+                responseMessage.contains("replyTicketExpired"));
+    }
+    @Test
+    fun ` test virtualrobot`(){
+        //mandiamo la request
+        val truckRequestStr = CommUtils.buildRequest("tester", "step", "step(TIME)", "basicrobot23").toString()
+        println(truckRequestStr);
+        val responseMessage = robotconn.request(truckRequestStr)
         println(responseMessage)
         assertTrue("TEST___ ticket expired",
                 responseMessage.contains("replyTicketExpired"));

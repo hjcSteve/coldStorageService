@@ -6,8 +6,8 @@ Reply requestaccepted     : requestaccepted(TICKETNUM,TIMESTAMP) for storereques
 Reply requestdenied : requestdenied(D) for storerequest
 
 //scarichi esigendo il ticket 
-Request dischargefood  : dischargefood(TICKETNUM)
-Reply serviceterminated : serviceterminated(ACKNOWLEDGEMENT)
+Request dischargefood  : dischargefood(TICKETNUM) 
+Reply serviceterminated : serviceterminated(ACKNOWLEDGEMENT) for dischargefood
 
 //richiedi i kg alla coldroom (utili per stato e calcolo dei ticket)
 Request kgAvailableRequest : kgAvailableRequest(D)
@@ -26,7 +26,7 @@ Dispatch dischargeTrolley : dischargeTrolley(WEIGHT)
 //robotpos messages
 Request moverobot    :  moverobot(TARGETX, TARGETY)
 Reply moverobotdone  :  moverobotok(ARG)
-Reply moverobotfailed:  moverobotfailed(ARG)
+Reply moverobotfailed:  moverobotfailed(ARG)		
 
 //engaging robotpos
 Request engage : engage(ARG)
@@ -49,7 +49,7 @@ Reply replycurrentload : replycurrentload(WEIGHT)
 Context ctxColdStorageService ip [host="localhost" port=8056]
 Context ctxBasicRobot ip [host="localhost" port=8059]
 
-QActor serviceaccessgui context ctxColdStorageService{
+QActor servicestatusgui context ctxColdStorageService{
 
   State s0 initial {
   }
@@ -68,7 +68,7 @@ QActor coldroom context ctxColdStorageService{
 State s0 initial {  
   }
 }
-QActor servicestatusgui context ctxColdStorageService{
+QActor serviceaccessgui context ctxColdStorageService{
     State s0 initial {
       request coldstorageservice -m dischargefood : dischargefood(AKAKSDJHFHJDEA)
       request coldstorageservice -m storerequest  : storerequest(FW)
@@ -93,8 +93,8 @@ State s0 initial {
   } Transition t0
     whenRequest  storerequest->handleStoreRequest
     whenRequest dischargefood->handleDischargeRequest
-    whenRequest currentloadrequest ->handleLoadRequest
-    whenRequest currentstatusrequest -> handleStatusRequest
+//    whenRequest currentloadrequest ->handleLoadRequest
+//    whenRequest currentstatusrequest -> handleStatusRequest
 	
 	
  	//-------------------------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ State s0 initial {
   State handleStoreRequest{
     onMsg( storerequest : storerequest(FW) ){
     	[#
-    		KgtoLoad = payloadArg(0).toLong();
+    		KgtoLoad = payloadArg(0).toInt();
     	#]
     	
    	 }
@@ -115,7 +115,7 @@ State s0 initial {
   State handleTicketGeneration{
     onMsg( replycurrentload : replycurrentload(CURRLOAD) ){
     	[#
-    		var KgAvailable = payloadArg(0).toLong();	 	
+    		val KgAvailable = payloadArg(0).toInt();	 	
     	#]
     	if [# KgAvailable - KgWaitingDischarge >= KgtoLoad #]{
     		[#

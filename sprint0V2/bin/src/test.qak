@@ -84,7 +84,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
       [#}#]
     }
   }
-  Goto s0
+  Goto s0 
 }
 QActor serviceaccessgui context ctxcoldstorageservice{
     State s0 initial {

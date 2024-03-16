@@ -46,7 +46,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="terminating",cond=whenReply("engagerefused"))
+					 transition(edgeName="t03",targetState="terminating",cond=whenReply("engagerefused"))
 				}	 
 				state("isHome") { //this:State
 					action { //it:State
@@ -66,7 +66,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t26",targetState="isHome",cond=whenReply("moverobotdone"))
+					 transition(edgeName="t24",targetState="isHome",cond=whenReply("moverobotdone"))
 				}	 
 			}
 		}

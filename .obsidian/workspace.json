@@ -11,11 +11,9 @@
             "id": "71bc030b65645bfd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "sprint0V1/userDocs/Sprint0V2.md",
-                "mode": "source",
-                "source": false
+                "file": "sprint0V2/coldstorageservicearch.png"
               }
             }
           }
@@ -65,8 +63,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -86,7 +83,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "sprint0V1/userDocs/Sprint0V2.md",
+                "file": "sprint0V2/coldstorageservicearch.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +100,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "sprint0V1/userDocs/Sprint0V2.md",
+                "file": "sprint0V2/coldstorageservicearch.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +123,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "sprint0V1/userDocs/Sprint0V2.md"
+                "file": "sprint0V2/coldstorageservicearch.png"
               }
             }
           }
@@ -149,15 +146,29 @@
   },
   "active": "71bc030b65645bfd",
   "lastOpenFiles": [
-    "sprint0V1/userDocs/img/sistemaarch.png",
-    "sprint0V1/userDocs/Sprint0V1.md",
+    "sprint1/userDocs/CognomNome_sprint1.html",
+    "sprint1/userDocs",
+    "sprint1/src/main/kotlin/test/readMe",
+    "sprint1/src/main/java/test/readMe",
+    "sprint1/src/main/resources/readMe",
+    "sprint1/src/main/resources/logback.xml",
+    "sprint1/src/main/kotlin/test",
+    "sprint1/src/main/kotlin/readMe",
+    "sprint1/src/main/java/test",
+    "sprint1/src/main/java/readMe",
+    "sprint1/src/main/resources",
+    "sprint1/sprint1v2arch.png",
+    "sprint1/qakicons/system.PNG",
+    "sprint1/qakicons/symActorSmall.png",
+    "sprint1/qakicons/symActor.png",
+    "sprint1/qakicons/codedQActor.png",
+    "sprint1/qakicons/externalQActor.png",
+    "sprint0V2/userDocs/Sprint0V2.md",
+    "sprint0V2/userDocs/html/TemaFinale23.md",
     "sprint0V1/userDocs/Sprint0V2.md",
     "sprint0V1/userDocs/html/VirtualRobot23.md",
-    "sprint0V1/userDocs/html/VirtualRobot23.html",
-    "sprint0V1/userDocs/img/Pasted image 20231101174744.png",
-    "sprint0V1/userDocs/html",
-    "sprint0V1/userDocs/Cartella senza nome",
-    "sprint0V1/userDocs/img",
-    "sprint0V1/userDocs/Sprint0V1.pdf"
+    "sprint0V1/userDocs/img/sistemaarch.png",
+    "sprint0V1/userDocs/Sprint0V1.md",
+    "sprint0V1/userDocs/img/Pasted image 20231101174744.png"
   ]
 }

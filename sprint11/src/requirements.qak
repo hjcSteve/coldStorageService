@@ -2,31 +2,40 @@ System system
 
 //store request e ricevi ticket
 Request storerequest : storerequest(FW)
-Reply requestaccepted     : requestaccepted(TICKETNUM,TIMESTAMP)
+Reply requestaccepted     : requestaccepted(TICKETID,TIMESTAMP)
 Reply requestdenied : requestdenied(D)
 
 //scarichi esigendo il ticket 
-Request dischargefood  : dischargefood(TICKETNUM)
-Reply serviceterminated : serviceterminated(ACKNOWLEDGEMENT)
+Request dischargefood  : dischargefood(TICKETID)
+Reply replyChargeTaken : replyChargeTaken(D)
+Reply replyTicketExpired : replyTicketExpired(D)
+ 
 
-//richiedi i kg alla coldroom (utili per stato e calcolo dei ticket)
-Request kgAvailableRequest : kgAvailableRequest(D)
-Reply kgAvailableReply : kgAvailableReply(KG)
+//richiedi se puo prenotare KG chilogrammi alla coldroom
+Request spaceCheck : spaceCheck(KG)
+Reply space_insufficient : space_insufficient(D)
+Reply space_reserved : space_reserved(D)
 
-//quando il trolley è alla coldRoom scarica aggiornando il peso
-Request kgUpdateRequest : kgUpdateRequest(KG)
-Reply kgUpdateReply : kgUpdateReply(D)
+
+//manda trolley a servire un truck (da idle a serving)
+Dispatch dischargeTrolley : dischargeTrolley(WEIGHT)
+
+//quando il trolley è alla coldRoom scarica aggiornando il peso (da serving a idle/serving)
+Request discharged_trolley : discharged_trolley(TICKETID)
+Reply idle_trolley : idle_trolley(D)
+Reply serve_newtruck : serve_newtruck(D)
 
 //dopo l'engagement del basic robot, lo mandi in home per iniziare ad attendere comandi
 Dispatch gohome : gohome(ARG)
 
-
-Dispatch dischargeTrolley : dischargeTrolley(WEIGHT)
+//trolley comunica alla ColdStorage che è all'indoor, libera il passaggio
+Dispatch trolley_isindoor : trolley_isindoor(D)
 
 //robotpos messages
 Request moverobot    :  moverobot(TARGETX, TARGETY)
 Reply moverobotdone  :  moverobotok(ARG)
 Reply moverobotfailed:  moverobotfailed(ARG)
+
 
 //engaging robotpos
 Request engage : engage(ARG)
@@ -59,14 +68,14 @@ QActor warningdevice context ctxColdStorageService{
   }
 }
 QActor alarmdevice context ctxColdStorageService{
-State s0 initial {
-    
-  }
+	State s0 initial {
+	    
+	  }
 }
 
 QActor coldroom context ctxColdStorageService{
-State s0 initial {  
-  }
+	State s0 initial {  
+	  }
 }
 QActor servicestatusgui context ctxColdStorageService{
     State s0 initial {
@@ -76,40 +85,54 @@ QActor servicestatusgui context ctxColdStorageService{
   }
 }
 ExternalQActor basicrobot context ctxBasicRobot
+
+
+
+
+
 QActor coldstorageservice context ctxColdStorageService{
 	[#
 	var KgWaitingDischarge : Long = 0;
+	var Trolley_is_working : Boolean = false;
 	var	KgtoLoad : Long = 0;
 	var List = tickets.TicketList(Expiration); 	
-	
+	var servingTicket = tickets.Ticket();
+	var queuedTicket = tickets.Ticket();
 	#]
 	
 	//---------------------------------------------------------------------------------------------------------------
 	//INITIALIZE THE COLD STORAGE SERVICE
-State s0 initial {
-	println("$name ) waiting for a new message...") color black
-	discardMsg Off
-	
-  } Transition t0
-    whenRequest  storerequest->handleStoreRequest
-    whenRequest dischargefood->handleDischargeRequest
-    whenRequest currentloadrequest ->handleLoadRequest
-    whenRequest currentstatusrequest -> handleStatusRequest
+	State s0 initial {
+		println("$name ) waiting for a new message...") color black
+		discardMsg Off
+		
+	  } Transition t0
+	    whenRequest  storerequest->handleStoreRequest
+	    whenRequest dischargefood->handleDischargeRequest
+	    whenRequest currentloadrequest ->handleLoadRequest
+	    whenRequest currentstatusrequest -> handleStatusRequest
 	
 	
  	//-------------------------------------------------------------------------------------------------------------
  	//ASK COLD ROOM HOW MANY KG ARE ALREADY INSIDE
-  State handleStoreRequest{
-    onMsg( storerequest : storerequest(FW) ){
-    	[#
-    		KgtoLoad = payloadArg(0).toLong();
-    	#]
-    	
-   	 }
-   	 request coldroom -m currentloadrequest : currentloadrequest(D)
-    } Transition t0
-    whenReply replycurrentload -> handleTicketGeneration   
+	State handleStoreRequest{
+		onMsg( storerequest : storerequest(FW) ){
+			[#
+				KgtoLoad = payloadArg(0).toLong();
+			#]
+			
+		 }
+	    request coldroom -m spaceCheck : spaceCheck(KgtoLoad)
+	} Transition t0
+	whenReply space_reserved -> handleTicketGeneration
+	whenReply space_insufficient -> refuseStoreReq   
     
+//------------------------------------------------------------------------------------------------------------------    
+
+	State refuseStoreReq{
+			replyTo storerequest with requestdenied : requestdenied(D)
+		
+	}Goto s0 
 //------------------------------------------------------------------------------------------------------------------    
    //TICKET GENERATION AND CURRENT LOAD CONTROL
   State handleTicketGeneration{
@@ -207,28 +230,30 @@ QActor transporttrolley context ctxColdStorageService{
   } Transition t2
   whenReply moverobotdone ->isHome 
  // whenReply moverobotfailed -> ErrorState 
- 
-
+  State goingColdroom{
+  	
+  }
+   State errorState{
+   	
+   }
   
-  State GoingOutdoor {
+    
+  State goingOutdoor {
   	println("$name ) Robot has received a discharge request, let's go to the Outdoor.")
   	onMsg(dischargeTrolley : dischargeTrolley(WEIGHT)){
   		[#
   		LoadTrolley = PayloadArg(0);
   		#]
-  	}
+  	} 
   	request basicrobot -m moverobot : moverobot(OutdoorX,OutdoorY)
   } Transition t3 
-  whenReply moverobotdone -> GoingColdroom
-  whenReply moverobotfailed -> ErrorState
+  whenReply moverobotdone -> goingColdroom
+  whenReply moverobotfailed -> errorState
   
-  State Terminate {
+  State termination {
   	println("$name ) Robot already engaged!")
-  } Goto s0 whenTime 1000
-  
-
+  } Goto s0 
   
 }
-
 
 

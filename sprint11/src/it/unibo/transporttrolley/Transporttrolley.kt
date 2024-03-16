@@ -22,7 +22,17 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 			val (HomeX, HomeY) = Pair(0, 0);
 			val (IndoorX, IndoorY) = Pair(0, 4);
 			val (ColdRoomX, ColdRoomY) = Pair(4, 3);
+			var LoadTrolley : Long = 0;
 				return { //this:ActionBasciFsm
+				state("terminating") { //this:State
+					action { //it:State
+						CommUtils.outblack("$name ) Robot already engaged!")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+				}	 
 				state("s0") { //this:State
 					action { //it:State
 						discardMessages = false
@@ -33,6 +43,70 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition(edgeName="t06",targetState="terminating",cond=whenReply("engagerefused"))
+				}	 
+				state("isHome") { //this:State
+					action { //it:State
+						CommUtils.outblack("$name ) Robot in home waiting for trucks!")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+				}	 
+				state("goinghome") { //this:State
+					action { //it:State
+						CommUtils.outblack("$name) Sending Robot to Home")
+						request("moverobot", "moverobot(HomeX,HomeY)" ,"basicrobot" )  
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t27",targetState="isHome",cond=whenReply("moverobotdone"))
+				}	 
+				state("goingColdroom") { //this:State
+					action { //it:State
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+				}	 
+				state("errorState") { //this:State
+					action { //it:State
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+				}	 
+				state("goingOutdoor") { //this:State
+					action { //it:State
+						CommUtils.outblack("$name ) Robot has received a discharge request, let's go to the Outdoor.")
+						if( checkMsgContent( Term.createTerm("dischargeTrolley(WEIGHT)"), Term.createTerm("dischargeTrolley(WEIGHT)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								
+								  		LoadTrolley = PayloadArg(0);
+						}
+						request("moverobot", "moverobot(OutdoorX,OutdoorY)" ,"basicrobot" )  
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t38",targetState="goingColdroom",cond=whenReply("moverobotdone"))
+					transition(edgeName="t39",targetState="errorState",cond=whenReply("moverobotfailed"))
+				}	 
+				state("termination") { //this:State
+					action { //it:State
+						CommUtils.outblack("$name ) Robot already engaged!")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
 			}
 		}

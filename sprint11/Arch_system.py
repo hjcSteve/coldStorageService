@@ -25,14 +25,14 @@ with Diagram('systemArch', show=False, outformat='png', graph_attr=graphattr) as
           serviceaccessgui=Custom('serviceaccessgui','./qakicons/symActorSmall.png')
           warningdevice=Custom('warningdevice','./qakicons/symActorSmall.png')
           alarmdevice=Custom('alarmdevice','./qakicons/symActorSmall.png')
-          coldstorageservice=Custom('coldstorageservice','./qakicons/symActorSmall.png')
-          transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
           coldroom=Custom('coldroom','./qakicons/symActorSmall.png')
           servicestatusgui=Custom('servicestatusgui','./qakicons/symActorSmall.png')
+          coldstorageservice=Custom('coldstorageservice','./qakicons/symActorSmall.png')
+          transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')
      with Cluster('ctxBasicRobot', graph_attr=nodeattr):
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
-     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<kgUpdateRequest &nbsp; >',  fontcolor='magenta') >> transporttrolley
      servicestatusgui >> Edge(color='magenta', style='solid', decorate='true', label='<dischargefood &nbsp; storerequest &nbsp; >',  fontcolor='magenta') >> coldstorageservice
-     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; >',  fontcolor='magenta') >> basicrobot
-     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<currentloadrequest &nbsp; >',  fontcolor='magenta') >> coldroom
+     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; moverobot &nbsp; >',  fontcolor='magenta') >> basicrobot
+     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<spaceCheck &nbsp; >',  fontcolor='magenta') >> coldroom
+     coldstorageservice >> Edge(color='blue', style='solid',  label='<dischargeTrolley &nbsp; >',  fontcolor='blue') >> transporttrolley
 diag

@@ -34,5 +34,5 @@ with Diagram('systemArch', show=False, outformat='png', graph_attr=graphattr) as
      servicestatusgui >> Edge(color='magenta', style='solid', decorate='true', label='<dischargefood &nbsp; storerequest &nbsp; >',  fontcolor='magenta') >> coldstorageservice
      transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage &nbsp; moverobot &nbsp; >',  fontcolor='magenta') >> basicrobot
      coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<spaceCheck &nbsp; >',  fontcolor='magenta') >> coldroom
-     coldstorageservice >> Edge(color='blue', style='solid',  label='<dischargeTrolley &nbsp; >',  fontcolor='blue') >> transporttrolley
+     coldstorageservice >> Edge(color='blue', style='solid',  decorate='true', label='<dischargeTrolley &nbsp; >',  fontcolor='blue') >> transporttrolley
 diag

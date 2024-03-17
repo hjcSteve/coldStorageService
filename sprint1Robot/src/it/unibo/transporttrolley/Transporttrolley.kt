@@ -11,16 +11,19 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
+
+//User imports JAN2024
+
 class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		val interruptedStateTransitions = mutableListOf<Transition>()
+		//val interruptedStateTransitions = mutableListOf<Transition>()
 		 var lastState: String = "" 
 			var ticketID:String= ""
-				return { //this:ActionBasciFsm
+		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outmagenta("$name | init e engage basicrobot")
@@ -30,8 +33,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t02",targetState="engaged",cond=whenReply("engagedone"))
-					transition(edgeName="t03",targetState="quit",cond=whenReply("engagerefused"))
+					 transition(edgeName="t06",targetState="engaged",cond=whenReply("engagedone"))
+					transition(edgeName="t07",targetState="quit",cond=whenReply("engagerefused"))
 				}	 
 				state("engaged") { //this:State
 					action { //it:State
@@ -53,7 +56,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 interrupthandle(edgeName="t04",targetState="goingIndoor",cond=whenDispatch("truckArrived"),interruptedStateTransitions)
+					 transition(edgeName="t08",targetState="goingIndoor",cond=whenDispatch("dischargeTrolley"))
 				}	 
 				state("goingIndoor") { //this:State
 					action { //it:State
@@ -65,7 +68,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t05",targetState="atIndoor",cond=whenReply("moverobotdone"))
+					 transition(edgeName="t09",targetState="atIndoor",cond=whenReply("moverobotdone"))
 				}	 
 				state("atIndoor") { //this:State
 					action { //it:State
@@ -77,9 +80,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atIndoor", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atIndoor", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atIndoor", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t6",targetState="loadDone",cond=whenTimeout("local_tout_transporttrolley_atIndoor"))   
+					 transition(edgeName="t10",targetState="loadDone",cond=whenTimeout("local_tout_"+name+"_atIndoor"))   
 				}	 
 				state("loadDone") { //this:State
 					action { //it:State
@@ -101,7 +104,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t07",targetState="atColdroom",cond=whenReply("moverobotdone"))
+					 transition(edgeName="t011",targetState="atColdroom",cond=whenReply("moverobotdone"))
 				}	 
 				state("atColdroom") { //this:State
 					action { //it:State
@@ -112,22 +115,22 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atColdroom", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atColdroom", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atColdroom", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t08",targetState="chargeStored",cond=whenTimeout("local_tout_transporttrolley_atColdroom"))   
+					 transition(edgeName="t012",targetState="chargeStored",cond=whenTimeout("local_tout_"+name+"_atColdroom"))   
 				}	 
 				state("chargeStored") { //this:State
 					action { //it:State
 						 lastState = "chargedStored"  
 						CommUtils.outmagenta("$name | terminato deposito. Aspetto istruzioni")
-						request("chargeDeposited", "foodStored(TICKETID)" ,"coldstorageservice" )  
+						request("discharged_trolley", "discharged_trolley(TICKETID)" ,"coldstorageservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t09",targetState="goingIndoor",cond=whenReply("newTicket"))
-					transition(edgeName="t010",targetState="goingHome",cond=whenReply("noTIcket"))
+					 transition(edgeName="t013",targetState="goingIndoor",cond=whenReply("idle_trolley"))
+					transition(edgeName="t014",targetState="goingHome",cond=whenReply("serve_newtruck"))
 				}	 
 				state("goingHome") { //this:State
 					action { //it:State
@@ -139,7 +142,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t011",targetState="atHome",cond=whenReply("moverobotdone"))
+					 transition(edgeName="t015",targetState="atHome",cond=whenReply("moverobotdone"))
 				}	 
 				state("stopped") { //this:State
 					action { //it:State
@@ -150,19 +153,19 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t012",targetState="atHome",cond=whenEventGuarded("resume",{ lastState == "atHome"  
+					 transition(edgeName="t016",targetState="atHome",cond=whenEventGuarded("resume",{ lastState == "atHome"  
 					}))
-					transition(edgeName="t013",targetState="goingIndoor",cond=whenEventGuarded("resume",{ lastState == "goingIndoor"  
+					transition(edgeName="t017",targetState="goingIndoor",cond=whenEventGuarded("resume",{ lastState == "goingIndoor"  
 					}))
-					transition(edgeName="t014",targetState="atIndoor",cond=whenEventGuarded("resume",{ lastState == "atIndoor"  
+					transition(edgeName="t018",targetState="atIndoor",cond=whenEventGuarded("resume",{ lastState == "atIndoor"  
 					}))
-					transition(edgeName="t015",targetState="goingColdroom",cond=whenEventGuarded("resume",{ lastState == "goingColdroom"  
+					transition(edgeName="t019",targetState="goingColdroom",cond=whenEventGuarded("resume",{ lastState == "goingColdroom"  
 					}))
-					transition(edgeName="t016",targetState="atColdroom",cond=whenEventGuarded("resume",{ lastState == "atColdroom"  
+					transition(edgeName="t020",targetState="atColdroom",cond=whenEventGuarded("resume",{ lastState == "atColdroom"  
 					}))
-					transition(edgeName="t017",targetState="chargeStored",cond=whenEventGuarded("resume",{ lastState == "chargeStored"  
+					transition(edgeName="t021",targetState="chargeStored",cond=whenEventGuarded("resume",{ lastState == "chargeStored"  
 					}))
-					transition(edgeName="t018",targetState="goingHome",cond=whenEventGuarded("resume",{ lastState == "goingHome"  
+					transition(edgeName="t022",targetState="goingHome",cond=whenEventGuarded("resume",{ lastState == "goingHome"  
 					}))
 				}	 
 				state("quit") { //this:State

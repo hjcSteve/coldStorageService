@@ -149,6 +149,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 								 }
 								 else
 								  {CommUtils.outblack("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")
+								  System.exit(0) 
 								  }
 								 }
 						}

@@ -2,19 +2,19 @@ System system
 
 //store request e ricevi ticket
 Request storerequest : storerequest(FW)
-Reply requestaccepted     : requestaccepted(TICKETID,TIMESTAMP)
-Reply requestdenied : requestdenied(D)
+Reply requestaccepted     : requestaccepted(TICKETID,TIMESTAMP) for storerequest
+Reply requestdenied : requestdenied(D) for storerequest
 
 //scarichi esigendo il ticket 
 Request dischargefood  : dischargefood(TICKETID)
-Reply replyChargeTaken : replyChargeTaken(D)
-Reply replyTicketExpired : replyTicketExpired(D)
+Reply replyChargeTaken : replyChargeTaken(D) for dischargefood
+Reply replyTicketExpired : replyTicketExpired(D) for dischargefood
  
 
 //richiedi se puo prenotare KG chilogrammi alla coldroom
 Request spaceCheck : spaceCheck(KG)
-Reply space_insufficient : space_insufficient(D)
-Reply space_reserved : space_reserved(D)
+Reply space_insufficient : space_insufficient(D) for spaceCheck
+Reply space_reserved : space_reserved(D) for spaceCheck
 
 
 //manda trolley a servire un truck (da idle a serving)
@@ -31,28 +31,38 @@ Dispatch gohome : gohome(ARG)
 //trolley comunica alla ColdStorage che è all'indoor, libera il passaggio
 Dispatch trolley_isindoor : trolley_isindoor(D)
 
-//robotpos messages
-Request moverobot    :  moverobot(TARGETX, TARGETY)
-Reply moverobotdone  :  moverobotok(ARG)
-Reply moverobotfailed:  moverobotfailed(ARG)
+//Messaggi definiti dal BasicRobot
+Request 	engage				: 	engage(OWNER,STEPTIME)
+Reply 		engagedone			:	engagedone(ARG) for engage
+Reply 		engagerefused		: 	engagerefused(ARG) for engage
+
+Dispatch 	disengage			: 	disengage(ARG)
+
+Dispatch 	cmd					:	cmd(MOVE)
+Dispatch 	end					: 	end(ARG)
+
+Request 	step				: 	step(TIME)
+Reply 		stepdone			: 	stepdone(V) for step
+Reply 		stepfailed			: 	stepfailed(DURATION, CAUSE) for step
+
+Request 	doplan				: 	doplan(PATH,OWNER,STEPTIME)
+Reply 		doplandone			: 	doplandone(ARG) for doplan
+Reply 		doplanfailed		:	doplanfailed(ARG) for doplan
+
+Request 	moverobot			:	moverobot(TARGETX, TARGETY)
+Reply 		moverobotdone		: 	moverobotok(ARG) for moverobot
+Reply 		moverobotfailed		: 	moverobotfailed(PLANDONE,PLANTODO) for moverobot
+
+Dispatch 	setrobotstate		: 	setpos(X,Y,D)
+Dispatch 	setdirection		: 	dir(D) // up, down, left, right
+
+Request 	getrobotstate		: 	getrobotstate(ARG)
+Reply 		robotstate			: 	robotstate(POS,DIR) for getrobotstate
 
 
-//engaging robotpos
-Request engage : engage(ARG)
-Reply   engagedone    : engagedone(ARG) 
-Reply   engagerefused : engagerefused(ARG)
+//alarm
 
-
-//internal - external status messages
-Request robotposition : robotposition(D)
-Reply replyposition : replyposition(X,Y)
-
-Request currentstatusrequest : currentstatusrequest(D)
-Reply replystatus : replystatus(X,Y,WEIGHT)
-
-Request currentloadrequest : currentloadrequest(ARG)
-Reply replycurrentload : replycurrentload(WEIGHT)
-
+Event resume:resume(ARG)
 
 
 Context ctxColdStorageService ip [host="localhost" port=8056]
@@ -212,6 +222,7 @@ QActor coldstorageservice context ctxColdStorageService{
 	    	
 		    	else{
 		    		println("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")	
+		    		[#System.exit(0)#]
 		    	}
 	    	}
 	    }
@@ -228,60 +239,100 @@ QActor coldstorageservice context ctxColdStorageService{
 
 
 QActor transporttrolley context ctxColdStorageService{
-	[#
-	val (HomeX, HomeY) = Pair(0, 0);
-	val (IndoorX, IndoorY) = Pair(0, 4);
-	val (ColdRoomX, ColdRoomY) = Pair(4, 3);
-	var LoadTrolley : Long = 0;
-	#]
-	  	
-  State terminating {
-  	println("$name ) Robot already engaged!")
-  }
-  
-  State s0 initial {  
-	discardMsg Off
-	println("$name ) has started, now let's engage the robot!")
-  	request basicrobot -m engage : engage(ARG)
-  } Transition t0
-//  whenReply engagedone -> goinghome
-  whenReply engagerefused -> terminating
-  
-  State isHome {
-  	println("$name ) Robot in home waiting for trucks!")
-  }
-  //whenMsg dischargeTrolley -> GoingOutdoor
-  
-  State goinghome {
-  	println("$name) Sending Robot to Home")
-  	request basicrobot -m moverobot : moverobot(HomeX,HomeY)
-  } Transition t2
-  whenReply moverobotdone ->isHome 
- // whenReply moverobotfailed -> ErrorState 
-  State goingColdroom{
-  	
-  }
-   State errorState{
-   	
-   }
-  
-    
-  State goingOutdoor {
-  	println("$name ) Robot has received a discharge request, let's go to the Outdoor.")
-  	onMsg(dischargeTrolley : dischargeTrolley(WEIGHT)){
-  		[#
-  		LoadTrolley = payloadArg(0);
-  		#]
-  	} 
-  	request basicrobot -m moverobot : moverobot(OutdoorX,OutdoorY)
-  } Transition t3 
-  whenReply moverobotdone -> goingColdroom
-  whenReply moverobotfailed -> errorState
-  
-  State termination {
-  	println("$name ) Robot already engaged!")
-  } Goto s0 
-  
+[# var lastState: String = "" 
+	var ticketID:String= ""
+	#
+]
+	State s0 initial {
+		println("$name | init e engage basicrobot") color magenta
+	
+		request basicrobot -m engage : engage(transporttrolley,330)
+	}
+	Transition 	t0	whenReply engagedone -> engaged
+					whenReply engagerefused -> quit
+	
+	State engaged {
+		println("$name | basicrobot engaged") color magenta		
+	}
+	Goto atHome
+	
+	State atHome{
+		[# lastState = "atHome" #]
+
+		println("$name | basicrobot at Home") color magenta
+		forward basicrobot -m setdirection : dir(down)
+		
+		
+	}
+	Transition t0 
+				whenInterrupt dischargeTrolley -> goingIndoor
+
+	State goingIndoor {
+		[# lastState = "goingIndoor" #]
+		println("$name | vado all'INDOOR") color magenta
+		request basicrobot -m moverobot : moverobot (0,4)
+	}
+	Transition t0 whenReply moverobotdone -> atIndoor
+	
+	State atIndoor {
+		[# lastState = "atIndoor" #]
+
+		println("$name | sono in INDOOR") color magenta
+		println("$name | carico il cibo") color magenta
+	}
+	Transition t 	whenTime 3000 -> loadDone		// simula azione di carico
+	
+	State loadDone {		
+		forward coldstorageservice -m trolley_isindoor : trolley_isindoor(CIAO) 
+	}
+	Goto goingColdroom
+	
+	State goingColdroom {
+		[# lastState = "goingColdroom" #]
+		println("$name | vado verso la cold room") color magenta
+		request basicrobot -m moverobot : moverobot (4,3) 
+	}
+	Transition t0 whenReply moverobotdone -> atColdroom
+	
+	State atColdroom {
+		[# lastState = "atColdroom" #]
+		println("$name | sono in Cold Room") color magenta		
+	}
+	Transition t0 whenTime 3000 	-> chargeStored	// simula azione deposito
+	
+	State chargeStored {
+		[# lastState = "chargedStored" #]
+		println("$name | terminato deposito. Aspetto istruzioni") color magenta		
+		request coldstorageservice -m discharged_trolley: discharged_trolley(TICKETID)
+	}
+	Transition t0 whenReply serve_newtruck -> goingIndoor
+					whenReply idle_trolley -> goingHome
+	
+	State goingHome{
+		[# lastState = "goingHome" #]
+		println("$name | vado alla posizione HOME") color magenta
+		request basicrobot -m moverobot : moverobot (0,0)
+	}
+	Transition t0 whenReply moverobotdone -> atHome
+	
+
+	
+	State stopped {
+		discardMsg On
+		println("$name | Sono fermo per ostacolo sonar") color magenta
+	}
+	Transition t0 whenEvent resume and [# lastState == "atHome" #] 		-> atHome
+				  whenEvent resume and [# lastState == "goingIndoor" #] 	-> goingIndoor
+				  whenEvent resume and [# lastState == "atIndoor" #] 	-> atIndoor
+				  whenEvent resume and [# lastState == "goingColdroom" #] 	-> goingColdroom
+				  whenEvent resume and [# lastState == "atColdroom" #] 	-> atColdroom
+				  whenEvent resume and [# lastState == "chargeStored" #] 	-> chargeStored
+				  whenEvent resume and [# lastState == "goingHome" #] 		-> goingHome
+	
+	State quit {
+		forward basicrobot -m disengage : disengage(transporttrolley)
+		[# System.exit(0) #]
+	}
 }
 
 

@@ -11,8 +11,10 @@ public class Ticket{
     private int status; // 0 valid, 1 reclaimed, 2 expired
     
 
-// pls da gnerare il costruttoire
-
+    public Ticket() {
+    	this.ticketNumber= 0;
+    	
+    }
     public int getTicketNumber() {
         return ticketNumber;
     }
@@ -28,9 +30,9 @@ public class Ticket{
         return timestamp;
     }
 
-    public String getTicketSecret() {
-        return ticketSecret;
-    }
+    //public String getTicketSecret() {
+    //    return ticketSecret;
+    //}
 
     public void setTicketNumber(int ticketNumber) {
         this.ticketNumber = ticketNumber;
@@ -44,9 +46,9 @@ public class Ticket{
         this.kgToStore = kgToStore;
     }
 
-    public void setTicketSecret(String ticketSecret) {
-        this.ticketSecret = ticketSecret;
-    }
+    //public void setTicketSecret(String ticketSecret) {
+    //    this.ticketSecret = ticketSecret;
+    //}
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;

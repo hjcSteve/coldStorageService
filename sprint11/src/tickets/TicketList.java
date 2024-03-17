@@ -90,7 +90,7 @@ public class TicketList {
     public String toString(){
         String result="";
         for(Ticket ticket: tickets){
-            result+="ticketNumber:"+ticket.getTicketNumber()+"ticketSecret:"+ticket.getTicketSecret()+"kgToStore:"+ticket.getKgToStore()+"timestamp:"+ticket.getTimestamp()+"\n";
+            result+="ticketNumber:"+ticket.getTicketNumber()+"ticketSecret:"+"kgToStore:"+ticket.getKgToStore()+"timestamp:"+ticket.getTimestamp()+"\n";
         }
         return result;
     }

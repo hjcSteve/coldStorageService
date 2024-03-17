@@ -84,10 +84,10 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				state("goingOutdoor") { //this:State
 					action { //it:State
 						CommUtils.outblack("$name ) Robot has received a discharge request, let's go to the Outdoor.")
-						if( checkMsgContent( Term.createTerm("dischargeTrolley(WEIGHT)"), Term.createTerm("dischargeTrolley(WEIGHT)"), 
+						if( checkMsgContent( Term.createTerm("dischargeTrolley(TICKETID)"), Term.createTerm("dischargeTrolley(WEIGHT)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-								  		LoadTrolley = PayloadArg(0);
+								  		LoadTrolley = payloadArg(0);
 						}
 						request("moverobot", "moverobot(OutdoorX,OutdoorY)" ,"basicrobot" )  
 						//genTimer( actor, state )

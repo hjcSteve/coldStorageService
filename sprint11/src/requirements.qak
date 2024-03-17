@@ -18,7 +18,7 @@ Reply space_reserved : space_reserved(D)
 
 
 //manda trolley a servire un truck (da idle a serving)
-Dispatch dischargeTrolley : dischargeTrolley(WEIGHT)
+Dispatch dischargeTrolley : dischargeTrolley(TICKETID)
 
 //quando il trolley è alla coldRoom scarica aggiornando il peso (da serving a idle/serving)
 Request discharged_trolley : discharged_trolley(TICKETID)
@@ -92,9 +92,9 @@ ExternalQActor basicrobot context ctxBasicRobot
 
 QActor coldstorageservice context ctxColdStorageService{
 	[#
-	var KgWaitingDischarge : Long = 0;
 	var Trolley_is_working : Boolean = false;
 	var	KgtoLoad : Long = 0;
+	var	Expiration : Long = 100;
 	var List = tickets.TicketList(Expiration); 	
 	var servingTicket = tickets.Ticket();
 	var queuedTicket = tickets.Ticket();
@@ -109,8 +109,8 @@ QActor coldstorageservice context ctxColdStorageService{
 	  } Transition t0
 	    whenRequest  storerequest->handleStoreRequest
 	    whenRequest dischargefood->handleDischargeRequest
-	    whenRequest currentloadrequest ->handleLoadRequest
-	    whenRequest currentstatusrequest -> handleStatusRequest
+	    whenRequest discharged_trolley ->handleTrolley_atColdroom
+	    whenMsg trolley_isindoor -> clearIndoor
 	
 	
  	//-------------------------------------------------------------------------------------------------------------
@@ -122,7 +122,7 @@ QActor coldstorageservice context ctxColdStorageService{
 			#]
 			
 		 }
-	    request coldroom -m spaceCheck : spaceCheck(KgtoLoad)
+	    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
 	} Transition t0
 	whenReply space_reserved -> handleTicketGeneration
 	whenReply space_insufficient -> refuseStoreReq   
@@ -131,70 +131,98 @@ QActor coldstorageservice context ctxColdStorageService{
 
 	State refuseStoreReq{
 			replyTo storerequest with requestdenied : requestdenied(D)
+			println("$name ) ticket denied, not enough space.") 
 		
 	}Goto s0 
 //------------------------------------------------------------------------------------------------------------------    
    //TICKET GENERATION AND CURRENT LOAD CONTROL
   State handleTicketGeneration{
-    onMsg( replycurrentload : replycurrentload(CURRLOAD) ){
+    onMsg( space_reserved : space_reserved(D) ){
     	[#
-    		var KgAvailable = payloadArg(0).toLong();	 	
-    	#]
-    	if [# KgAvailable - KgWaitingDischarge >= KgtoLoad #]{
-    		[#
-    			KgWaitingDischarge += KgtoLoad;
-    			var ticket=List.createTicket(KgtoLoad);
-			    var TICKETCODE = ticket.getTicketNumber;
-			    var TIMESTAMP = ticket.getTimestamp(); 	
+			var ticket=List.createTicket(KgtoLoad);
+		    var TICKETCODE = ticket.getTicketNumber;
+		    var TIMESTAMP = ticket.getTimestamp(); 	
+		    
     		#]
     		replyTo storerequest with requestaccepted : requestaccepted($TICKETCODE,$TIMESTAMP)
-    		println("$name ) ticket accepted!")
+    		println("$name ) ticket accepted! Ticket $TICKETCODE emitted. ") color magenta
     	}
-    	
-      else{
-		replyTo storerequest with requestdenied : requestdenied(D)   
-		println("$name ) ticket denied, not enough space.")   	
-      }
-    }
-  }
-  Goto s0 
+    } Goto s0 
   
   
   
    //-----------------------------------------------------------------------------------------------------------------
    //DISCHARGE AND TICKET CHECKING
   State handleDischargeRequest{
-    onMsg( dischargefood : dischargefood(TICKETNUM) ){
-      [#
-      	var Ticketnum = payloadArg(0);
-      	Ticket ticket = List.getTicket(Ticketnum);
-      	boolean Expired = List.isExpired(ticket);
-      #]
-      if [# !Expired #]{
-      	[#
-      		var KgToStore = ticket.getKgToStore()
-			KgWaitingDischarge -= KgToStore;
-      	#]
-      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina")
-      	forward transporttrolley -m dischargeTrolley : dischargeTrolley(KgToStore) 
-      }
-    }
-  }
-  Goto s0 
+	    onMsg( dischargefood : dischargefood(TICKETNUM) ){
+	      [#
+	      	var Ticketnum = payloadArg(0);
+	      	Ticket ticket = List.getTicket(Ticketnum);
+	      	boolean Expired = List.isExpired(ticket);
+	      #]
+	      if [# !Expired  && !Trolley_is_working#]{
+	      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina") color magenta
+	      	[#
+	      		Trolley_is_working=true;
+	      		servingTicket= ticket;
+	      		
+	      	#]
+	      	forward transporttrolley -m dischargeTrolley : dischargeTrolley(Ticketnum) 
+	      }
+	      else { 
+	      	if [# !Expired #]{
+		      	println("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum") color magenta
+		      	[#
+		      		queuedTicket=ticket;
+		      	#]
+	      	}
+	      	else { println("$name ) The ticket has expired... sending notification to SAGui") color magenta}
+	   	  }
+	    }
+    } Goto s0 
   
-  State handleLoadRequest{
+  State handleTrolley_atColdroom{
+	    onMsg( discharged_trolley : discharged_trolley(TICKETNUM) ){
+	    	[#
+	    		Ticketnum= payloadArg(0);
+	    	#]
+	    	if [# servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0 #]{
+	    		[#
+	    		servingTicket = queuedTicket;
+	    		ServingId = servingTicket.getTicketNumber;
+	    		queuedTicket.setStatus(0);	
+	    		queuedTicket.setTicketNumber(0);
+	    		queuedTicket.setKgToStore(0);
+	    		queuedTicket.setTimestamp(0);
+	    			
+	    		#]
+	    		replyTo discharged_trolley with serve_newtruck : serve_newtruck($ServingId)
+	    	}
+	    	else {
+	    		if[# servingTicket.getTicketNumber() == Ticketnum #]{
+	    			[#
+	    			servingTicket.setStatus(0);	
+		    		servingTicket.setTicketNumber(0);
+		    		servingTicket.setKgToStore(0);
+		    		servingTicket.setTimestamp(0);
+		    		Trolley_is_working = false;
+		    		#]
+		    		replyTo discharged_trolley with idle_trolley : idle_trolley(D)
+	    		}
+	    	
+		    	else{
+		    		println("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")	
+		    	}
+	    	}
+	    }
+    }Goto s0
+  State clearIndoor{
     onMsg( storerequest : storerequest(FW) ){
     	
-      replyTo storerequest with requestaccepted : requestaccepted($TICKET)
+      replyTo dischargefood with replyChargeTaken : replyChargeTaken($Ticketnum)
+      
     }
-  }
-  Goto s0
-  State handleStatusRequest{
-    onMsg( storerequest : storerequest(FW) ){
-      replyTo storerequest with requestaccepted : requestaccepted($TICKET)
-    }
-  }
-  Goto s0
+  } Goto s0
 }
 
 
@@ -242,7 +270,7 @@ QActor transporttrolley context ctxColdStorageService{
   	println("$name ) Robot has received a discharge request, let's go to the Outdoor.")
   	onMsg(dischargeTrolley : dischargeTrolley(WEIGHT)){
   		[#
-  		LoadTrolley = PayloadArg(0);
+  		LoadTrolley = payloadArg(0);
   		#]
   	} 
   	request basicrobot -m moverobot : moverobot(OutdoorX,OutdoorY)

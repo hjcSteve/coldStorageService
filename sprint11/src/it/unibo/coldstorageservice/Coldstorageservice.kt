@@ -19,9 +19,9 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		val interruptedStateTransitions = mutableListOf<Transition>()
 		
-			var KgWaitingDischarge : Long = 0;
 			var Trolley_is_working : Boolean = false;
 			var	KgtoLoad : Long = 0;
+			var	Expiration : Long = 100;
 			var List = tickets.TicketList(Expiration); 	
 			var servingTicket = tickets.Ticket();
 			var queuedTicket = tickets.Ticket();
@@ -37,8 +37,8 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					}	 	 
 					 transition(edgeName="t00",targetState="handleStoreRequest",cond=whenRequest("storerequest"))
 					transition(edgeName="t01",targetState="handleDischargeRequest",cond=whenRequest("dischargefood"))
-					transition(edgeName="t02",targetState="handleLoadRequest",cond=whenRequest("currentloadrequest"))
-					transition(edgeName="t03",targetState="handleStatusRequest",cond=whenRequest("currentstatusrequest"))
+					transition(edgeName="t02",targetState="handleTrolley_atColdroom",cond=whenRequest("discharged_trolley"))
+					transition(edgeName="t03",targetState="clearIndoor",cond=whenDispatch("trolley_isindoor"))
 				}	 
 				state("handleStoreRequest") { //this:State
 					action { //it:State
@@ -47,7 +47,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 								
 												KgtoLoad = payloadArg(0).toLong();
 						}
-						request("spaceCheck", "spaceCheck(KgtoLoad)" ,"coldroom" )  
+						request("spaceCheck", "spaceCheck($KgtoLoad)" ,"coldroom" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -59,6 +59,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 				state("refuseStoreReq") { //this:State
 					action { //it:State
 						answer("storerequest", "requestdenied", "requestdenied(D)"   )  
+						CommUtils.outblack("$name ) ticket denied, not enough space.")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -68,23 +69,15 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 				}	 
 				state("handleTicketGeneration") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("replycurrentload(WEIGHT)"), Term.createTerm("replycurrentload(CURRLOAD)"), 
+						if( checkMsgContent( Term.createTerm("space_reserved(D)"), Term.createTerm("space_reserved(D)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-								    		var KgAvailable = payloadArg(0).toLong();	 	
-								if(  KgAvailable - KgWaitingDischarge >= KgtoLoad  
-								 ){
-								    			KgWaitingDischarge += KgtoLoad;
-								    			var ticket=List.createTicket(KgtoLoad);
-											    var TICKETCODE = ticket.getTicketNumber;
-											    var TIMESTAMP = ticket.getTimestamp(); 	
+											var ticket=List.createTicket(KgtoLoad);
+										    var TICKETCODE = ticket.getTicketNumber;
+										    var TIMESTAMP = ticket.getTimestamp(); 	
+										    
 								answer("storerequest", "requestaccepted", "requestaccepted($TICKETCODE,$TIMESTAMP)"   )  
-								CommUtils.outblack("$name ) ticket accepted!")
-								}
-								else
-								 {answer("storerequest", "requestdenied", "requestdenied(D)"   )  
-								 CommUtils.outblack("$name ) ticket denied, not enough space.")
-								 }
+								CommUtils.outmagenta("$name ) ticket accepted! Ticket $TICKETCODE emitted. ")
 						}
 						//genTimer( actor, state )
 					}
@@ -98,16 +91,27 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 						if( checkMsgContent( Term.createTerm("dischargefood(TICKETID)"), Term.createTerm("dischargefood(TICKETNUM)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-								      	var Ticketnum = payloadArg(0);
-								      	Ticket ticket = List.getTicket(Ticketnum);
-								      	boolean Expired = List.isExpired(ticket);
-								if(  !Expired  
-								 ){
-								      		var KgToStore = ticket.getKgToStore()
-											KgWaitingDischarge -= KgToStore;
-								CommUtils.outblack("$name ) Sending food to the cold room, lazzaro alzati e cammina")
-								forward("dischargeTrolley", "dischargeTrolley(KgToStore)" ,"transporttrolley" ) 
+									      	var Ticketnum = payloadArg(0);
+									      	Ticket ticket = List.getTicket(Ticketnum);
+									      	boolean Expired = List.isExpired(ticket);
+								if(  !Expired  && !Trolley_is_working 
+								 ){CommUtils.outmagenta("$name ) Sending food to the cold room, lazzaro alzati e cammina")
+								
+									      		Trolley_is_working=true;
+									      		servingTicket= ticket;
+									      		
+								forward("dischargeTrolley", "dischargeTrolley(Ticketnum)" ,"transporttrolley" ) 
 								}
+								else
+								 {if(  !Expired  
+								  ){CommUtils.outmagenta("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum")
+								 
+								 		      		queuedTicket=ticket;
+								 }
+								 else
+								  {CommUtils.outmagenta("$name ) The ticket has expired... sending notification to SAGui")
+								  }
+								 }
 						}
 						//genTimer( actor, state )
 					}
@@ -116,11 +120,37 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					}	 	 
 					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
-				state("handleLoadRequest") { //this:State
+				state("handleTrolley_atColdroom") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
+						if( checkMsgContent( Term.createTerm("discharged_trolley(TICKETID)"), Term.createTerm("discharged_trolley(TICKETNUM)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								answer("storerequest", "requestaccepted", "requestaccepted($TICKET)"   )  
+								
+									    		Ticketnum= payloadArg(0);
+								if(  servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0  
+								 ){
+									    		servingTicket = queuedTicket;
+									    		ServingId = servingTicket.getTicketNumber;
+									    		queuedTicket.setStatus(0);	
+									    		queuedTicket.setTicketNumber(0);
+									    		queuedTicket.setKgToStore(0);
+									    		queuedTicket.setTimestamp(0);
+									    			
+								answer("discharged_trolley", "serve_newtruck", "serve_newtruck($ServingId)"   )  
+								}
+								else
+								 {if(  servingTicket.getTicketNumber() == Ticketnum  
+								  ){
+								 	    			servingTicket.setStatus(0);	
+								 		    		servingTicket.setTicketNumber(0);
+								 		    		servingTicket.setKgToStore(0);
+								 		    		servingTicket.setTimestamp(0);
+								 		    		Trolley_is_working = false;
+								 answer("discharged_trolley", "idle_trolley", "idle_trolley(D)"   )  
+								 }
+								 else
+								  {CommUtils.outblack("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")
+								  }
+								 }
 						}
 						//genTimer( actor, state )
 					}
@@ -129,11 +159,11 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					}	 	 
 					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
 				}	 
-				state("handleStatusRequest") { //this:State
+				state("clearIndoor") { //this:State
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								answer("storerequest", "requestaccepted", "requestaccepted($TICKET)"   )  
+								answer("dischargefood", "replyChargeTaken", "replyChargeTaken($Ticketnum)"   )  
 						}
 						//genTimer( actor, state )
 					}

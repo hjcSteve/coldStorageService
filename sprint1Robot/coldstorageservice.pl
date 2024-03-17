@@ -26,20 +26,32 @@ dispatch( setrobotstate, setpos(X,Y,D) ).
 dispatch( setdirection, dir(D) ).
 request( getrobotstate, getrobotstate(ARG) ).
 reply( robotstate, robotstate(POS,DIR) ).  %%for getrobotstate
-dispatch( truckArrived, truckArrived(TICKETID) ).
+dispatch( dischargeTrolley, dischargeTrolley(TICKETID) ).
 dispatch( chargeTaken, chargeTaken(TICKETID) ).
-request( chargeDeposited, foodStored(TICKETID) ).
-reply( newTicket, newTicket(TICKETID) ).  %%for chargeDeposited
-reply( noTIcket, noTicket(ARG) ).  %%for chargeDeposited
+request( discharged_trolley, discharged_trolley(TICKETID) ).
+reply( idle_trolley, idle_trolley(D) ).  %%for discharged_trolley
+reply( serve_newtruck, serve_newtruck(D) ).  %%for discharged_trolley
+request( spaceCheck, spaceCheck(KG) ).
+reply( space_insufficient, space_insufficient(D) ).  %%for spaceCheck
+reply( space_reserved, space_reserved(D) ).  %%for spaceCheck
+dispatch( gohome, gohome(ARG) ).
+dispatch( trolley_isindoor, trolley_isindoor(D) ).
 event( resume, resume(ARG) ).
 %====================================================================================
 context(ctxcoldstorageservice, "localhost",  "TCP", "8055").
 context(ctxbasicrobot, "localhost",  "TCP", "8020").
  qactor( basicrobot, ctxbasicrobot, "external").
   qactor( servicestatusgui, ctxcoldstorageservice, "it.unibo.servicestatusgui.Servicestatusgui").
+ static(servicestatusgui).
   qactor( coldstorageservice, ctxcoldstorageservice, "it.unibo.coldstorageservice.Coldstorageservice").
+ static(coldstorageservice).
   qactor( serviceaccessgui, ctxcoldstorageservice, "it.unibo.serviceaccessgui.Serviceaccessgui").
+ static(serviceaccessgui).
   qactor( warningdevice, ctxcoldstorageservice, "it.unibo.warningdevice.Warningdevice").
+ static(warningdevice).
   qactor( coldroom, ctxcoldstorageservice, "it.unibo.coldroom.Coldroom").
+ static(coldroom).
   qactor( alarmdevice, ctxcoldstorageservice, "it.unibo.alarmdevice.Alarmdevice").
+ static(alarmdevice).
   qactor( transporttrolley, ctxcoldstorageservice, "it.unibo.transporttrolley.Transporttrolley").
+ static(transporttrolley).

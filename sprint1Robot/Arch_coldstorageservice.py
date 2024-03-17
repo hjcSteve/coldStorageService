@@ -33,8 +33,9 @@ with Diagram('coldstorageserviceArch', show=False, outformat='png', graph_attr=g
           basicrobot=Custom('basicrobot(ext)','./qakicons/externalQActor.png')
      transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<engage<font color="darkgreen"> engagedone engagerefused</font> &nbsp; moverobot<font color="darkgreen"> moverobotdone moverobotfailed</font> &nbsp; >',  fontcolor='magenta') >> basicrobot
      serviceaccessgui >> Edge(color='magenta', style='solid', decorate='true', label='<dischargefood<font color="darkgreen"> replyChargeTaken replyTicketExpired</font> &nbsp; storerequest<font color="darkgreen"> ticketAccepted replyTicketDenied</font> &nbsp; >',  fontcolor='magenta') >> coldstorageservice
-     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<chargeDeposited<font color="darkgreen"> newTicket noTIcket</font> &nbsp; >',  fontcolor='magenta') >> coldstorageservice
-     coldstorageservice >> Edge(color='blue', style='solid',  label='<truckArrived &nbsp; >',  fontcolor='blue') >> transporttrolley
-     transporttrolley >> Edge(color='blue', style='solid',  label='<setdirection &nbsp; disengage &nbsp; >',  fontcolor='blue') >> basicrobot
-     transporttrolley >> Edge(color='blue', style='solid',  label='<chargeTaken &nbsp; >',  fontcolor='blue') >> coldstorageservice
+     transporttrolley >> Edge(color='magenta', style='solid', decorate='true', label='<discharged_trolley<font color="darkgreen"> idle_trolley serve_newtruck</font> &nbsp; >',  fontcolor='magenta') >> coldstorageservice
+     coldstorageservice >> Edge(color='magenta', style='solid', decorate='true', label='<spaceCheck<font color="darkgreen"> space_insufficient space_reserved</font> &nbsp; >',  fontcolor='magenta') >> coldroom
+     coldstorageservice >> Edge(color='blue', style='solid',  decorate='true', label='<dischargeTrolley &nbsp; >',  fontcolor='blue') >> transporttrolley
+     transporttrolley >> Edge(color='blue', style='solid',  decorate='true', label='<setdirection &nbsp; disengage &nbsp; >',  fontcolor='blue') >> basicrobot
+     transporttrolley >> Edge(color='blue', style='solid',  decorate='true', label='<chargeTaken &nbsp; >',  fontcolor='blue') >> coldstorageservice
 diag

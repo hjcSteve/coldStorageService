@@ -64,6 +64,8 @@ Request spaceCheck : spaceCheck(KG)
 Reply space_insufficient : space_insufficient(D) for spaceCheck
 Reply space_reserved : space_reserved(D) for spaceCheck
 
+Dispatch stored_food : stored_food(KG)
+
 
 
 
@@ -249,9 +251,57 @@ QActor warningdevice context ctxcoldstorageservice{
   } 
 }
 QActor coldroom context ctxcoldstorageservice{
- State s0 initial {
-  } 
+	
+	[#
+	val MAX_STG : Int =Configuration.conf.MAX_STG;
+	var current_STG : Int =0;
+	var reserved_STG : Int =0;
+	#]
+	State s0 initial {
+		
+		println("$name) I am started with a Maximum $MAX_STG, currently $current_STG !")
+		
+	}Goto waiting_state
+	
+	State waiting_state {
+		println("$name) Okay then, the storage is $current_STG kg, with a reserved $reserved_STG kg")
+	} Transition t2  
+	whenRequest spaceCheck  -> check_state
+	whenMsg stored_food -> store_state 
+	
+	
+	State check_state{
+		onMsg( spaceCheck : spaceCheck(KG)){
+			[#
+			var Kg : Int = payloadArg(0);
+			#]
+			if[# MAX_STG >= current_STG + reserved_STG + kg#]{
+				[#
+				reserved_STG+=kg;
+				
+				#]
+				replyTo spaceCheck with space_reserved : space_reserved($Kg)
+							
+			}else{
+				println("$name) not enough space for reservation...")
+				
+				replyTo spaceCheck with space_insufficient : space_insufficient(D)
+			}
+		}	
+	} Goto waiting_state
+	
+	State store_state{
+		onMsg( stored_food : stored_food(KG)){
+			[#
+			var Kg : Int = payloadArg(0);
+			reserved_STG -= Kg;
+			current_STG += Kg;
+			#]
+			println(" $name) Performed the load with success!")
+		}
+	}Goto waiting_state	
 }
+
 QActor alarmdevice context ctxcoldstorageservice{
 State s0 initial {
     

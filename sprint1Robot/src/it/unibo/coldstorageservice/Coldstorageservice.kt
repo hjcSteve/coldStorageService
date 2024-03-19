@@ -11,16 +11,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
-
-//User imports JAN2024
-
 class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		//val interruptedStateTransitions = mutableListOf<Transition>()
+		val interruptedStateTransitions = mutableListOf<Transition>()
 		
 			var test: String = Configuration.conf.test
 			var Trolley_is_working : Boolean = false;
@@ -30,7 +27,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 			var servingTicket = tickets.Ticket();
 			var queuedTicket = tickets.Ticket();
 			var Ticketnum : Int = 0;
-		return { //this:ActionBasciFsm
+				return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblack("$test ")

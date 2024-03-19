@@ -9,7 +9,5 @@ fun main() = runBlocking {
 	QakContext.createContexts(
 	        "127.0.0.1", this, "coldstorageservice.pl", "sysRules.pl", "ctxbasicrobot"
 	)
-	//JAN Facade
-	//JAN24 Display
 }
 

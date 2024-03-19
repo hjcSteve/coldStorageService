@@ -99,6 +99,7 @@ QActor servicestatusgui context ctxcoldstorageservice{
 
 QActor coldstorageservice context ctxcoldstorageservice{
 	[#
+	var test: String = Configuration.conf.test
 	var Trolley_is_working : Boolean = false;
 	var	KgtoLoad : Int = 0;
 	var	Expiration : Long = 100;
@@ -113,6 +114,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	//---------------------------------------------------------------------------------------------------------------
 	//INITIALIZE THE COLD STORAGE SERVICE
 	State s0 initial {
+		println("$test ") color black
 		println("$name ) waiting for a new message...") color black
 		discardMsg Off
 		
@@ -126,12 +128,11 @@ QActor coldstorageservice context ctxcoldstorageservice{
  	//-------------------------------------------------------------------------------------------------------------
  	//ASK COLD ROOM HOW MANY KG ARE ALREADY INSIDE
 	State handleStoreRequest{
-		onMsg( storerequest : storerequest(FW) ){
 			[#
 				KgtoLoad = payloadArg(0).toInt();
 			#]
-			
-		 }
+			 
+		 println("$name ) asking to coldRoom") color black
 	    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
 	} Transition t0
 	whenReply space_reserved -> handleTicketGeneration
@@ -238,8 +239,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 
 QActor serviceaccessgui context ctxcoldstorageservice{
     State s0 initial {
-      request coldstorageservice -m dischargefood : dischargefood(100)
-      request coldstorageservice -m storerequest  : storerequest(10)
+
       
   }
 }

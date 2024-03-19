@@ -24,8 +24,6 @@ class Serviceaccessgui ( name: String, scope: CoroutineScope, isconfined: Boolea
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						request("dischargefood", "dischargefood(100)" ,"coldstorageservice" )  
-						request("storerequest", "storerequest(10)" ,"coldstorageservice" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

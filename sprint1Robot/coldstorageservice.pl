@@ -39,9 +39,8 @@ dispatch( trolley_isindoor, trolley_isindoor(D) ).
 event( resume, resume(ARG) ).
 %====================================================================================
 context(ctxcoldstorageservice, "localhost",  "TCP", "8055").
-context(ctxbasicrobot, "localhost",  "TCP", "8020").
- qactor( basicrobot, ctxbasicrobot, "external").
-  qactor( servicestatusgui, ctxcoldstorageservice, "it.unibo.servicestatusgui.Servicestatusgui").
+context(ctxbasicrobot, "127.0.0.1",  "TCP", "8020").
+ qactor( servicestatusgui, ctxcoldstorageservice, "it.unibo.servicestatusgui.Servicestatusgui").
  static(servicestatusgui).
   qactor( coldstorageservice, ctxcoldstorageservice, "it.unibo.coldstorageservice.Coldstorageservice").
  static(coldstorageservice).
@@ -55,3 +54,4 @@ context(ctxbasicrobot, "localhost",  "TCP", "8020").
  static(alarmdevice).
   qactor( transporttrolley, ctxcoldstorageservice, "it.unibo.transporttrolley.Transporttrolley").
  static(transporttrolley).
+  qactor( basicrobot, ctxbasicrobot, "external").

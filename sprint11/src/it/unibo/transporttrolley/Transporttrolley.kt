@@ -20,29 +20,10 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-<<<<<<< HEAD
-		val interruptedStateTransitions = mutableListOf<Transition>()
+		//val interruptedStateTransitions = mutableListOf<Transition>()
 		 var lastState: String = "" 
 			var ticketID:String= ""
-				return { //this:ActionBasciFsm
-=======
-		//val interruptedStateTransitions = mutableListOf<Transition>()
-		
-			val (HomeX, HomeY) = Pair(0, 0);
-			val (IndoorX, IndoorY) = Pair(0, 4);
-			val (ColdRoomX, ColdRoomY) = Pair(4, 3);
-			var LoadTrolley : Long = 0;
 		return { //this:ActionBasciFsm
-				state("terminating") { //this:State
-					action { //it:State
-						CommUtils.outblack("$name ) Robot already engaged!")
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-				}	 
->>>>>>> cf25c25baf186e6f1633adfa0eca9152449c7ab5
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outmagenta("$name | init e engage basicrobot")
@@ -99,9 +80,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atIndoor", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atIndoor", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atIndoor", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t10",targetState="loadDone",cond=whenTimeout("local_tout_transporttrolley_atIndoor"))   
+					 transition(edgeName="t10",targetState="loadDone",cond=whenTimeout("local_tout_"+name+"_atIndoor"))   
 				}	 
 				state("loadDone") { //this:State
 					action { //it:State
@@ -134,9 +115,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atColdroom", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atColdroom", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atColdroom", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t012",targetState="chargeStored",cond=whenTimeout("local_tout_transporttrolley_atColdroom"))   
+					 transition(edgeName="t012",targetState="chargeStored",cond=whenTimeout("local_tout_"+name+"_atColdroom"))   
 				}	 
 				state("chargeStored") { //this:State
 					action { //it:State

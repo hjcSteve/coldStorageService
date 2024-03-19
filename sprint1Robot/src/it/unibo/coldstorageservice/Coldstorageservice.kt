@@ -23,11 +23,12 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		
 			var Trolley_is_working : Boolean = false;
-			var	KgtoLoad : Long = 0;
+			var	KgtoLoad : Int = 0;
 			var	Expiration : Long = 100;
 			var List = tickets.TicketList(Expiration); 	
 			var servingTicket = tickets.Ticket();
 			var queuedTicket = tickets.Ticket();
+			var Ticketnum : Int = 0;
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -48,7 +49,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-												KgtoLoad = payloadArg(0).toLong();
+												KgtoLoad = payloadArg(0).toInt();
 						}
 						request("spaceCheck", "spaceCheck($KgtoLoad)" ,"coldroom" )  
 						//genTimer( actor, state )
@@ -76,7 +77,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 											var ticket=List.createTicket(KgtoLoad);
-										    var TICKETCODE = ticket.getTicketNumber;
+										    var TICKETCODE = ticket.getTicketNumber();
 										    var TIMESTAMP = ticket.getTimestamp(); 	
 										    
 								answer("storerequest", "ticketAccepted", "ticketAccepted($TICKETCODE,$TIMESTAMP)"   )  
@@ -93,10 +94,11 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					action { //it:State
 						if( checkMsgContent( Term.createTerm("dischargefood(TICKETNUM)"), Term.createTerm("dischargefood(TICKETNUM)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
+								 
+									      	val Ticketnum = payloadArg(0).toInt();
+									      	val ticket = List.getTicket(Ticketnum);
+									      	var Expired : Boolean = List.isExpired(ticket);
 								
-									      	var Ticketnum = payloadArg(0);
-									      	Ticket ticket = List.getTicket(Ticketnum);
-									      	boolean Expired = List.isExpired(ticket);
 								if(  !Expired  && !Trolley_is_working 
 								 ){CommUtils.outmagenta("$name ) Sending food to the cold room, lazzaro alzati e cammina")
 								
@@ -128,11 +130,11 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 						if( checkMsgContent( Term.createTerm("discharged_trolley(TICKETID)"), Term.createTerm("discharged_trolley(TICKETNUM)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-									    		Ticketnum= payloadArg(0);
+									    		 Ticketnum = payloadArg(0).toInt();
 								if(  servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0  
 								 ){
 									    		servingTicket = queuedTicket;
-									    		ServingId = servingTicket.getTicketNumber;
+									    		val ServingId = servingTicket.getTicketNumber().toInt();
 									    		queuedTicket.setStatus(0);	
 									    		queuedTicket.setTicketNumber(0);
 									    		queuedTicket.setKgToStore(0);

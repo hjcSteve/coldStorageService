@@ -82,9 +82,8 @@ Event resume:resume(ARG)
 
 //DICHIARAZIONE DEI CONTESTI
 Context ctxcoldstorageservice ip [host="localhost" port=8055]  
-Context ctxbasicrobot ip [host="localhost" port=8020]
+Context ctxbasicrobot ip [host="127.0.0.1" port=8020]
 
-ExternalQActor basicrobot context ctxbasicrobot
 //MESSAGGI tra il transport trolley e il robot
 
 
@@ -101,13 +100,16 @@ QActor servicestatusgui context ctxcoldstorageservice{
 QActor coldstorageservice context ctxcoldstorageservice{
 	[#
 	var Trolley_is_working : Boolean = false;
-	var	KgtoLoad : Long = 0;
+	var	KgtoLoad : Int = 0;
 	var	Expiration : Long = 100;
 	var List = tickets.TicketList(Expiration); 	
 	var servingTicket = tickets.Ticket();
 	var queuedTicket = tickets.Ticket();
+	var Ticketnum : Int = 0;
 	#]
 	
+
+
 	//---------------------------------------------------------------------------------------------------------------
 	//INITIALIZE THE COLD STORAGE SERVICE
 	State s0 initial {
@@ -126,7 +128,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	State handleStoreRequest{
 		onMsg( storerequest : storerequest(FW) ){
 			[#
-				KgtoLoad = payloadArg(0).toLong();
+				KgtoLoad = payloadArg(0).toInt();
 			#]
 			
 		 }
@@ -148,7 +150,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
     onMsg( space_reserved : space_reserved(D) ){
     	[#
 			var ticket=List.createTicket(KgtoLoad);
-		    var TICKETCODE = ticket.getTicketNumber;
+		    var TICKETCODE = ticket.getTicketNumber();
 		    var TIMESTAMP = ticket.getTimestamp(); 	
 		    
     		#]
@@ -163,10 +165,11 @@ QActor coldstorageservice context ctxcoldstorageservice{
    //DISCHARGE AND TICKET CHECKING
   State handleDischargeRequest{
 	    onMsg( dischargefood : dischargefood(TICKETNUM) ){
-	      [#
-	      	var Ticketnum = payloadArg(0);
-	      	Ticket ticket = List.getTicket(Ticketnum);
-	      	boolean Expired = List.isExpired(ticket);
+	      [# 
+	      	val Ticketnum = payloadArg(0).toInt();
+	      	val ticket = List.getTicket(Ticketnum);
+	      	var Expired : Boolean = List.isExpired(ticket);
+
 	      #]
 	      if [# !Expired  && !Trolley_is_working#]{
 	      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina") color magenta
@@ -192,12 +195,12 @@ QActor coldstorageservice context ctxcoldstorageservice{
   State handleTrolley_atColdroom{
 	    onMsg( discharged_trolley : discharged_trolley(TICKETNUM) ){
 	    	[#
-	    		Ticketnum= payloadArg(0);
+	    		 Ticketnum = payloadArg(0).toInt();
 	    	#]
 	    	if [# servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0 #]{
 	    		[#
 	    		servingTicket = queuedTicket;
-	    		ServingId = servingTicket.getTicketNumber;
+	    		val ServingId = servingTicket.getTicketNumber().toInt();
 	    		queuedTicket.setStatus(0);	
 	    		queuedTicket.setTicketNumber(0);
 	    		queuedTicket.setKgToStore(0);
@@ -235,7 +238,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 
 QActor serviceaccessgui context ctxcoldstorageservice{
     State s0 initial {
-      request coldstorageservice -m dischargefood : dischargefood(EXPIRED)
+      request coldstorageservice -m dischargefood : dischargefood(100)
       request coldstorageservice -m storerequest  : storerequest(10)
       
   }
@@ -263,7 +266,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 	State s0 initial {
 		println("$name | init e engage basicrobot") color magenta
 	
-		request basicrobot -m engage : engage(transporttrolley,330)
+		request basicrobot -m engage : engage(transporttrolley,300)
 	}
 	Transition 	t0	whenReply engagedone -> engaged
 					whenReply engagerefused -> quit
@@ -351,4 +354,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 		[# System.exit(0) #]
 	}
 }
+
+ExternalQActor basicrobot context ctxbasicrobot
+
 

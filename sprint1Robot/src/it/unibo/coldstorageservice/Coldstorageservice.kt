@@ -45,10 +45,13 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 				}	 
 				state("handleStoreRequest") { //this:State
 					action { //it:State
-						
-										KgtoLoad = payloadArg(0).toInt();
-						CommUtils.outblack("$name ) asking to coldRoom")
-						request("spaceCheck", "spaceCheck($KgtoLoad)" ,"coldroom" )  
+						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(KG)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								
+													KgtoLoad = payloadArg(0).toInt();
+								CommUtils.outblack("$name ) asking to coldRoom")
+								request("spaceCheck", "spaceCheck($KgtoLoad)" ,"coldroom" )  
+						}
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -128,6 +131,8 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
 									    		 Ticketnum = payloadArg(0).toInt();
+									    		 val Kg : Int = servingTicket.getKgToStore();
+									    		 
 								if(  servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0  
 								 ){
 									    		servingTicket = queuedTicket;
@@ -153,6 +158,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 								  {CommUtils.outblack("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")
 								  }
 								 }
+								forward("stored_food", "stored_food($Kg)" ,"coldroom" ) 
 						}
 						//genTimer( actor, state )
 					}
@@ -163,7 +169,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 				}	 
 				state("clearIndoor") { //this:State
 					action { //it:State
-						if( checkMsgContent( Term.createTerm("storerequest(FW)"), Term.createTerm("storerequest(FW)"), 
+						if( checkMsgContent( Term.createTerm("trolley_isindoor(D)"), Term.createTerm("trolley_isindoor(D)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								answer("dischargefood", "replyChargeTaken", "replyChargeTaken($Ticketnum)"   )  
 						}

@@ -38,17 +38,10 @@ event( resume, resume(ARG) ).
 context(ctxcoldstorageservice, "localhost",  "TCP", "8056").
 context(ctxbasicrobot, "localhost",  "TCP", "8059").
  qactor( serviceaccessgui, ctxcoldstorageservice, "it.unibo.serviceaccessgui.Serviceaccessgui").
- static(serviceaccessgui).
   qactor( warningdevice, ctxcoldstorageservice, "it.unibo.warningdevice.Warningdevice").
- static(warningdevice).
   qactor( alarmdevice, ctxcoldstorageservice, "it.unibo.alarmdevice.Alarmdevice").
- static(alarmdevice).
   qactor( coldroom, ctxcoldstorageservice, "it.unibo.coldroom.Coldroom").
- static(coldroom).
   qactor( servicestatusgui, ctxcoldstorageservice, "it.unibo.servicestatusgui.Servicestatusgui").
- static(servicestatusgui).
   qactor( basicrobot, ctxbasicrobot, "external").
   qactor( coldstorageservice, ctxcoldstorageservice, "it.unibo.coldstorageservice.Coldstorageservice").
- static(coldstorageservice).
   qactor( transporttrolley, ctxcoldstorageservice, "it.unibo.transporttrolley.Transporttrolley").
- static(transporttrolley).

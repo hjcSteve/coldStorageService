@@ -130,12 +130,14 @@ QActor coldstorageservice context ctxcoldstorageservice{
  	//-------------------------------------------------------------------------------------------------------------
  	//ASK COLD ROOM HOW MANY KG ARE ALREADY INSIDE
 	State handleStoreRequest{
-			[#
-				KgtoLoad = payloadArg(0).toInt();
-			#]
-			 
-		 println("$name ) asking to coldRoom") color black
-	    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
+			onMsg(storerequest:storerequest(KG)){
+				[#
+					KgtoLoad = payloadArg(0).toInt();
+				#]
+				 
+			 println("$name ) asking to coldRoom") color black
+		    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
+		    }
 	} Transition t0
 	whenReply space_reserved -> handleTicketGeneration
 	whenReply space_insufficient -> refuseStoreReq   
@@ -199,6 +201,8 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	    onMsg( discharged_trolley : discharged_trolley(TICKETNUM) ){
 	    	[#
 	    		 Ticketnum = payloadArg(0).toInt();
+	    		 val Kg : Int = servingTicket.getKgToStore();
+	    		 
 	    	#]
 	    	if [# servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0 #]{
 	    		[#
@@ -228,13 +232,13 @@ QActor coldstorageservice context ctxcoldstorageservice{
 		    		println("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")	
 		    	}
 	    	}
+	    	forward coldroom -m stored_food : stored_food($Kg) 
 	    }
     }Goto s0
   State clearIndoor{
-    onMsg( storerequest : storerequest(FW) ){
+    onMsg( trolley_isindoor : trolley_isindoor(D) ){
     	
       replyTo dischargefood with replyChargeTaken : replyChargeTaken($Ticketnum)
-      
     }
   } Goto s0
 }
@@ -273,11 +277,11 @@ QActor coldroom context ctxcoldstorageservice{
 	State check_state{
 		onMsg( spaceCheck : spaceCheck(KG)){
 			[#
-			var Kg : Int = payloadArg(0);
+			var Kg : Int = payloadArg(0).toInt();
 			#]
-			if[# MAX_STG >= current_STG + reserved_STG + kg#]{
+			if[# MAX_STG >= current_STG + reserved_STG + Kg#]{
 				[#
-				reserved_STG+=kg;
+				reserved_STG+=Kg;
 				
 				#]
 				replyTo spaceCheck with space_reserved : space_reserved($Kg)
@@ -293,7 +297,7 @@ QActor coldroom context ctxcoldstorageservice{
 	State store_state{
 		onMsg( stored_food : stored_food(KG)){
 			[#
-			var Kg : Int = payloadArg(0);
+			var Kg : Int = payloadArg(0).toInt();
 			reserved_STG -= Kg;
 			current_STG += Kg;
 			#]

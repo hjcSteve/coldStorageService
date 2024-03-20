@@ -37,4 +37,5 @@ with Diagram('coldstorageserviceArch', show=False, outformat='png', graph_attr=g
      coldstorageservice >> Edge(color='blue', style='solid',  label='<dischargeTrolley &nbsp; >',  fontcolor='blue') >> transporttrolley
      transporttrolley >> Edge(color='blue', style='solid',  label='<setdirection &nbsp; disengage &nbsp; >',  fontcolor='blue') >> basicrobot
      transporttrolley >> Edge(color='blue', style='solid',  label='<chargeTaken &nbsp; >',  fontcolor='blue') >> coldstorageservice
+     coldstorageservice >> Edge(color='blue', style='solid',  label='<stored_food &nbsp; >',  fontcolor='blue') >> coldroom
 diag

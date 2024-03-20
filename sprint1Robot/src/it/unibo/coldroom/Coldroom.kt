@@ -49,10 +49,10 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						if( checkMsgContent( Term.createTerm("spaceCheck(KG)"), Term.createTerm("spaceCheck(KG)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-											var Kg : Int = payloadArg(0);
-								if(  MAX_STG >= current_STG + reserved_STG + kg 
+											var Kg : Int = payloadArg(0).toInt();
+								if(  MAX_STG >= current_STG + reserved_STG + Kg 
 								 ){
-												reserved_STG+=kg;
+												reserved_STG+=Kg;
 												
 								answer("spaceCheck", "space_reserved", "space_reserved($Kg)"   )  
 								}
@@ -73,7 +73,7 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 						if( checkMsgContent( Term.createTerm("stored_food(KG)"), Term.createTerm("stored_food(KG)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
-											var Kg : Int = payloadArg(0);
+											var Kg : Int = payloadArg(0).toInt();
 											reserved_STG -= Kg;
 											current_STG += Kg;
 								CommUtils.outblack(" $name) Performed the load with success!")

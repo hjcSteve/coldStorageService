@@ -11,20 +11,23 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import it.unibo.kactor.sysUtil.createActor   //Sept2023
+
+//User imports JAN2024
+
 class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
-		val interruptedStateTransitions = mutableListOf<Transition>()
+		//val interruptedStateTransitions = mutableListOf<Transition>()
 		 var lastState: String = "" 
 			var ticketID:String= ""
-				return { //this:ActionBasciFsm
+		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outmagenta("$name | init e engage basicrobot")
-						request("engage", "engage(transporttrolley,300)" ,"basicrobot" )  
+						request("engage", "engage(transporttrolley,125)" ,"basicrobot" )  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -77,9 +80,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atIndoor", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atIndoor", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atIndoor", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t12",targetState="loadDone",cond=whenTimeout("local_tout_transporttrolley_atIndoor"))   
+					 transition(edgeName="t12",targetState="loadDone",cond=whenTimeout("local_tout_"+name+"_atIndoor"))   
 				}	 
 				state("loadDone") { //this:State
 					action { //it:State
@@ -112,9 +115,9 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					//After Lenzi Aug2002
 					sysaction { //it:State
 				 	 		stateTimer = TimerActor("timer_atColdroom", 
-				 	 					  scope, context!!, "local_tout_transporttrolley_atColdroom", 3000.toLong() )
+				 	 					  scope, context!!, "local_tout_"+name+"_atColdroom", 3000.toLong() )  //OCT2023
 					}	 	 
-					 transition(edgeName="t014",targetState="chargeStored",cond=whenTimeout("local_tout_transporttrolley_atColdroom"))   
+					 transition(edgeName="t014",targetState="chargeStored",cond=whenTimeout("local_tout_"+name+"_atColdroom"))   
 				}	 
 				state("chargeStored") { //this:State
 					action { //it:State

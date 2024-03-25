@@ -104,7 +104,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	var test: String = Configuration.conf.test
 	var Trolley_is_working : Boolean = false;
 	var	KgtoLoad : Int = 0;
-	var	Expiration : Long = 100;
+	var	Expiration : Long = 10000;
 	var List = tickets.TicketList(Expiration); 	
 	var servingTicket = tickets.Ticket();
 	var queuedTicket = tickets.Ticket();
@@ -235,6 +235,8 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	    	forward coldroom -m stored_food : stored_food($Kg) 
 	    }
     }Goto s0
+    
+    
   State clearIndoor{
     onMsg( trolley_isindoor : trolley_isindoor(D) ){
     	
@@ -320,7 +322,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 	State s0 initial {
 		println("$name | init e engage basicrobot") color magenta
 	
-		request basicrobot -m engage : engage(transporttrolley,300)
+		request basicrobot -m engage : engage(transporttrolley,125)
 	}
 	Transition 	t0	whenReply engagedone -> engaged
 					whenReply engagerefused -> quit

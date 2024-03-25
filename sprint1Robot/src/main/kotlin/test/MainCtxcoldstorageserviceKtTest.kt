@@ -48,7 +48,7 @@ class MainCtxcoldstorageserviceKtTest {
     @Test
     fun ` test discarge request no exipired`(){
         //mandiamo la request
-        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(NOEXPIRED)", "coldstorageservice").toString()
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(5)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)

@@ -1,2 +1,1 @@
-data class Conf(val test:String ="df", val MAX_STG: Int = 100
-)
+data class Conf(val MAX_STG: Int = 100)

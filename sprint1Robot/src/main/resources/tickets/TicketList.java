@@ -29,27 +29,6 @@ public class TicketList {
         return ticket;
     }
 
-//    private String generateSecret(int n) {
-//        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-//        StringBuilder sb = new StringBuilder(n);
-//
-//        for (int i = 0; i < n; i++) {
-//
-//            // generate a random number between
-//            // 0 to AlphaNumericString variable length
-//            int index
-//                    = (int) (letters.length()
-//                    * Math.random());
-//
-//            // add Character one by one in end of sb
-//            sb.append(letters
-//                    .charAt(index));
-//        }
-//
-//        return sb.toString();
-//
-//    }
-//
     public synchronized Ticket getTicket(int ticketNumber) {
         for (Ticket ticket : tickets) {
             if (ticket.getTicketNumber() == ticketNumber) {

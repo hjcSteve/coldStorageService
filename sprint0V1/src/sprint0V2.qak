@@ -14,7 +14,7 @@ Reply replyChargeTaken : replyChargeTaken(ARG) for dischargefood
 Reply replyTicketExpired:  replyTicketExpired(ARG) for dischargefood
 
 
-//DICHIARAZIONE DEI CONTESTI
+//DICHIARAZIONE DEI CONTESTI  
 Context ctxcoldstorageservice ip [host="localhost" port=8055]  
 
 Context ctxbasicrobot ip [host="localhost" port=8059]

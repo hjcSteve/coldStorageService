@@ -19,14 +19,14 @@ Context ctxcoldstorageservice ip [host="localhost" port=8055]
 
 Context ctxbasicrobot ip [host="localhost" port=8059]
   
-
+ 
 // DICHIARAZIONE DEGLI ATTORI
 QActor servicestatusgui context ctxcoldstorageservice{
 
   State s0 initial {
   } 
 } 
-
+ 
 
 //IL SERVIZIO DI COLDSTORAGE
 QActor coldstorageservice context ctxcoldstorageservice{
@@ -34,7 +34,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 		val maxStorage=100
 		var ready = true
 		#  
-	] 
+	]  
 	State s0 initial {
 		println("--- coldStorageService active")
   } Transition t0

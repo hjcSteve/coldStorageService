@@ -1,21 +1,19 @@
 {
   "main": {
-    "id": "f4ed23ea3237576d",
+    "id": "e0ae9e312da04c46",
     "type": "split",
     "children": [
       {
-        "id": "2a4aadd66850a738",
+        "id": "8e1659c5b9067b6d",
         "type": "tabs",
         "children": [
           {
-            "id": "abe76518b7df4245",
+            "id": "6354fe5a3fefa764",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "release-notes",
               "state": {
-                "file": "userDocs/Sprint1.md",
-                "mode": "source",
-                "source": false
+                "currentVersion": "1.5.12"
               }
             }
           }
@@ -25,15 +23,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "95b7dfec5905436f",
+    "id": "6a151904782be0d6",
     "type": "split",
     "children": [
       {
-        "id": "930fceb5b347f8f0",
+        "id": "611fd90b03978879",
         "type": "tabs",
         "children": [
           {
-            "id": "aa11a3acd5a88a3e",
+            "id": "166240f0bc093b12",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -43,7 +41,7 @@
             }
           },
           {
-            "id": "cdce06ce7f261313",
+            "id": "62724c8659bdfd2f",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -58,7 +56,7 @@
             }
           },
           {
-            "id": "4a422a75cc95bde4",
+            "id": "e2b41b2fe6697c12",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -69,23 +67,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
-    "id": "4d4c5adecaf519a7",
+    "id": "1873946e151aff1f",
     "type": "split",
     "children": [
       {
-        "id": "7c9c43c1a1e556bf",
+        "id": "d32c3ea6f32d9e7b",
         "type": "tabs",
         "children": [
           {
-            "id": "c9f66df21ee0285d",
+            "id": "c7d0ef8e62365a6b",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "userDocs/Sprint1.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,19 +95,18 @@
             }
           },
           {
-            "id": "05184be3636d4a92",
+            "id": "2fb70ccccd0628cc",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "userDocs/Sprint1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
             }
           },
           {
-            "id": "89eb803a5b071219",
+            "id": "184d1f2da3b018e2",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -120,13 +117,11 @@
             }
           },
           {
-            "id": "b70119a3857c710c",
+            "id": "c80c8675e0e12362",
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "userDocs/Sprint1.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -146,13 +141,6 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "abe76518b7df4245",
-  "lastOpenFiles": [
-    "userDocs/Sprint 1.md",
-    "coldstorageservicearch.png",
-    "Untitled.md",
-    "Untitled 1.md",
-    "userDocs/Sprint1.md",
-    "userDocs/Documento senza nome"
-  ]
+  "active": "6354fe5a3fefa764",
+  "lastOpenFiles": []
 }

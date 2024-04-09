@@ -144,10 +144,9 @@ eclipse {
  }
 
 
-
 application {
-    //Define the main class for the application.
-    mainClass    = 'it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKt'
+    // Define the main class for the application.
+    mainClass = 'it.unibo.ctxbasicrobot.MainCtxbasicrobotKt'
 }
  
  jar {
@@ -170,21 +169,14 @@ task dovesiamo {
 
 distributions {
     main {
-        distributionBaseName = 'coldstorageservice_anal'
+        distributionBaseName = 'coldstorageservice'
         contents { 
-             from './coldstorageservice_anal.pl'
+             from './coldstorageservice.pl'
              from './sysRules.pl'
              from './facadeConfig.json'
         }
     }
 } 
-
-task run0(type: JavaExec) {
-    group = "Execution"
-    description = "Run the main class with JavaExecTask"
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKt'
-}
 
 /*
 //TODO

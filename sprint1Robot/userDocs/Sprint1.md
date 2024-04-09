@@ -19,6 +19,14 @@ Al termine dello Sprint0, l'analisi dei requisiti ha portato a definire le compo
 
 # Analisi del problema:
 
+
+tutto quello che riguarda
+
+
+
+
+
+
 # Architettura Logica:
 # Piano di test:
 

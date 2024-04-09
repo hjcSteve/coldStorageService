@@ -22,7 +22,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		
-			var test: String = Configuration.conf.test
+		
 			var Trolley_is_working : Boolean = false;
 			var	KgtoLoad : Int = 0;
 			var	Expiration : Long = 10000;
@@ -33,7 +33,6 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						CommUtils.outblack("$test ")
 						CommUtils.outblack("$name ) waiting for a new message...")
 						discardMessages = false
 						//genTimer( actor, state )

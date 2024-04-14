@@ -26,7 +26,7 @@ class MainCtxcoldstorageserviceKtTest {
     @Test
     fun ` test store request`(){
         //mandiamo la request
-        val truckRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(10)", "coldstorageservice").toString()
+        val truckRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(35)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
@@ -73,7 +73,7 @@ class MainCtxcoldstorageserviceKtTest {
     @Test
     fun ` test discarge request with new ticket in queue con alarm`(){
         //mandiamo la request
-        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(1)", "coldstorageservice").toString()
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(3)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         assertTrue("TEST___ charge taken",

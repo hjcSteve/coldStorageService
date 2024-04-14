@@ -30,13 +30,12 @@ dispatch( dischargeTrolley, dischargeTrolley(TICKETID) ).
 dispatch( chargeTaken, chargeTaken(TICKETID) ).
 request( discharged_trolley, discharged_trolley(TICKETID) ).
 reply( idle_trolley, idle_trolley(D) ).  %%for discharged_trolley
-reply( serve_newtruck, serve_newtruck(D) ).  %%for discharged_trolley
+reply( serve_newtruck, serve_newtruck(TICKET) ).  %%for discharged_trolley
 request( spaceCheck, spaceCheck(KG) ).
 reply( space_insufficient, space_insufficient(D) ).  %%for spaceCheck
 reply( space_reserved, space_reserved(D) ).  %%for spaceCheck
 dispatch( stored_food, stored_food(KG) ).
-dispatch( gohome, gohome(ARG) ).
-dispatch( trolley_isindoor, trolley_isindoor(D) ).
+event( alarm, alarm(X) ).
 event( resume, resume(ARG) ).
 %====================================================================================
 context(ctxcoldstorageservice, "localhost",  "TCP", "8055").

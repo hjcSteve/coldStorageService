@@ -47,15 +47,12 @@ Dispatch dischargeTrolley : dischargeTrolley(TICKETID)
 //Dispatch truckArrived : truckArrived(TICKETID)
 Dispatch chargeTaken : chargeTaken(TICKETID)
 
-//Request chargeDeposited: foodStored(TICKETID)
-//Reply newTicket:newTicket(TICKETID) for chargeDeposited
-//Reply noTIcket:noTicket(ARG) for chargeDeposited
 
 
 //quando il trolley è alla coldRoom scarica aggiornando il peso (da serving a idle/serving)
 Request discharged_trolley : discharged_trolley(TICKETID)
 Reply idle_trolley : idle_trolley(D) for discharged_trolley
-Reply serve_newtruck : serve_newtruck(D) for discharged_trolley
+Reply serve_newtruck : serve_newtruck(TICKET) for discharged_trolley
 //alarm
 
 
@@ -67,16 +64,8 @@ Reply space_reserved : space_reserved(D) for spaceCheck
 Dispatch stored_food : stored_food(KG)
 
 
-
-
-
-//dopo l'engagement del basic robot, lo mandi in home per iniziare ad attendere comandi
-Dispatch gohome : gohome(ARG)
-
-//trolley comunica alla ColdStorage che è all'indoor, libera il passaggio
-Dispatch trolley_isindoor : trolley_isindoor(D)
-
-
+//Eventi di stop e resume per il transport trolley
+Event alarm:alarm(X)
 Event resume:resume(ARG)
 
 
@@ -104,10 +93,11 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	
 	var Trolley_is_working : Boolean = false;
 	var	KgtoLoad : Int = 0;
-	var	Expiration : Long = 10000;
+	var	Expiration : Long = 1000000;
 	var List = tickets.TicketList(Expiration);
 	var servingTicket = tickets.Ticket();
 	var queuedTicket = tickets.Ticket();
+	var is_queued : Boolean = false;
 	var Ticketnum : Int = 0;
 	#]
 
@@ -117,14 +107,14 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	//INITIALIZE THE COLD STORAGE SERVICE
 	State s0 initial {
 		
-		println("$name ) waiting for a new message...") color black
+		println("$name ) waiting for a new message...") color magenta
 		discardMsg Off
 
 	  } Transition t0
 	    whenRequest  storerequest->handleStoreRequest
 	    whenRequest dischargefood->handleDischargeRequest
 	    whenRequest discharged_trolley ->handleTrolley_atColdroom
-	    whenMsg trolley_isindoor -> clearIndoor
+	    whenMsg chargeTaken -> clearIndoor
 
 
  	//-------------------------------------------------------------------------------------------------------------
@@ -135,7 +125,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 					KgtoLoad = payloadArg(0).toInt();
 				#]
 
-			 println("$name ) asking to coldRoom") color black
+			 println("$name ) asking to coldRoom") color magenta
 		    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
 		    }
 	} Transition t0
@@ -146,7 +136,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 
 	State refuseStoreReq{
 			replyTo storerequest with replyTicketDenied : ticketDenied(D)
-			println("$name ) ticket denied, not enough space.")
+			println("$name ) ticket denied, not enough space.") color magenta
 
 	}Goto s0
 //------------------------------------------------------------------------------------------------------------------
@@ -181,6 +171,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	      	[#
 	      		Trolley_is_working=true;
 	      		servingTicket= ticket;
+	      		ticket.setStatus(1)
 
 	      	#]
 	      	forward transporttrolley -m dischargeTrolley : dischargeTrolley($Ticketnum)
@@ -190,56 +181,60 @@ QActor coldstorageservice context ctxcoldstorageservice{
 		      	println("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum") color magenta
 		      	[#
 		      		queuedTicket=ticket;
+		      		is_queued=true;
+		      		ticket.setStatus(1)
 		      	#]
 	      	}
-	      	else { println("$name ) The ticket has expired... sending notification to SAGui") color magenta}
+	      	else { 
+	      		println("$name ) The ticket has expired... sending notification to SAGui") color magenta
+	      		[#
+	      			ticket.setStatus(2)
+	      		#]
+	      	}
 	   	  }
 	    }
     } Goto s0
 
   State handleTrolley_atColdroom{
 	    onMsg( discharged_trolley : discharged_trolley(TICKETNUM) ){
-	    	[#
-	    		 Ticketnum = payloadArg(0).toInt();
-	    		 val Kg : Int = servingTicket.getKgToStore();
-
-	    	#]
-	    	if [# servingTicket.getTicketNumber() == Ticketnum  && queuedTicket.getTicketNumber() != 0 #]{
-	    		[#
-	    		servingTicket = queuedTicket;
-	    		val ServingId = servingTicket.getTicketNumber().toInt();
-	    		queuedTicket.setStatus(0);
-	    		queuedTicket.setTicketNumber(0);
-	    		queuedTicket.setKgToStore(0);
-	    		queuedTicket.setTimestamp(0);
-
-	    		#]
-	    		replyTo discharged_trolley with serve_newtruck : serve_newtruck($ServingId)
-	    	}
-	    	else {
-	    		if[# servingTicket.getTicketNumber() == Ticketnum #]{
-	    			[#
-	    			servingTicket.setStatus(0);
-		    		servingTicket.setTicketNumber(0);
-		    		servingTicket.setKgToStore(0);
-		    		servingTicket.setTimestamp(0);
-		    		Trolley_is_working = false;
+		    	[#
+		    		 Ticketnum = payloadArg(0).toInt();
+		    		 val Kg : Int = servingTicket.getKgToStore();
+	
+		    	#]
+		    	println("$name) received back discharged_trolley with id : $Ticketnum") color magenta
+		    	 
+		    	if [# servingTicket.getTicketNumber() == Ticketnum  && is_queued #]{
+		    		
+		    		[#
+		    		servingTicket = queuedTicket;
+		    		val ServingId : Int = servingTicket.getTicketNumber().toInt();
+		    		is_queued=false;
+	
 		    		#]
-		    		replyTo discharged_trolley with idle_trolley : idle_trolley(D)
-	    		}
-
-		    	else{
-		    		println("$name) i don't know what happened but it is fucked up, not corresponding serving ticket")
+		    		replyTo discharged_trolley with serve_newtruck : serve_newtruck($ServingId)
 		    	}
-	    	}
-	    	forward coldroom -m stored_food : stored_food($Kg)
+		    	else {
+		    		if[# servingTicket.getTicketNumber() == Ticketnum #]{
+		    
+		    			[#
+			    		Trolley_is_working = false;
+			    		#]
+			    		replyTo discharged_trolley with idle_trolley : idle_trolley(D)
+		    		}else{
+			    		println("$name) Error! Not corresponding serving ticket") color magenta
+			    	}
+		    	}
+		    	forward coldroom -m stored_food : stored_food($Kg)
+		    	
 	    }
     }Goto s0
 
 
   State clearIndoor{
-    onMsg( trolley_isindoor : trolley_isindoor(D) ){
-
+    onMsg( chargeTaken : chargeTaken(D) ){
+	  println("$name ) cleaning Indoor!!") color magenta
+	  [# Ticketnum = payloadArg(0).toInt();#]
       replyTo dischargefood with replyChargeTaken : replyChargeTaken($Ticketnum)
     }
   } Goto s0
@@ -256,6 +251,7 @@ QActor warningdevice context ctxcoldstorageservice{
  State s0 initial {
   }
 }
+
 QActor coldroom context ctxcoldstorageservice{
 
 	[#
@@ -265,12 +261,12 @@ QActor coldroom context ctxcoldstorageservice{
 	#]
 	State s0 initial {
 
-		println("$name) I am started with a Maximum $MAX_STG, currently $current_STG !")
+		println("$name) I am started with a Maximum $MAX_STG, currently $current_STG !") color blue
 
 	}Goto waiting_state
 
 	State waiting_state {
-		println("$name) Okay then, the storage is $current_STG kg, with a reserved $reserved_STG kg")
+		println("$name) Okay then, the storage is $current_STG kg, with a reserved $reserved_STG kg") color blue
 	} Transition t2
 	whenRequest spaceCheck  -> check_state
 	whenMsg stored_food -> store_state
@@ -289,7 +285,7 @@ QActor coldroom context ctxcoldstorageservice{
 				replyTo spaceCheck with space_reserved : space_reserved($Kg)
 
 			}else{
-				println("$name) not enough space for reservation...")
+				println("$name) not enough space for reservation...") color blue
 
 				replyTo spaceCheck with space_insufficient : space_insufficient(D)
 			}
@@ -303,7 +299,7 @@ QActor coldroom context ctxcoldstorageservice{
 			reserved_STG -= Kg;
 			current_STG += Kg;
 			#]
-			println(" $name) Performed the load with success!")
+			println(" $name) Performed the load with success!") color blue
 		}
 	}Goto waiting_state
 }
@@ -319,7 +315,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 	var TicketID : String = ""
 	#]
 	State s0 initial {
-		println("$name | init e engage basicrobot") color magenta
+		println("$name | init e engage basicrobot") color yellow
 
 		request basicrobot -m engage : engage(transporttrolley,125)
 	}
@@ -327,15 +323,15 @@ QActor transporttrolley context ctxcoldstorageservice{
 					whenReply engagerefused -> quit
 
 	State engaged {
-		println("$name | basicrobot engaged") color magenta
+		println("$name | basicrobot engaged") color yellow
 	}
 	Goto atHome
 
 	State atHome{
 		[# lastState = "atHome" #]
 
-		println("$name | basicrobot at Home") color magenta
-		forward basicrobot -m setdirection : dir(down)
+		println("$name | basicrobot at Home") color yellow
+		//forward basicrobot -m setdirection : dir(down)
 
 
 	}
@@ -348,59 +344,71 @@ QActor transporttrolley context ctxcoldstorageservice{
 			[# lastState = "goingIndoor" 
 				TicketID = payloadArg(0);
 				#]
-			println("$name | vado all'INDOOR") color magenta
+			println("$name | vado all'INDOOR") color yellow
+			request basicrobot -m moverobot : moverobot (0,4)
+			
+			}
+			onMsg(serve_newtruck : serve_newtruck(Ticketnum)){
+			
+			[# lastState = "goingIndoor" 
+				TicketID = payloadArg(0);
+				#]
+			println("$name | vado all'INDOOR") color yellow
 			request basicrobot -m moverobot : moverobot (0,4)
 			
 			}
 	}
 	Transition t0 whenReply moverobotdone -> atIndoor
+	whenEvent alarm ->stopped
 
 	State atIndoor {
 		[# lastState = "atIndoor" #]
 
-		println("$name | sono in INDOOR") color magenta
-		println("$name | carico il cibo") color magenta
+		println("$name | sono in INDOOR") color yellow
+		println("$name | carico il cibo") color yellow
 	}
 	Transition t 	whenTime 3000 -> loadDone		// simula azione di carico
 
 	State loadDone {
-		forward coldstorageservice -m chargeTaken : chargetaken(CIAO)
+		forward coldstorageservice -m chargeTaken : chargeTaken($TicketID)
 	}
 	Goto goingColdroom
 
 	State goingColdroom {
 		[# lastState = "goingColdroom" #]
-		println("$name | vado verso la cold room") color magenta
+		println("$name | vado verso la cold room") color yellow
 		request basicrobot -m moverobot : moverobot (4,3)
 	}
 	Transition t0 whenReply moverobotdone -> atColdroom
+	whenEvent alarm ->stopped
 
 	State atColdroom {
 		[# lastState = "atColdroom" #]
-		println("$name | sono in Cold Room") color magenta
+		println("$name | sono in Cold Room") color yellow
 	}
 	Transition t0 whenTime 3000 	-> chargeStored	// simula azione deposito
 
 	State chargeStored {
 		[# lastState = "chargedStored" #]
-		println("$name | terminato deposito. Aspetto istruzioni") color magenta
+		println("$name | terminato deposito. Aspetto istruzioni") color yellow
 		request coldstorageservice -m discharged_trolley: discharged_trolley($TicketID)
 	}
-	Transition t0 whenReply idle_trolley -> goingIndoor
-					whenReply serve_newtruck -> goingHome
+	Transition t0 whenReply idle_trolley -> goingHome
+			      whenReply serve_newtruck -> goingIndoor
 
 	State goingHome{
 		[# lastState = "goingHome" #]
-		println("$name | vado alla posizione HOME") color magenta
+		println("$name | vado alla posizione HOME") color yellow
 		request basicrobot -m moverobot : moverobot (0,0)
 	}
 	Transition t0 whenReply moverobotdone -> atHome
+	whenEvent alarm ->stopped
 
 
 
 	State stopped {
 		discardMsg On
-		println("$name | Sono fermo per ostacolo sonar") color magenta
+		println("$name | Sono fermo per ostacolo sonar") color yellow
 	}
 	Transition t0 whenEvent resume and [# lastState == "atHome" #] 		-> atHome
 				  whenEvent resume and [# lastState == "goingIndoor" #] 	-> goingIndoor

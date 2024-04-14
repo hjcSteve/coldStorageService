@@ -28,7 +28,7 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						CommUtils.outblack("$name) I am started with a Maximum $MAX_STG, currently $current_STG !")
+						CommUtils.outblue("$name) I am started with a Maximum $MAX_STG, currently $current_STG !")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -38,7 +38,7 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 				}	 
 				state("waiting_state") { //this:State
 					action { //it:State
-						CommUtils.outblack("$name) Okay then, the storage is $current_STG kg, with a reserved $reserved_STG kg")
+						CommUtils.outblue("$name) Okay then, the storage is $current_STG kg, with a reserved $reserved_STG kg")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -60,7 +60,7 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 								answer("spaceCheck", "space_reserved", "space_reserved($Kg)"   )  
 								}
 								else
-								 {CommUtils.outblack("$name) not enough space for reservation...")
+								 {CommUtils.outblue("$name) not enough space for reservation...")
 								 answer("spaceCheck", "space_insufficient", "space_insufficient(D)"   )  
 								 }
 						}
@@ -79,7 +79,7 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 											var Kg : Int = payloadArg(0).toInt();
 											reserved_STG -= Kg;
 											current_STG += Kg;
-								CommUtils.outblack(" $name) Performed the load with success!")
+								CommUtils.outblue(" $name) Performed the load with success!")
 						}
 						//genTimer( actor, state )
 					}

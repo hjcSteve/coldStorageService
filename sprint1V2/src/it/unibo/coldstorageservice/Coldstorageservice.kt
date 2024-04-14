@@ -25,7 +25,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 			
 			var Trolley_is_working : Boolean = false;
 			var	KgtoLoad : Int = 0;
-			var	Expiration : Long = 1000000;
+			var	Expiration : Long = Configuration.conf.Expirationtime;
 			var List = tickets.TicketList(Expiration);
 			var servingTicket = tickets.Ticket();
 			var queuedTicket = tickets.Ticket();

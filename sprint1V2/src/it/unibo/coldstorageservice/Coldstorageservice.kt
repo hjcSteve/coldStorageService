@@ -100,30 +100,38 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 								
 									        Ticketnum = payloadArg(0).toInt();
 									      	val ticket = List.getTicket(Ticketnum);
-									      	var Expired : Boolean = List.isExpired(ticket);
+									      	var Expired : Boolean = true;
+									      	if(ticket!==null){
+										       Expired = List.isExpired(ticket);
+									      	}
 								
-								if(  !Expired  && !Trolley_is_working 
+								if(  ticket !== null  
+								 ){if(  !Expired  && !Trolley_is_working 
 								 ){CommUtils.outmagenta("$name ) Sending food to the cold room, lazzaro alzati e cammina")
 								
-									      		Trolley_is_working=true;
-									      		servingTicket= ticket;
-									      		ticket.setStatus(1)
-								
+										      		Trolley_is_working=true;
+										      		servingTicket= ticket;
+										      		ticket.setStatus(1)
+									
 								forward("dischargeTrolley", "dischargeTrolley($Ticketnum)" ,"transporttrolley" ) 
 								}
 								else
 								 {if(  !Expired  
 								  ){CommUtils.outmagenta("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum")
 								 
-								 		      		queuedTicket=ticket;
-								 		      		is_queued=true;
-								 		      		ticket.setStatus(1)
+								 			      		queuedTicket=ticket;
+								 			      		is_queued=true;
+								 			      		ticket.setStatus(1)
 								 }
 								 else
 								  {CommUtils.outmagenta("$name ) The ticket has expired... sending notification to SAGui")
 								  
-								  	      			ticket.setStatus(2)
+								  		      			ticket.setStatus(2)
 								  }
+								 }
+								}
+								else
+								 {CommUtils.outmagenta("$name ) Ticket not valid")
 								 }
 						}
 						//genTimer( actor, state )

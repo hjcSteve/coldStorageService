@@ -37,6 +37,8 @@ reply( space_reserved, space_reserved(D) ).  %%for spaceCheck
 dispatch( stored_food, stored_food(KG) ).
 event( alarm, alarm(X) ).
 event( resume, resume(ARG) ).
+event( coldstorage_state, coldstorage_state(X) ).
+event( trolley_state, trolley_state(X) ).
 %====================================================================================
 context(ctxcoldstorageservice, "localhost",  "TCP", "8055").
 context(ctxbasicrobot, "127.0.0.1",  "TCP", "8020").

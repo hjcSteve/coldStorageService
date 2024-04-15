@@ -1,5 +1,6 @@
 package test.it.unibo.ctxcoldstorageservice
 
+import org.eclipse.paho.client.mqttv3.IMqttAsyncClient
 import org.junit.Assert.assertTrue
 import org.junit.BeforeClass
 import org.junit.Test
@@ -9,18 +10,37 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.Socket
 import unibo.basicomm23.tcp.TcpClientSupport
+import unibo.basicomm23.mqtt.MqttConnection
+
+
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 class MainCtxcoldstorageserviceKtTest {
+    val myMqttCallback : MessageListener = MessageListener();
 
     val port=8055;
     companion object {
+        val topic="trolley_state"
+        val mqSender="tester"
+        val mqttBrokerAddr= "tcp://localhost"
+        val conn = TcpClientSupport.connect("localhost",8055,5)
+        val robotconn = TcpClientSupport.connect("localhost",8090,5)
+        val  mqttConn : MqttConnection = MqttConnection.create();
+
+
         @JvmStatic
         @BeforeClass
         fun setUp(): Unit {
             println("set up");
+//            try{
+//                mqttConn.connect(mqSender,mqttBrokerAddr)
+//            }catch (e:Exception){
+//                println(e.toString())
+//            }
+
         }
-        val conn = TcpClientSupport.connect("localhost",8055,5)
-        val robotconn = TcpClientSupport.connect("localhost",8090,5)
     }
 
     @Test
@@ -58,13 +78,13 @@ class MainCtxcoldstorageserviceKtTest {
     @Test
     fun ` test discarge request with new ticket in queue`(){
         //mandiamo la request
-        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(1)", "coldstorageservice").toString()
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(2)", "coldstorageservice").toString()
         println(truckRequestStr);
         val responseMessage = conn.request(truckRequestStr)
         println(responseMessage)
         assertTrue("TEST___ charge taken",
                 responseMessage.contains("replyChargeTaken"));
-        val truckRequestStr2 = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(2)", "coldstorageservice").toString()
+        val truckRequestStr2 = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(3)", "coldstorageservice").toString()
         println(truckRequestStr2);
         val responseMessage2 = conn.request(truckRequestStr2)
         assertTrue("TEST___ charge taken",
@@ -108,7 +128,58 @@ class MainCtxcoldstorageserviceKtTest {
         assertTrue("TEST___ ticket expired",
                 responseMessage.contains("replyTicketExpired"));
     }
+    @Test
+    fun ` discarge request-ticket 1 OBSERV mqtt`() {
+        try {
+            println("connession mqtt:" + mqttConn.connect(mqSender, mqttBrokerAddr))
+            println("set call back mqtt:" + mqttConn.setCallback(myMqttCallback))
+            println("set subscribe to " + topic + " :" + mqttConn.subscribe(topic))
+
+        } catch (e: Exception) {
+            println(e)
+        }
 
 
+        //mandiamo la request per avere il ticket
+        val ticketRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(35)", "coldstorageservice").toString()
+        val ticketresponseMessage = conn.request(ticketRequestStr)
+        assertTrue("TEST___ il ticket accettato ",
+                ticketresponseMessage.contains("ticketAccepted"));
+        //mando una richiesta di discarge food
+        val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(1)", "coldstorageservice").toString()
+        val responseMessage = conn.request(truckRequestStr)
 
+        assertTrue("TEST___ charge taken",
+                responseMessage.contains("replyChargeTaken"));
+        //verifico gli stati osservati
+        val logs = myMqttCallback.getMessagess();
+        assertTrue("TEST___ transport_state",
+                logs[logs.size-1] == "trolley_state(goingColdroom)"
+                        && logs[logs.size-2] == "trolley_state(atIndoor)"
+        )
+
+    }
+    class MessageListener :MqttCallback{
+        private var messages : ArrayList<String> = ArrayList();
+
+        override fun connectionLost(cause: Throwable?) {
+            println("connection lost"+cause.toString())
+        }
+
+        override fun deliveryComplete(token: IMqttDeliveryToken?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun messageArrived(topic: String?, message: MqttMessage?) {
+            if (message != null) {
+                messages.add(CommUtils.getContent(message.toString()))
+            }
+
+        }
+        fun getMessagess(): ArrayList<String> {
+            return messages;
+        }
+
+    }
 }
+

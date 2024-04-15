@@ -68,6 +68,8 @@ Dispatch stored_food : stored_food(KG)
 Event alarm:alarm(X)
 Event resume:resume(ARG)
 
+Event coldstorage_state:coldstorage_state(X)
+Event trolley_state:trolley_state(X)
 
 
 
@@ -163,35 +165,43 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	      [#
 	        Ticketnum = payloadArg(0).toInt();
 	      	val ticket = List.getTicket(Ticketnum);
-	      	var Expired : Boolean = List.isExpired(ticket);
+	      	var Expired : Boolean = true;
+	      	if(ticket!==null){
+		       Expired = List.isExpired(ticket);
+	      	}
 
 	      #]
-	      if [# !Expired  && !Trolley_is_working#]{
-	      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina") color magenta
-	      	[#
-	      		Trolley_is_working=true;
-	      		servingTicket= ticket;
-	      		ticket.setStatus(1)
-
-	      	#]
-	      	forward transporttrolley -m dischargeTrolley : dischargeTrolley($Ticketnum)
-	      }
-	      else {
-	      	if [# !Expired #]{
-		      	println("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum") color magenta
+	      if [# ticket !== null #]{
+	            if [# !Expired  && !Trolley_is_working#]{
+		      	println("$name ) Sending food to the cold room, lazzaro alzati e cammina") color magenta
 		      	[#
-		      		queuedTicket=ticket;
-		      		is_queued=true;
+		      		Trolley_is_working=true;
+		      		servingTicket= ticket;
 		      		ticket.setStatus(1)
+	
 		      	#]
-	      	}
-	      	else { 
-	      		println("$name ) The ticket has expired... sending notification to SAGui") color magenta
-	      		[#
-	      			ticket.setStatus(2)
-	      		#]
-	      	}
-	   	  }
+		      	forward transporttrolley -m dischargeTrolley : dischargeTrolley($Ticketnum)
+		      }
+		      else {
+		      	if [# !Expired #]{
+			      	println("$name ) Truck is already serving another truck, let's queue the ticket $Ticketnum") color magenta
+			      	[#
+			      		queuedTicket=ticket;
+			      		is_queued=true;
+			      		ticket.setStatus(1)
+			      	#]
+		      	}
+		      	else { 
+		      		println("$name ) The ticket has expired... sending notification to SAGui") color magenta
+		      		[#
+		      			ticket.setStatus(2)
+		      		#]
+		      	}
+		   	  }
+		    }else{
+		    	println("$name ) Ticket not valid") color magenta
+		      	
+		    }
 	    }
     } Goto s0
 
@@ -237,7 +247,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	  [# Ticketnum = payloadArg(0).toInt();#]
       replyTo dischargefood with replyChargeTaken : replyChargeTaken($Ticketnum)
     }
-  } Goto s0
+  } Goto s0 
 }
 
 QActor serviceaccessgui context ctxcoldstorageservice{
@@ -311,7 +321,7 @@ State s0 initial {
 }
 
 QActor transporttrolley context ctxcoldstorageservice{
-	[# var lastState : String = ""
+	[# var LASTSTATE : String = ""
 	var TicketID : String = ""
 	#]
 	State s0 initial {
@@ -324,11 +334,13 @@ QActor transporttrolley context ctxcoldstorageservice{
 
 	State engaged {
 		println("$name | basicrobot engaged") color yellow
+		connectToMqttBroker "tcp://localhost:1883"		
+		publish "trolley_state" -m trolley_state:trolley_state(engaged)
 	}
 	Goto atHome
 
 	State atHome{
-		[# lastState = "atHome" #]
+		[# LASTSTATE = "atHome" #]
 
 		println("$name | basicrobot at Home") color yellow
 		//forward basicrobot -m setdirection : dir(down)
@@ -341,16 +353,17 @@ QActor transporttrolley context ctxcoldstorageservice{
 	State goingIndoor {
 		onMsg(dischargeTrolley : dischargeTrolley(Ticketnum)){
 			
-			[# lastState = "goingIndoor" 
+			[# LASTSTATE = "goingIndoor" 
 				TicketID = payloadArg(0);
 				#]
+			publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 			println("$name | vado all'INDOOR") color yellow
 			request basicrobot -m moverobot : moverobot (0,4)
 			
 			}
 			onMsg(serve_newtruck : serve_newtruck(Ticketnum)){
 			
-			[# lastState = "goingIndoor" 
+			[# LASTSTATE = "goingIndoor" 
 				TicketID = payloadArg(0);
 				#]
 			println("$name | vado all'INDOOR") color yellow
@@ -362,7 +375,8 @@ QActor transporttrolley context ctxcoldstorageservice{
 	whenEvent alarm ->stopped
 
 	State atIndoor {
-		[# lastState = "atIndoor" #]
+		[# LASTSTATE = "atIndoor" #]
+		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 
 		println("$name | sono in INDOOR") color yellow
 		println("$name | carico il cibo") color yellow
@@ -375,7 +389,9 @@ QActor transporttrolley context ctxcoldstorageservice{
 	Goto goingColdroom
 
 	State goingColdroom {
-		[# lastState = "goingColdroom" #]
+		[# LASTSTATE = "goingColdroom" #]
+		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
+	
 		println("$name | vado verso la cold room") color yellow
 		request basicrobot -m moverobot : moverobot (4,3)
 	}
@@ -383,13 +399,14 @@ QActor transporttrolley context ctxcoldstorageservice{
 	whenEvent alarm ->stopped
 
 	State atColdroom {
-		[# lastState = "atColdroom" #]
+		[# LASTSTATE = "atColdroom" #]
 		println("$name | sono in Cold Room") color yellow
 	}
 	Transition t0 whenTime 3000 	-> chargeStored	// simula azione deposito
 
 	State chargeStored {
-		[# lastState = "chargedStored" #]
+		[# LASTSTATE = "chargedStored" #]
+		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 		println("$name | terminato deposito. Aspetto istruzioni") color yellow
 		request coldstorageservice -m discharged_trolley: discharged_trolley($TicketID)
 	}
@@ -397,7 +414,8 @@ QActor transporttrolley context ctxcoldstorageservice{
 			      whenReply serve_newtruck -> goingIndoor
 
 	State goingHome{
-		[# lastState = "goingHome" #]
+		[# LASTSTATE = "goingHome" #]
+		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 		println("$name | vado alla posizione HOME") color yellow
 		request basicrobot -m moverobot : moverobot (0,0)
 	}
@@ -408,15 +426,16 @@ QActor transporttrolley context ctxcoldstorageservice{
 
 	State stopped {
 		discardMsg On
+		publish "trolley_state" -m trolley_state:trolley_state(stopped)
 		println("$name | Sono fermo per ostacolo sonar") color yellow
 	}
-	Transition t0 whenEvent resume and [# lastState == "atHome" #] 		-> atHome
-				  whenEvent resume and [# lastState == "goingIndoor" #] 	-> goingIndoor
-				  whenEvent resume and [# lastState == "atIndoor" #] 	-> atIndoor
-				  whenEvent resume and [# lastState == "goingColdroom" #] 	-> goingColdroom
-				  whenEvent resume and [# lastState == "atColdroom" #] 	-> atColdroom
-				  whenEvent resume and [# lastState == "chargeStored" #] 	-> chargeStored
-				  whenEvent resume and [# lastState == "goingHome" #] 		-> goingHome
+	Transition t0 whenEvent resume and [# LASTSTATE == "atHome" #] 		-> atHome
+				  whenEvent resume and [# LASTSTATE == "goingIndoor" #] 	-> goingIndoor
+				  whenEvent resume and [# LASTSTATE == "atIndoor" #] 	-> atIndoor
+				  whenEvent resume and [# LASTSTATE == "goingColdroom" #] 	-> goingColdroom
+				  whenEvent resume and [# LASTSTATE == "atColdroom" #] 	-> atColdroom
+				  whenEvent resume and [# LASTSTATE == "chargeStored" #] 	-> chargeStored
+				  whenEvent resume and [# LASTSTATE == "goingHome" #] 		-> goingHome
 
 	State quit {
 		forward basicrobot -m disengage : disengage(transporttrolley)

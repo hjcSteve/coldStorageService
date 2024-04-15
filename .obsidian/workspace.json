@@ -11,9 +11,11 @@
             "id": "71bc030b65645bfd",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "sprint0V2/coldstorageservicearch.png"
+                "file": "README.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -83,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "sprint0V2/coldstorageservicearch.png",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "sprint0V2/coldstorageservicearch.png",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -123,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "sprint0V2/coldstorageservicearch.png"
+                "file": "README.md"
               }
             }
           }
@@ -146,29 +148,32 @@
   },
   "active": "71bc030b65645bfd",
   "lastOpenFiles": [
-    "sprint1/userDocs/CognomNome_sprint1.html",
-    "sprint1/userDocs",
-    "sprint1/src/main/kotlin/test/readMe",
-    "sprint1/src/main/java/test/readMe",
-    "sprint1/src/main/resources/readMe",
-    "sprint1/src/main/resources/logback.xml",
-    "sprint1/src/main/kotlin/test",
-    "sprint1/src/main/kotlin/readMe",
-    "sprint1/src/main/java/test",
-    "sprint1/src/main/java/readMe",
-    "sprint1/src/main/resources",
+    "sprint1V2/build/kotlin/compileTestKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab",
+    "sprint1V2/build/kotlin/compileTestKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.len",
+    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/2.zip",
+    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/1.zip",
+    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/0.zip",
+    "sprint1V2/build/snapshot/kotlin/compileTestKotlin",
+    "sprint1V2/logs/noctx/warningdevice_MsLog.txt",
+    "sprint1V2/logs/noctx/servicestatusgui_MsLog.txt",
+    "sprint1V2/logs/noctx/alarmdevice_MsLog.txt",
+    "sprint1V2/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin",
+    "sprint1V2/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt~",
+    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md",
+    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled 2.png",
+    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled 1.png",
+    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled.png",
+    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Schermata.png",
+    "sprint0V2/coldstorageservicearch.png",
     "sprint1/sprint1v2arch.png",
     "sprint1/qakicons/system.PNG",
     "sprint1/qakicons/symActorSmall.png",
     "sprint1/qakicons/symActor.png",
     "sprint1/qakicons/codedQActor.png",
-    "sprint1/qakicons/externalQActor.png",
     "sprint0V2/userDocs/Sprint0V2.md",
     "sprint0V2/userDocs/html/TemaFinale23.md",
     "sprint0V1/userDocs/Sprint0V2.md",
     "sprint0V1/userDocs/html/VirtualRobot23.md",
-    "sprint0V1/userDocs/img/sistemaarch.png",
-    "sprint0V1/userDocs/Sprint0V1.md",
-    "sprint0V1/userDocs/img/Pasted image 20231101174744.png"
+    "sprint0V1/userDocs/Sprint0V1.md"
   ]
 }

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md"
               }
             }
           }
@@ -148,28 +148,33 @@
   },
   "active": "71bc030b65645bfd",
   "lastOpenFiles": [
-    "sprint1V2/build/kotlin/compileTestKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab",
-    "sprint1V2/build/kotlin/compileTestKotlin/cacheable/caches-jvm/jvm/kotlin/dirty-output-classes.tab.len",
-    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/2.zip",
-    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/1.zip",
-    "sprint1V2/build/snapshot/kotlin/compileTestKotlin/0.zip",
-    "sprint1V2/build/snapshot/kotlin/compileTestKotlin",
-    "sprint1V2/logs/noctx/warningdevice_MsLog.txt",
-    "sprint1V2/logs/noctx/servicestatusgui_MsLog.txt",
-    "sprint1V2/logs/noctx/alarmdevice_MsLog.txt",
-    "sprint1V2/build/kotlin/compileKotlin/classpath-snapshot/shrunk-classpath-snapshot.bin",
+    "sprint1V2/userDocs/sprint1V2.pdf",
     "sprint1V2/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt~",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainTTTest.class",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainTTTest$Companion.class",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainRobotTest.class",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainRobotTest$Companion.class",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageserviceKtTest.class",
+    "sprint1V1/build/classes/kotlin/main/test/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageserviceKtTest$Companion.class",
+    "sprint1V1/build/classes/kotlin/test/test/it/unibo/ctxcoldstorageservice/MainRobotTest.class",
+    "sprint1V1/build/classes/kotlin/test/test/it/unibo/ctxcoldstorageservice/MainRobotTest$Companion.class",
+    "sprint1V1/build/classes/kotlin/test/test/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageserviceKtTest.class",
+    "sprint1V1/userDocs/Sprint1.md",
+    "sprint1V1/userDocs/Sprint 1.md",
+    "sprint1V1/qakicons/system.PNG",
+    "sprint1V1/qakicons/symActorSmall.png",
+    "sprint1V1/qakicons/symActor.png",
+    "sprint1V1/qakicons/externalQActor.png",
+    "sprint1V1/qakicons/codedQActor.png",
+    "sprint1V1/coldstorageservicearch.png",
+    "sprint1V1/Untitled.md",
+    "sprint1V1/Untitled 1.md",
+    "sprint1V2/coldstorageservicearch.png",
+    "README.md",
     "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c.md",
     "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled 2.png",
     "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled 1.png",
     "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Untitled.png",
-    "sprint1V2/userDocs/SPRINT1 d92c220b165f4b059dabd70627d8e32c/Schermata.png",
-    "sprint0V2/coldstorageservicearch.png",
-    "sprint1/sprint1v2arch.png",
-    "sprint1/qakicons/system.PNG",
-    "sprint1/qakicons/symActorSmall.png",
-    "sprint1/qakicons/symActor.png",
-    "sprint1/qakicons/codedQActor.png",
     "sprint0V2/userDocs/Sprint0V2.md",
     "sprint0V2/userDocs/html/TemaFinale23.md",
     "sprint0V1/userDocs/Sprint0V2.md",

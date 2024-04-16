@@ -134,12 +134,9 @@ class MainCtxcoldstorageserviceKtTest {
             println("connession mqtt:" + mqttConn.connect(mqSender, mqttBrokerAddr))
             println("set call back mqtt:" + mqttConn.setCallback(myMqttCallback))
             println("set subscribe to " + topic + " :" + mqttConn.subscribe(topic))
-
         } catch (e: Exception) {
             println(e)
         }
-
-
         //mandiamo la request per avere il ticket
         val ticketRequestStr = CommUtils.buildRequest("tester", "storerequest", "storerequest(35)", "coldstorageservice").toString()
         val ticketresponseMessage = conn.request(ticketRequestStr)
@@ -148,35 +145,29 @@ class MainCtxcoldstorageserviceKtTest {
         //mando una richiesta di discarge food
         val truckRequestStr = CommUtils.buildRequest("tester", "dischargefood", "dischargefood(1)", "coldstorageservice").toString()
         val responseMessage = conn.request(truckRequestStr)
-
         assertTrue("TEST___ charge taken",
                 responseMessage.contains("replyChargeTaken"));
         //verifico gli stati osservati
-        val logs = myMqttCallback.getMessagess();
+        val messagesMQTT = myMqttCallback.getMessagesMQTT();
         assertTrue("TEST___ transport_state",
-                logs[logs.size-1] == "trolley_state(goingColdroom)"
-                        && logs[logs.size-2] == "trolley_state(atIndoor)"
+                messagesMQTT[messagesMQTT.size-1] == "trolley_state(goingColdroom)"
+                        && messagesMQTT[messagesMQTT.size-2] == "trolley_state(atIndoor)"
         )
-
     }
     class MessageListener :MqttCallback{
         private var messages : ArrayList<String> = ArrayList();
-
         override fun connectionLost(cause: Throwable?) {
             println("connection lost"+cause.toString())
         }
-
         override fun deliveryComplete(token: IMqttDeliveryToken?) {
             TODO("Not yet implemented")
         }
-
         override fun messageArrived(topic: String?, message: MqttMessage?) {
             if (message != null) {
                 messages.add(CommUtils.getContent(message.toString()))
             }
-
         }
-        fun getMessagess(): ArrayList<String> {
+        fun getMessagesMQTT(): ArrayList<String> {
             return messages;
         }
 

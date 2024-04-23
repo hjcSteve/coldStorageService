@@ -93,4 +93,5 @@ hr {
     height: 100%;
     background-color: #4CAF50; 
     transition: width 0.5s;
+    width: var(--value)
 }

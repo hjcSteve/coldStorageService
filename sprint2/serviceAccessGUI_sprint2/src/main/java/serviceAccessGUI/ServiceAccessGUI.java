@@ -105,7 +105,7 @@ public class ServiceAccessGUI {
             this.reserved_weight = matches.get(1);
             this.max_weight = matches.get(2);
             System.out.println("-- ServiceAccessGUI --current_weight: " + current_weight + " reserved_weight: " + reserved_weight + " max_weight: " + max_weight);
-            this.clientConnectionManager.sendToAll("update/" + (current_weight + reserved_weight) + "," + max_weight);
+            this.clientConnectionManager.sendToAll("update/" + current_weight + ", " + reserved_weight + ", " + max_weight);
         }
     }
     public void gotReqFromClient(String msg, String requestId) {

@@ -56,7 +56,7 @@ public class ServiceConnectionManager {
 
         //---------------coap connection 
         //Per ricevere informazioni dal CSS uso coap perché il qak lo usa
-        CoapConnection coap_connection = new CoapConnection("127.0.0.1:8055", "ctxcoldstorageservice/coldstorageservice");
+        CoapConnection coap_connection = new CoapConnection("127.0.0.1:8055", "ctxcoldstorageservice/coldroom");
         coap_connection.observeResource(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse response) {

@@ -22,7 +22,8 @@ function connect() {
             switch (type) {
                 case "update":
                     //updateMsg(String data)
-                    setPeso(payload.split(","))
+                    addMessageToWindow("Payload received: " + payload)
+                    setWeight(...payload.split(","))
                     break;
 
                 case "ticket":
@@ -54,13 +55,18 @@ const ticket = document.getElementById("ticket");
 const messageWindow = document.getElementById("messageArea");
 const progress = document.getElementById("progress");
 const curSpan = document.getElementById("cur")
+const resSpan = document.getElementById("res")
 const maxSpan = document.getElementById("max")
 
-function setPeso(cur, max) {
-    const perc = cur / max * 100
-    progress.style.setProperty("--value", Math.ceil(perc).toString());
-    progress.setAttribute("aria-valuenow", perc.toString());
+function setWeight(cur ,res , max) {
+    const perc1 = (parseFloat(cur)+parseFloat(res)) / parseFloat(max) * 100
+    addMessageToWindow(cur + "," + res + "," + max)
+    progress.style.setProperty("--value", Math.ceil(perc1).toString() + "%");
+    progress.setAttribute("aria-valuenow", perc1.toString() + "%");
+
+
     curSpan.innerHTML = cur.toString()
+    resSpan.innerHTML = res.toString()
     maxSpan.innerHTML = max.toString()
     addMessageToWindow("cur=" + cur+" max="+max)
 }

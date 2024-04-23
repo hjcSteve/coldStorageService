@@ -295,6 +295,7 @@ QActor coldroom context ctxcoldstorageservice{
 
 				#]
 				replyTo spaceCheck with space_reserved : space_reserved($Kg)
+				updateResource [# "load(stg_${current_STG}.0 ,res_${reserved_STG}.0,max_${MAX_STG}.0)" #]
 
 			}else{
 				println("$name) not enough space for reservation...") color blue
@@ -312,6 +313,7 @@ QActor coldroom context ctxcoldstorageservice{
 			current_STG += Kg;
 			#]
 			println(" $name) Performed the load with success!") color blue
+			updateResource [# "load(stg_${current_STG}.0,res_${reserved_STG}.0,max_${MAX_STG}.0)" #]
 		}
 	}Goto waiting_state
 }

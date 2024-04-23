@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body {
-    background-color: #f0f0f0;
+    background-color: #f494ff;
     font-family: Arial, sans-serif;
 }
 .container {
@@ -12,6 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-wrap: wrap;
 }
 .content {
     background-color: #fff;
@@ -44,7 +45,7 @@ input {
 }
 .submit-button {
     padding: 10px 20px;
-    background-color: #3590f3;
+    background-color: #ff4e4e;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -52,7 +53,7 @@ input {
     transition: background-color 0.3s ease;
 }
 .submit-button:hover {
-    background-color: #2074cf;
+    background-color: #a00000;
 }
 
 hr {
@@ -83,7 +84,7 @@ hr {
 }
 .progress-bar {
     height: 30px;
-    background-color: #950ea1;
+    background-color: rgba(161, 14, 14, 0.09);
     border-radius: 5px;
     overflow: hidden;
 }

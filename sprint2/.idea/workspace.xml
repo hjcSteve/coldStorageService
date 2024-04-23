@@ -5,59 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="95c70f23-7699-4047-b213-80c73e1f7066" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../sprint1V2/build2024.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/build2024.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldroom/Coldroom.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldroom/Coldroom.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldstorageservice/Coldstorageservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldstorageservice/Coldstorageservice.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sprint1V2/src/progettazione.qak" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/progettazione.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.jdt.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Api_coldstorageservice_anal.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Arch_coldstorageservice_anal.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Californium3.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build2024.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/coldstorageservice_anal.pl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/libs.versions.toml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qakrestappl_Transitions.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/java/serviceAccessGUI/ServiceAccessGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/java/serviceAccessGUI/ServiceAccessGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/java/serviceAccessGUI/ServiceConnectionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/java/serviceAccessGUI/ServiceConnectionManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/static/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/static/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/templates/serviceAccessGUI.html" beforeDir="false" afterPath="$PROJECT_DIR$/serviceAccessGUI_sprint2/src/main/resources/templates/serviceAccessGUI.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/analisi.qak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/alarmdevice/Alarmdevice.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/coldroom/Coldroom.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/coldstorageservice/Coldstorageservice.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageservice.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/serviceaccessgui/Serviceaccessgui.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/servicestatusgui/Servicestatusgui.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/it/unibo/warningdevice/Warningdevice.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/log4j.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/readMe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test/readMe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/readMe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/test/MainRobotTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/test/MainTTTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/test/readMe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/readMe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tickets/Ticket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/tickets/TicketManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test.qak" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sysRules.pl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/userDocs/CognomNome_coldstorageservice.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1713629034389</updated>
       <workItem from="1713629035465" duration="1615000" />
-      <workItem from="1713707787047" duration="21214000" />
+      <workItem from="1713707787047" duration="23153000" />
     </task>
     <servers />
   </component>

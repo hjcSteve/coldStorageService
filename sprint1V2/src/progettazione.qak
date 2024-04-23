@@ -295,6 +295,7 @@ QActor coldroom context ctxcoldstorageservice{
 
 				#]
 				replyTo spaceCheck with space_reserved : space_reserved($Kg)
+				
 
 			}else{
 				println("$name) not enough space for reservation...") color blue

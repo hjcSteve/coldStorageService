@@ -423,6 +423,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 		request basicrobot -m moverobot : moverobot (0,0)
 	}
 	Transition t0 whenReply moverobotdone -> atHome
+	whenMsg dischargeTrolley -> goingIndoor
 	whenEvent alarm ->stopped
 
 

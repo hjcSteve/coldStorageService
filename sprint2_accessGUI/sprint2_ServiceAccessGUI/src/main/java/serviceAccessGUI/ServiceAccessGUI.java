@@ -28,23 +28,22 @@ Request dischargefood  : dischargefood(TICKETNUM) //insertticket
 Reply replyChargeTaken : replyChargeTaken(ARG) for dischargefood
 Reply replyTicketExpired:  replyTicketExpired(ARG) for dischargefood
  */
-
-
-public class ServiceAccessGUI {
-
-    /*
+   /*
      Comunicazione con il CSService:
- *      Per parlare con il CSService sono possibili due diverse tipologie di comunicazione: 
+ *      Per parlare con il CSService sono possibili due diverse tipologie di comunicazione:
  *      - una è il semplice invio di richieste e ricezione di relative risposte (per cui usiamo tcp)
- * 
+ *
  *      - L’altra è “osservare” il CSService e ricevere gli update:
  *          In questo modo il CSService è un oggetto assolutamente indipendente dalla Gui:
  *          => il CSService presenta solo:
- *                             1) una interfaccia per le richieste (IApplMessage) 
+ *                             1) una interfaccia per le richieste (IApplMessage)
  *                             2) una serie di parametri osservabili con un Observer
  *          => per questa seconda funzionalità si usa Coap
-     * 
+     *
      */
+
+
+public class ServiceAccessGUI {
 
     private final ClientConnectionManager clientConnectionManager;
     private final ServiceConnectionManager serviceConnectionManager;

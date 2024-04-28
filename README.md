@@ -13,6 +13,12 @@ tema finale ingegneria dei sistemi software 22/23
 `cd sprintxxx`
 `./gradlew run`
 
+## attivare accessgui
+cd serviceAccessGUI_sprintxxx
+ ./gradlew bootRun
+ http://localhost:8086/
 
 ## opzionale : mqtt sub locale
 `mosquitto_sub -v -h "localhost" -t "trolley_state"`
+
+

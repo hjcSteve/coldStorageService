@@ -52,6 +52,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				state("atHome") { //this:State
 					action { //it:State
 						 LASTSTATE = "atHome"  
+						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
+						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | basicrobot at Home")
 						//genTimer( actor, state )
 					}
@@ -176,7 +178,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						discardMessages = true
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state(stopped)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state(stopped)").toString(), "trolley_state" )   
-						CommUtils.outyellow("$name | Sono fermo per ostacolo sonar")
+						CommUtils.outyellow("$name | Sono fermo per ostacolo sonar $LASTSTATE")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

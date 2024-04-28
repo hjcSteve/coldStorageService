@@ -124,6 +124,7 @@ dependencies {
 
     
     //USER libs for facades
+    implementation 'com.google.code.gson:gson:2.10.1'
     
 }
 	
@@ -144,10 +145,9 @@ eclipse {
  }
 
 
-
 application {
-    //Define the main class for the application.
-    mainClass    = 'it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKt'
+    // Define the main class for the application.
+    mainClass = 'it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKt'
 }
  
  jar {
@@ -178,13 +178,6 @@ distributions {
         }
     }
 } 
-
-task run0(type: JavaExec) {
-    group = "Execution"
-    description = "Run the main class with JavaExecTask"
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKt'
-}
 
 /*
 //TODO

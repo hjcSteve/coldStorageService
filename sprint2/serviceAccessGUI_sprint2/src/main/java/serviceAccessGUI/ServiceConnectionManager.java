@@ -61,6 +61,7 @@ public class ServiceConnectionManager {
             @Override
             public void onLoad(CoapResponse response) {
                 System.out.println("--ServiceConnectionManager-- onLoad: CoapResponse=  " + response.getResponseText());
+                //Da gestire questa risposta
                 accessGUI.gotRespFromCSS(response.getResponseText(), "");
             }
             @Override
@@ -69,7 +70,7 @@ public class ServiceConnectionManager {
     }
 
 
-    private void sendToCSS(IApplMessage message, String requestId) {
+    private IApplMessage sendToCSS(IApplMessage message, String requestId) {
         IApplMessage response = null;
         try {
             System.out.println("--ServiceConnectionManager-- sendToCSS, msg sent: " + message);
@@ -82,19 +83,20 @@ public class ServiceConnectionManager {
             System.out.println("--ServiceConnectionManager--  response=" + response.msgContent());
             accessGUI.gotRespFromCSS(response.msgContent(), requestId);
         }
+        return response;
     }
 
-    protected void storerequest(String weight, String requestId) {
+    protected IApplMessage storerequest(String weight, String requestId) {
         String msgId="storerequest"; //storerequest
         IApplMessage message = CommUtils.buildRequest(senderId, msgId, "storerequest(" + weight + ")", destActor);
         System.out.println("--ServiceConnectionManager-- senderId=" + senderId + ", destActor=" + destActor + ", message=" + message);
-        sendToCSS(message, requestId);
+        return sendToCSS(message, requestId);
     }
 
-    protected void dischargefood(String ticket, String requestId) {
+    protected IApplMessage dischargefood(String ticket, String requestId) {
         String msgId="dischargefood"; //dischargefood
         IApplMessage message = CommUtils.buildRequest(senderId, msgId, "dischargefood(" + ticket + ")", destActor);
         System.out.println("--ServiceConnectionManager-- senderId=" + senderId + " destActor=" + destActor + " message=" + message);
-        sendToCSS(message, requestId);
+        return sendToCSS(message, requestId);
     }
 }

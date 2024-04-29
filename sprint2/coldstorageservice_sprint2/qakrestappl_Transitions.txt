@@ -1,3 +1,0 @@
-{"actor":"coldstorageservice", "msgType":"dispatch", "curstate":"s0", "nextstate":"clearIndoor", "msgId":"chargeTaken"}
-{"actor":"coldroom", "msgType":"dispatch", "curstate":"waiting_state", "nextstate":"store_state", "msgId":"stored_food"}
-{"actor":"transporttrolley", "msgType":"dispatch", "curstate":"atHome", "nextstate":"goingIndoor", "msgId":"dischargeTrolley"}

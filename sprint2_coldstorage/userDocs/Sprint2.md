@@ -20,12 +20,12 @@ Ai fini dell'Analisi, le tecnologie discusse basate su Java sono essenzialmente 
 
 Nello sviluppo di una siffatta applicazione, SpringBoot dispone al **Controller** la possibilità di impostare metadati utili all'esecuzione mediante le **Java annotations**, in particolare i mapping utili per l'elaborazione di una Get HTTP lato client. Trattandosi di una pagina semplice, abbiamo gestito solo il mapping root `"/"` , risultando in:
 
- ![MVC](/MVC.png)
+ ![MVC](./img/MVC.png)
 
 All'avviamento, il framework predispone la configurazione del server in maniera automatica, fissando come porta 8086 per la connessione(`/resources/application.properties`).
 Riferendo il Model, Questo viene organizzato tenendo conto del principio di singola responsabilità, secondo un'architettura gerarchica triangolare:
 
-![Arch|400](/Arch.png)
+![Arch|400](./img/Arch.png)
 
 In ordine:
 - Il Client si connette al Client Connection Manager richiedendo la pagina HTTP associata all'url `"/"`. 
@@ -37,13 +37,13 @@ In ordine:
 ### Client Connection Manager
 Componente "passivo" rappresentato da un POJO e realizzato come classe JAVA. Ha il solo scopo di gestire coi suoi metodi le connessioni verso Client esterni. Estende la classe `AbstractWebSocketHandler` che realizza coi suoi metodi la gestione di basso livello del Binding tra le socket. 
 
-![Ciient](./ClientManager.png)
+![Ciient](./img/ClientManager.png)
 
 Si identifica il problema dell'associazione: In ogni momento il Client Manager deve tenere traccia di tutti i client collegati (Una comune Lista java) con i token di sessione e, in aggiunta di coloro i quali, tra i client, hanno inviato una richiesta e attendono risposta. In questo secondo caso, l'associazione è fatta tra una stringa (contenente la tipologia di messaggio, e.g. "request", concatenato ad un identificativo) e l'id di sessione, mediante HashMap.
 
 Si definiscono inoltre i metodi "custom":
 
-![](./ClientMAN.png)
+![](./img/ClientMAN.png)
 per l'inoltro alla SAGui, o per l'inserimento di una request nell'HashMap.
 
 
@@ -51,7 +51,7 @@ per l'inoltro alla SAGui, o per l'inserimento di una request nell'HashMap.
 
 Componente per il coordinamento ad alto livello. Il principio dell'inversione delle dipendenze porta alla delegazione della maggior parte delle operazioni ai due POJO (Client e Service Connection Manager), di cui la GUI è essa stessa un POJO tramite i loro attributi private di classe. Viene pertanto acceduta da questi mediante metodi definiti **public**.
 
-![](/SAGui.png)
+![](./img/SAGui.png)
 
 I metodi definiti per la classe sono:
 - **public void gotReqFromClient(String msg, String requestId)**: a seconda che il messaggio sia una `storerequest` o `dischargefood` innesca due gestioni differenziate del Service Manager sottostante.
@@ -70,10 +70,43 @@ Vale la pena notare che il pattern implementato è il pattern observer, per il q
 E' nostro interesse osservare gli aggiornamenti da parte del ColdRoom sullo stato in tempo reale di peso, spazio riservato e Max storage.
 Lato Cold Storage Service, sarà sufficiente apportare una modifica mediante il tag `UpdateResource` nell'attore ColdRoom.
 
-![](./Coldroom.png)
+![](./img/Coldroom.png)
 
 ## Client
+  
+La parte client dell'applicazione web interagisce con il server Spring Boot per:
+- inviare richieste
+- ricevere aggiornamenti sullo stato della ColdRoom, 
+ Verrà realizzata una semplice interfaccia web che dovrà mostrare il peso riservato (prima dell'inserimento del ticket), il peso corrente occupato (dopo l'inserimento e accettazione del ticket carico accettato). Due campi di inserimento, uno per richiedere un ticket, in cui verrà inserito il peso desiderato ed un secondo campo per l'inserimento del ticket ricevuto precedentemente. Sarà poi necessaria una schermata di output per la visualizzazione del ticket ricevuto ed una seconda per  ricevere un feedback sull'esito delle operazioni effettuate.
 
 ## <span style="color:green;">Progettazione </span>
 
+L'interfaccia web viene realizzata con html, css e javascript. E' stato scelto un design semplice e intuitivo per facilitare le operazioni.
+I campi di inserimento per il peso di cibo e per il numero del ticket sono affiancati dai rispettivi bottoni per sottoscrivere la richiesta.
+![](./img/zz_weight.png)
+Per la il controllo della capacità, oltre a campi di lettura per visualizzare il risultato, è stata aggiunta una barra che tiene continuamente monitorato lo stato della ColdRoom rispetto alla totale capacità.
+![](./img/zz_ticket.png)
+![](./img/zz_bar.png)
+Quando i ticket vengono inseriti e il carico accettato, il peso rispettivo verrà spostato da da `Reserved Weight` a `Current Weight` 
+![](./img/zz_ticket2.png)
+## Testing
+Un primo testing è stato effettuato controllando la consistenza delle informazioni inserite manualmente nella GUI con l'output visualizzato.
+In particolare, tramite una comoda schermata di debug per visualizzare il comportamento del sistema:
+![](./img/zz_debug.png)
 
+Inoltre, è stato realizzato un piano di test per verificare la corretta interazione tra:
+- ClientConnectionManager e AccessGUI
+- AccessGUI e ServiceConnectionManager
+a fronte di differenti scenari di utilizzo e condizioni di input per garantire che il sistema si comporti come previsto.
+In particolare:
+1. **test_dischargefood_ok**: Simulazione richiesta di storage `storerequest` seguita da una richiesta `dischargefood` con inserimento del ticket con il numero ricevuto entro i tempi limite.
+
+3. **test_dischargefood_ko**: Comportamento del sistema quando viene fornito un ticket non valido per la richiesta di scarico di cibo. In questo caso, viene inserito un ticket number mai rilasciato.
+
+4. **test_storerequest_ok**: Gestione di una  `storerequest`  con restituzione di ticket valido. 
+
+5. **test_storerequest_ko**: Simulazione di  `storerequest`  e di una `dischargefood` con il ticket number ricevuto dopo la sua scadenza. 
+
+6. **test_coda_tickets**: Invio di più richieste di storage e di discharge contemporaneamente. Viene verificato se il sistema è in grado di gestire correttamente la coda di richieste.
+
+==sprint2/serviceAccessGUI_sprint2/src/test/java/serviceAccessGUI/ServiceAccesGUI_test.java==

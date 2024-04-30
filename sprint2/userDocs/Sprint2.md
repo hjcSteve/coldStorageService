@@ -79,8 +79,22 @@ La parte client dell'applicazione web interagisce con il server Spring Boot per:
 - ricevere aggiornamenti sullo stato della ColdRoom, 
  Verrà realizzata una semplice interfaccia web che dovrà mostrare il peso riservato (prima dell'inserimento del ticket), il peso corrente occupato (dopo l'inserimento e accettazione del ticket carico accettato). Due campi di inserimento, uno per richiedere un ticket, in cui verrà inserito il peso desiderato ed un secondo campo per l'inserimento del ticket ricevuto precedentemente. Sarà poi necessaria una schermata di output per la visualizzazione del ticket ricevuto ed una seconda per  ricevere un feedback sull'esito delle operazioni effettuate.
 
-### Testing: Analisi
-E' stato realizzato un piano di test per verificare la corretta interazione tra:
+## <span style="color:green;">Progettazione </span>
+
+L'interfaccia web viene realizzata con html, css e javascript. E' stato scelto un design semplice e intuitivo per facilitare le operazioni.
+I campi di inserimento per il peso di cibo e per il numero del ticket sono affiancati dai rispettivi bottoni per sottoscrivere la richiesta.
+![](./img/zz_weight.png)
+Per la il controllo della capacità, oltre a campi di lettura per visualizzare il risultato, è stata aggiunta una barra che tiene continuamente monitorato lo stato della ColdRoom rispetto alla totale capacità.
+![](./img/zz_ticket.png)
+![](./img/zz_bar.png)
+Quando i ticket vengono inseriti e il carico accettato, il peso rispettivo verrà spostato da da `Reserved Weight` a `Current Weight` 
+![](./img/zz_ticket2.png)
+## Testing
+Un primo testing è stato effettuato controllando la consistenza delle informazioni inserite manualmente nella GUI con l'output visualizzato.
+In particolare, tramite una comoda schermata di debug per visualizzare il comportamento del sistema:
+![](./img/zz_debug.png)
+
+Inoltre, è stato realizzato un piano di test per verificare la corretta interazione tra:
 - ClientConnectionManager e AccessGUI
 - AccessGUI e ServiceConnectionManager
 a fronte di differenti scenari di utilizzo e condizioni di input per garantire che il sistema si comporti come previsto.
@@ -96,19 +110,3 @@ In particolare:
 6. **test_coda_tickets**: Invio di più richieste di storage e di discharge contemporaneamente. Viene verificato se il sistema è in grado di gestire correttamente la coda di richieste.
 
 ==sprint2/serviceAccessGUI_sprint2/src/test/java/serviceAccessGUI/ServiceAccesGUI_test.java==
-
-## <span style="color:green;">Progettazione </span>
-
-L'interfaccia web viene realizzata con html, css e javascript. E' stato scelto un design semplice e intuitivo per facilitare le operazioni.
-I campi di inserimento per il peso di cibo e per il numero del ticket sono affiancati dai rispettivi bottoni per sottoscrivere la richiesta.
-![](./img/zz_weight.png)
-Per la il controllo della capacità, oltre a campi di lettura per visualizzare il risultato, è stata aggiunta una barra che tiene continuamente monitorato lo stato della ColdRoom rispetto alla totale capacità.
-![](./img/zz_ticket.png)
-![](./img/zz_bar.png)
-Quando i ticket vengono inseriti e il carico accettato, il peso rispettivo verrà spostato da da `Reserved Weight` a `Current Weight` 
-![](./img/zz_ticket2.png)
-### Testing: Progettazione
-Il testing è stato effettuato controllando la consistenza delle informazioni inserite manualmente nella GUI con l'output visualizzato.
-In particolare, tramite una comoda schermata di debug per visualizzare il comportamento del sistema:
-![](./img/zz_debug.png)
-

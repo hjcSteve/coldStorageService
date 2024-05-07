@@ -1,0 +1,46 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.13'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion"
+}
+
+group = 'unibo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+repositories {
+	mavenCentral()
+	flatDir { dirs '../unibolibs' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	//CUSTOM unibo
+	implementation name: 'uniboInterfaces'
+	implementation name: '2p301'
+	implementation name: 'unibo.qakactor23-3.5'
+	implementation name: 'unibo.basicomm23-1.0'
+
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+	implementation group: 'org.eclipse.californium', name: 'californium-core', version: '3.5.0'
+	implementation group: 'org.eclipse.californium', name: 'californium-proxy2', version: '3.5.0'
+	implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
+
+	implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: "$kotlinVersion", ext: 'pom'
+	implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core-jvm', version: "$kotlinVersion"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

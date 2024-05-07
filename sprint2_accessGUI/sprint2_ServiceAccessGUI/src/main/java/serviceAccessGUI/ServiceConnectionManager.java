@@ -27,7 +27,6 @@ import unibo.basicomm23.utils.CommUtils;
  *          => per questa seconda funzionalità si usa Coap
  */
 
-
 public class ServiceConnectionManager {
     private final ServiceAccessGUI accessGUI;
     private final Interaction tcp_connection;
@@ -37,25 +36,27 @@ public class ServiceConnectionManager {
     public ServiceConnectionManager(ServiceAccessGUI accessGUI, String senderId, String destActor) {
         this.accessGUI = accessGUI;
 
-        this.senderId = senderId; //Spring Server
-        this.destActor = destActor; //CSService
+        this.senderId = senderId; // Spring Server
+        this.destActor = destActor; // CSService
 
-        //---------------tcp connection
+        // ---------------tcp connection
         try {
 
-            //Context ctxcoldstorageservice ip [host="localhost" port=8055]  //Qactor coldstorageservice
-            //context coldstorage
+            // Context ctxcoldstorageservice ip [host="localhost" port=8055] //Qactor
+            // coldstorageservice
+            // context coldstorage
             tcp_connection = TcpClientSupport.connect("localhost", 8055, 10);
             System.out.println("--ServiceConnectionManager-- tcp session ok: " + tcp_connection);
-            //-- ServiceConnectionManager -- Stabilita connessione tcp: unibo.basicomm23.tcp.TcpConnection@689c51cb
+            // -- ServiceConnectionManager -- Stabilita connessione tcp:
+            // unibo.basicomm23.tcp.TcpConnection@689c51cb
         } catch (Exception e) {
             System.out.println("--ServiceConnectionManager-- tcp session error");
             throw new RuntimeException(e);
-            
+
         }
 
-        //---------------coap connection 
-        //Per ricevere informazioni dal CSS uso coap perché il qak lo usa
+        // ---------------coap connection
+        // Per ricevere informazioni dal CSS uso coap perché il qak lo usa
         CoapConnection coap_connection = new CoapConnection("127.0.0.1:8055", "ctxcoldstorageservice/coldroom");
         coap_connection.observeResource(new CoapHandler() {
             @Override
@@ -63,11 +64,13 @@ public class ServiceConnectionManager {
                 System.out.println("--ServiceConnectionManager-- onLoad: CoapResponse=  " + response.getResponseText());
                 accessGUI.gotRespFromCSS(response.getResponseText(), "");
             }
+
             @Override
-            public void onError() { System.out.println("-- ServiceConnectionManager -- observeResource, error"); }
+            public void onError() {
+                System.out.println("-- ServiceConnectionManager -- observeResource, error");
+            }
         });
     }
-
 
     private void sendToCSS(IApplMessage message, String requestId) {
         IApplMessage response = null;
@@ -84,17 +87,20 @@ public class ServiceConnectionManager {
         }
     }
 
-    protected void storerequest(String weight, String requestId) {
-        String msgId="storerequest"; //storerequest
+    protected IApplMessage storerequest(String weight, String requestId) {
+        String msgId = "storerequest"; // storerequest
         IApplMessage message = CommUtils.buildRequest(senderId, msgId, "storerequest(" + weight + ")", destActor);
-        System.out.println("--ServiceConnectionManager-- senderId=" + senderId + ", destActor=" + destActor + ", message=" + message);
+        System.out.println("--ServiceConnectionManager-- senderId=" + senderId + ", destActor=" + destActor
+                + ", message=" + message);
         sendToCSS(message, requestId);
+        return message;
     }
 
     protected void dischargefood(String ticket, String requestId) {
-        String msgId="dischargefood"; //dischargefood
+        String msgId = "dischargefood"; // dischargefood
         IApplMessage message = CommUtils.buildRequest(senderId, msgId, "dischargefood(" + ticket + ")", destActor);
-        System.out.println("--ServiceConnectionManager-- senderId=" + senderId + " destActor=" + destActor + " message=" + message);
+        System.out.println("--ServiceConnectionManager-- senderId=" + senderId + " destActor=" + destActor + " message="
+                + message);
         sendToCSS(message, requestId);
     }
 }

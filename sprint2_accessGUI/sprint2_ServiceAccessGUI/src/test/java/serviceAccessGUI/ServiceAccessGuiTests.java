@@ -1,4 +1,4 @@
-package tbk.sprint2accessGUI;
+package serviceAccessGUI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class Sprint2accessGuiApplicationTests {
@@ -24,10 +23,13 @@ class Sprint2accessGuiApplicationTests {
     private ServiceAccessGuiController controller;
 
     @Test
-    public void contextLoads() throws Exception { assertThat(controller).isNotNull();}
+    public void contextLoads() throws Exception {
+        assertThat(controller).isNotNull();
+    }
 
     @Test
     public void webpageLoads() throws Exception {
-        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk()).andExpect(content().string(containsString("ColdStorageService")));
+        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("ColdStorageService")));
     }
 }

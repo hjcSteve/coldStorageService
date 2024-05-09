@@ -5,59 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42287249-3be7-4202-815a-82148f7c7972" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../sprint2/coldstorageservice_sprint2/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/alarmdevice_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/coldroom_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/coldstorageservice_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/serviceaccessgui_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/servicestatusgui_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/transporttrolley_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/ctxcoldstorageservice/warningdevice_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/noctx/ctxbasicrobot_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/noctx/ctxcoldstorageservice_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/noctx/proxyctxbasicrobot_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/logs/noctx/serverctxcoldstorageservice_MsLog.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/src/main/java/serviceAccessGUI/ServiceConnectionManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/src/main/resources/static/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/src/main/resources/static/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/src/main/resources/templates/serviceAccessGUI.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/serviceAccessGUI_sprint2/src/test/java/serviceAccessGUI/ServiceAccesGUI_test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/.obsidian/app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/.obsidian/appearance.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/.obsidian/core-plugins-migration.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/.obsidian/core-plugins.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/.obsidian/workspace.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/Sprint2.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/Arch.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/ClientMAN.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/ClientManager.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/Coldroom.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/MVC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/SAGui.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/zz_bar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/zz_debug.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/zz_ticket.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/zz_ticket2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../sprint2/userDocs/img/zz_weight.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unibo/sprint3/ClientConnectionManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unibo/sprint3/Corebusiness.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unibo/sprint3/CorebusinessController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unibo/sprint3/Sprint3Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unibo/sprint3/StatusObserver.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/Page.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/unibo/sprint3/Sprint3ApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.md" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint3_coldstorage/src/progettazione.qak" beforeDir="false" afterPath="$PROJECT_DIR$/sprint3_coldstorage/src/progettazione.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sprint3_statusGUI/src/main/java/unibo/sprint3/StatusObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/sprint3_statusGUI/src/main/java/unibo/sprint3/StatusObserver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1714989033395</updated>
       <workItem from="1714989034431" duration="3968000" />
-      <workItem from="1715089974102" duration="20580000" />
+      <workItem from="1715089974102" duration="23285000" />
     </task>
     <servers />
   </component>

@@ -31,6 +31,7 @@ public class StatusObserver {
         });
 
         this.coap_connection_coldroom = new CoapConnection("127.0.0.1:8055", "ctxcoldstorageservice/coldroom");
+
         coap_connection_coldroom.observeResource(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse response) {

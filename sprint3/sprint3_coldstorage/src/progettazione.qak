@@ -155,7 +155,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 			[#
 			Rejected_stores++;	
 			#]
-			updateResource[#"rejected($Rejected_stores, a7341he1y2b3iwnm1c,asd8a)"#]
+			updateResource[# "rejected($Rejected_stores, a7341he1y2b3iwnm1c,asd8a)" #]
 	}Goto s0
 //------------------------------------------------------------------------------------------------------------------
    //TICKET GENERATION AND CURRENT LOAD CONTROL

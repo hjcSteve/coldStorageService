@@ -1,9 +1,0 @@
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/coldroom/Coldroom.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/serviceaccessgui/Serviceaccessgui.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/alarmdevice/Alarmdevice.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageservice.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/servicestatusgui/Servicestatusgui.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/warningdevice/Warningdevice.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/transporttrolley/Transporttrolley.kt
-/home/anna/Documents/iss/coldStorageService/sprint2Temp/src/it/unibo/coldstorageservice/Coldstorageservice.kt

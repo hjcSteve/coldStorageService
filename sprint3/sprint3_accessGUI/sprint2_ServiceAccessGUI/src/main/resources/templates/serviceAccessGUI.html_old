@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access GUI</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="header">
+                <h1>Access GUI</h1>
+            </div>
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <label for="peso">Weight (kg):</label>
+                    <input type="text" name="peso" id="peso">
+                </div>
+                <button class="submit-button" onclick="submitPressedPeso()">Store Request</button>
+            </div>
+            <hr>
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <label for="ticket">Ticket:</label>
+                    <input type="text" name="ticket" id="ticket">
+                </div>
+                <button class="submit-button" onclick="submitPressedTicket()">Insert Ticket</button>
+            </div>
+            <div class="info">
+                <h3>Output:</h3>
+                <div class="message-area" id="messageArea"></div>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h2>ColdRoom Capacity: <span id="cur">Curr</span>/ <span id="res">Res</span>/ <span id="max">Tot</span> (kg)</h2>
+            <div class="progress-bar" role="progressbar" id="progress" aria-valuenow="0" aria-valuemin="0"
+                aria-valuemax="100" style="--value: 0"></div>
+        </div>
+    </div>
+
+    <script src="../main.js"></script>
+</body>
+
+</html>

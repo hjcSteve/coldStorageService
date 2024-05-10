@@ -75,7 +75,7 @@ Si tratta del componente speculare al Client Connection Manager. Gestisce l' int
 Ulteriori metodi vengono definiti per differenziare il comportamento all'arrivo di una `storerequest` o `dischargefood` ed effettivamente inoltrare e ricevere sulla socket TCP una request-response (metodo **private sendToCSS**).
 Vale la pena notare che il pattern implementato è il pattern observer, per il quale gli attori del metamodello qak (interazione Coap-based) offrono già API e primitive specifiche per l'aggiornamento degli osservatori.
 
-**Perchè non MQTT?** Il sistema appena descritto mira ad essere il più leggero possibile e si è deciso di escludere l'introduzione di broker e gestire ogni connessione autonomamente.
+**Perchè non MQTT?** Il sistema appena descritto mira ad essere il più leggero possibile e si è deciso di escludere l'introduzione di broker pesante e gestire ogni connessione autonomamente come topic a sè stante.
 
 
 E' nostro interesse osservare gli aggiornamenti da parte del ColdRoom sullo stato in tempo reale di peso, spazio riservato e Max storage.

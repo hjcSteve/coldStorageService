@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42287249-3be7-4202-815a-82148f7c7972" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/.obsidian/workspace.json" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/.obsidian/workspace.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.md" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint2_coldstorage/userDocs/Sprint2.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sprint3_coldstorage/src/progettazione.qak" beforeDir="false" afterPath="$PROJECT_DIR$/sprint3_coldstorage/src/progettazione.qak" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sprint3_statusGUI/src/main/java/unibo/sprint3/StatusObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/sprint3_statusGUI/src/main/java/unibo/sprint3/StatusObserver.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,24 +42,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build sprint3.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.Sprint3Application.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/alessandro/Scrivania/EsameNatali/coldStorageService/sprint3",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build sprint3.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.Sprint3Application.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/alessandro/Scrivania/EsameNatali/coldStorageService/sprint3&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Sprint3Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
@@ -86,6 +87,7 @@
       <updated>1714989033395</updated>
       <workItem from="1714989034431" duration="3968000" />
       <workItem from="1715089974102" duration="23285000" />
+      <workItem from="1715333456934" duration="698000" />
     </task>
     <servers />
   </component>

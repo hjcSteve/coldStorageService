@@ -372,13 +372,13 @@ QActor transporttrolley context ctxcoldstorageservice{
 		println("$name | basicrobot at Home") color yellow
 		//forward basicrobot -m setdirection : dir(down)
 		
-		updateResource[#"trolleystate(0)"#]
+		updateResource[# "load(stg_${current_STG}.0,res_${reserved_STG}.0,max_${MAX_STG}.0)" #]
 
 	}
 	Transition t0
 				whenMsg dischargeTrolley -> goingIndoor
 
-	State goingIndoor {
+	State goingIndoor{
 		onMsg(dischargeTrolley : dischargeTrolley(Ticketnum)){
 			
 			[# LASTSTATE = "goingIndoor" 
@@ -396,7 +396,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 				#]
 			println("$name | vado all'INDOOR") color yellow
 			
-			updateResource[#"trolleystate($name,1)"#]
+			updateResource[# "trolleystate($name,1)" #]
 			
 			request basicrobot -m moverobot : moverobot (0,4)
 			
@@ -405,7 +405,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 	Transition t0 whenReply moverobotdone -> atIndoor
 	whenEvent alarm ->stopped
 
-	State atIndoor {
+	State atIndoor{
 		[# LASTSTATE = "atIndoor" #]
 		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 
@@ -421,30 +421,30 @@ QActor transporttrolley context ctxcoldstorageservice{
 	}
 	Goto goingColdroom
 
-	State goingColdroom {
+	State goingColdroom{
 		[# LASTSTATE = "goingColdroom" #]
 		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 	
 		println("$name | vado verso la cold room") color yellow
 		
-		updateResource[#"trolleystate($name,3asdasdasdasdasd)"#]
+		updateResource[# "trolleystate($name,3asdasdasdasdasd)" #]
 		
 		request basicrobot -m moverobot : moverobot (4,3)
 	}
 	Transition t0 whenReply moverobotdone -> atColdroom
 	whenEvent alarm ->stopped
 
-	State atColdroom {
+	State atColdroom{
 		[# LASTSTATE = "atColdroom" #]
 		println("$name | sono in Cold Room") color yellow
 		
-		updateResource[#"trolleystate($name,4asdasdasdasdas)"#]
+		updateResource[# "trolleystate($name,4asdasdasdasdas)" #]
 		
 	}
 	Transition t0 whenTime 3000 	-> chargeStored	// simula azione deposito
 
 	State chargeStored {
-		[# LASTSTATE = "chargedStored" #]
+		[# LASTSTATE ="chargedStored" #]
 		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 		println("$name | terminato deposito. Aspetto istruzioni") color yellow
 		request coldstorageservice -m discharged_trolley: discharged_trolley($TicketID)
@@ -457,7 +457,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 		publish "trolley_state" -m trolley_state:trolley_state($LASTSTATE)
 		println("$name | vado alla posizione HOME") color yellow
 		
-		updateResource[#"trolleystate($name,5asdasdsadasd.)"#]
+		updateResource[# "trolleystate($name,5asdasdsadasd.)" #]
 		
 		request basicrobot -m moverobot : moverobot (0,0)
 	}
@@ -467,7 +467,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 
 
 
-	State stopped {
+	State stopped{
 		discardMsg On
 		publish "trolley_state" -m trolley_state:trolley_state(stopped)
 		println("$name | Sono fermo per ostacolo sonar") color yellow

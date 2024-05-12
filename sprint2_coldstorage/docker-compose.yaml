@@ -14,7 +14,7 @@ services:
     depends_on:
       - wenv
   coldstorage:
-    image: hjcsteve/coldstorageservice:1.2
+    image: hjcsteve/coldstorageservice:2.0
     network_mode: "host"
     depends_on:
       - basicrobot23

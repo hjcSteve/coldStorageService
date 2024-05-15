@@ -1,9 +1,58 @@
 var socket = connect();
 
+ // mapping celle
+ const defaultCellValues = {
+    cella00: "home",
+    cella01: "",
+    cella02: "",
+    cella03: "",
+    cella04: "door",
+    cella05: "X",
+    cella06: "",
+    cella10: "",
+    cella11: "",
+    cella12: "",
+    cella13: "",
+    cella14: "X",
+    cella15: "X",
+    cella16: "",
+    cella20: "",
+    cella21: "",
+    cella22: "X",
+    cella23: "",
+    cella24: "",
+    cella25: "",
+    cella26: "",
+    cella30: "",
+    cella31: "",
+    cella32: "",
+    cella33: "",
+    cella34: "",
+    cella35: "",
+    cella36: "",
+    cella40: "",
+    cella41: "",
+    cella42: "",
+    cella43: "ice",
+    cella44: "",
+    cella45: "",
+    cella46: "",
+    cella50: "X",
+    cella51: "X",
+    cella52: "X",
+    cella53: "X",
+    cella54: "X",
+    cella55: "X",
+    cella56: "X",
+};
+
 function connect() {
     const host = document.location.host; //localhost
     const pathname = document.location.pathname;
     const addr = "ws://" + host + pathname + "statusgui";
+
+
+
 
     //-- socket connection
     if (socket !== undefined && socket.readyState !== WebSocket.CLOSED) {
@@ -11,7 +60,8 @@ function connect() {
     }
     socket = new WebSocket(addr); 
     socket.onopen = function (event) {
-        addMessageToWindow("Connection to the server successful");
+        addDebugToWindow("Connection to the server successful");
+
     };
 
     //--message handling
@@ -34,6 +84,7 @@ function connect() {
                 case "robotpos":
                     addDebugToWindow("robotpos: " + payload)
                     setTrolleyPosizione(payload)
+                    setTrolleyStatus(payload)
                     break;
 
                 case "update":
@@ -103,83 +154,84 @@ function setRejected(num,x,y) {
     messageWindowTrolley.innerHTML += "<div class=\"testo\">" + num + "</div>"
 }
 
-// mappatura celle
-const defaultCellValues = {
-    cella00: "1",
-    cella01: "1",
-    cella02: "1",
-    cella03: "1",
-    cella04: "X",
-    cella05: "X",
-    cella06: "1",
-    cella10: "1",
-    cella11: "1",
-    cella12: "1",
-    cella14: "1",
-    cella14: "X",
-    cella15: "X",
-    cella16: "1",
-    cella20: "1",
-    cella21: "1",
-    cella22: "X",
-    cella23: "1",
-    cella24: "1",
-    cella25: "1",
-    cella26: "1",
-    cella30: "1",
-    cella31: "1",
-    cella32: "1",
-    cella33: "1",
-    cella34: "1",
-    cella35: "1",
-    cella36: "1",
-    cella40: "1",
-    cella41: "1",
-    cella42: "1",
-    cella43: "1",
-    cella44: "1",
-    cella45: "1",
-    cella46: "1",
-    cella50: "X",
-    cella51: "X",
-    cella52: "X",
-    cella53: "X",
-    cella54: "X",
-    cella55: "X",
-    cella56: "X",
+const imageMapping = {
+    "home": "home.png",
+    "door": "door.png",
+    "ice": "ice.png",
+    "X": "x.png",
 };
+
+// img based on cell value
+function setImageForCell(cellId, value) {
+    const cell = document.getElementById(cellId);
+    if (cell) {
+        cell.innerHTML = "";
+        if (imageMapping.hasOwnProperty(value)) {
+            const img = document.createElement("img");
+            img.src = imageMapping[value];
+            img.alt = value;
+            cell.appendChild(img);
+        } else {
+            cell.innerText = value;
+        }
+    }
+}
+
+function setImagesForAllCells() {
+    for (const cellId in defaultCellValues) {
+        setImageForCell(cellId, defaultCellValues[cellId]);
+    }
+}
+
+window.onload = function() {
+    setImagesForAllCells();
+};
+
+
 
 function setTrolleyPosizione(pos) {
     messageWindowPosizione.innerHTML += "<div class=\"testo\">" + pos + "</div>"
     addDebugToWindow("changed trolley position: "+pos)
     const pos_cleaned = pos.replace(/[()]/g, '');
-       const [x, y] = pos_cleaned.split(",");
+    const [x, y] = pos_cleaned.split(",");
     const current_id_cella = "cella" + x + y;
+
+    setImagesForAllCells()
 
     for (const id in defaultCellValues) {
         const cella = document.getElementById(id);
-        if (current_id_cella==id) {
-            cella.innerText = "r";
-        } else {
-            cella.innerText = defaultCellValues[id] || "";
+        if (current_id_cella == id) {
+   
+            cella.innerText = "";
+
+            const img = document.createElement("img");
+            img.src = "robot.png"; 
+            cella.appendChild(img);
         }
     }
-
-
-
-    const cella = document.getElementById(id_cella);
-    if (cella) {
-        cella.innerText = "r";  //cella valore di default senza "r"
-    }
-    else {
-        cella.innerText = defaultCellValues[id_cella] || "";  //cella valore di default senza "r"
-    }
 }
+
+
 
 function setTrolleyStatus(status) {
-    messageWindowTrolley.innerHTML += "<div class=\"testo\">" + status + "</div>"
-    addDebugToWindow("current trolley status: "+status)
+   
+    messageWindowTrolley.innerHTML = ""; // clean window
+    if (status === "(0,4)") {
+        const img = document.createElement("img");
+        img.src = "door.png";
+        messageWindowTrolley.appendChild(img);
+    }
+    else if(status === "(4,3)"){
+        const img = document.createElement("img");
+        img.src = "ice.png";
+        messageWindowTrolley.appendChild(img);
+    } else if(status === "(0,0)"){
+        const img = document.createElement("img");
+        img.src = "home.png";
+        messageWindowTrolley.appendChild(img);
+    }
 }
+
 
 
 function addDebugToWindow(message) {

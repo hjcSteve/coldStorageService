@@ -22,6 +22,12 @@ tema finale ingegneria dei sistemi software 22/23
 ` ./gradlew bootRun`
 ` http://localhost:8086/`
 
+## attivare statusgui
+
+`cd sprint3/sprint3_statusGUI`
+` ./gradlew bootRun`
+` http://localhost:8087/`
+
 ## opzionale : mqtt sub locale
 
 `mosquitto_sub -v -h "localhost" -t "trolley_state"`

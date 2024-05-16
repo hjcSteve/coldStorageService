@@ -98,6 +98,7 @@ class MainCtxcoldstorageserviceKtTest {
         val responseMessage = conn.request(truckRequestStr)
         assertTrue("TEST___ charge taken",
                 responseMessage.contains("replyChargeTaken"));
+        Thread.sleep(1000)
         val alarm = CommUtils.buildEvent("tester", "alarm", "alarm(X)").toString();
         conn.forward(alarm)
         Thread.sleep(2000)
@@ -129,7 +130,7 @@ class MainCtxcoldstorageserviceKtTest {
                 responseMessage.contains("replyTicketExpired"));
     }
     @Test
-    fun ` discarge request-ticket 1 OBSERV mqtt`() {
+    fun `discarge request-ticket 1 OBSERV mqtt`() {
         try {
             println("connession mqtt:" + mqttConn.connect(mqSender, mqttBrokerAddr))
             println("set call back mqtt:" + mqttConn.setCallback(myMqttCallback))
@@ -147,11 +148,22 @@ class MainCtxcoldstorageserviceKtTest {
         val responseMessage = conn.request(truckRequestStr)
         assertTrue("TEST___ charge taken",
                 responseMessage.contains("replyChargeTaken"));
+        Thread.sleep(500)
+        val alarm = CommUtils.buildDispatch("tester", "mocksonardata", "mocksonardata(1)","mockalarmdevice").toString();
+        conn.forward(alarm)
+        Thread.sleep(3000)
+        val resume = CommUtils.buildDispatch("tester", "mocksonardata", "mocksonardata(100)","mockalarmdevice").toString();
+        conn.forward(resume)
+        Thread.sleep(500)
+        val alarm2 = CommUtils.buildDispatch("tester", "mocksonardata", "mocksonardata(1)","mockalarmdevice").toString();
+        conn.forward(alarm2)
+
         //verifico gli stati osservati
         val messagesMQTT = myMqttCallback.getMessagesMQTT();
+        print( myMqttCallback.getMessagesMQTT().toString())
+        val good="[trolley_state(goingIndoor), trolley_state(atIndoor), trolley_state(goingColdroom), trolley_state(stopped), trolley_state(goingColdroom)]"
         assertTrue("TEST___ transport_state",
-                messagesMQTT[messagesMQTT.size-1] == "trolley_state(goingColdroom)"
-                        && messagesMQTT[messagesMQTT.size-2] == "trolley_state(atIndoor)"
+                messagesMQTT.toString()== good
         )
     }
     class MessageListener :MqttCallback{

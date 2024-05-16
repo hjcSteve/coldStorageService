@@ -247,7 +247,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 	  println("$name ) cleaning Indoor!!") color magenta
 	  [# Ticketnum = payloadArg(0).toInt();#]
       replyTo dischargefood with replyChargeTaken : replyChargeTaken($Ticketnum)
-    }
+    } 
   } Goto s0 
 }
 

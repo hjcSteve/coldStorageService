@@ -32,7 +32,7 @@ public class WebSocketConf implements WebSocketConfigurer {
 
     public final ClientConnectionManager clientConnectionManager = new ClientConnectionManager();
     //manterrà le sessioni con i Client connessi, intercettando le richieste e inoltrando le risposte
-    public final String clientPath = "accessgui";
+    public final String clientPath = "statusgui";
 
     public final Corebusiness logic = new Corebusiness(clientConnectionManager);
 

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="217f4ba8-aa26-425e-b4fc-723f99bbea39" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../sprint1V2/src/progettazione.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint0V2/build2024.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint0V2/build2024.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.obsidian/workspace.json" beforeDir="false" afterPath="$PROJECT_DIR$/.obsidian/workspace.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build2024.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build2024.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/it/unibo/coldstorageservice/Coldstorageservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/it/unibo/coldstorageservice/Coldstorageservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tt.qak" beforeDir="false" afterPath="$PROJECT_DIR$/src/tt.qak" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/userDocs/.obsidian/workspace.json" beforeDir="false" afterPath="$PROJECT_DIR$/userDocs/.obsidian/workspace.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/userDocs/Sprint1.md" beforeDir="false" afterPath="$PROJECT_DIR$/userDocs/Sprint1.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/.settings/org.eclipse.buildship.core.prefs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/build2024.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/build2024.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/qakrestappl_Transitions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/qakrestappl_Transitions.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldroom/Coldroom.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldroom/Coldroom.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldstorageservice/Coldstorageservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/coldstorageservice/Coldstorageservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/ctxbasicrobot/MainCtxbasicrobot.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageservice.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageservice.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/transporttrolley/Transporttrolley.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../sprint1V2/src/it/unibo/transporttrolley/Transporttrolley.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/main/resources/logback.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../sprint1V2/src/main/resources/readMe" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2dwuPD6mAYn0KT0m2xLZGePANcQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.MainCtxcoldstorageserviceKtTest. test discarge request exipired.executor": "Run",
+    "Gradle.MainCtxcoldstorageserviceKtTest. test discarge request no exipired.executor": "Run",
+    "Gradle.MainCtxcoldstorageserviceKtTest. test store request 1000.executor": "Run",
+    "Gradle.MainCtxcoldstorageserviceKtTest. test store request.executor": "Run",
+    "Gradle.MainCtxcoldstorageserviceKtTest.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/alessandro/Scrivania/EsameNatali/coldStorageService/sprint1Robot",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Gradle.MainCtxcoldstorageserviceKtTest. test discarge request no exipired">
+    <configuration name="MainCtxcoldstorageserviceKtTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MainCtxcoldstorageserviceKtTest. test discarge request exipired" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest. test discarge request exipired&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MainCtxcoldstorageserviceKtTest. test discarge request no exipired" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest. test discarge request no exipired&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MainCtxcoldstorageserviceKtTest. test store request 1000" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest. test store request 1000&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MainCtxcoldstorageserviceKtTest. test store request" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest. test store request&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.MainCtxcoldstorageserviceKtTest. test discarge request no exipired" />
+        <item itemvalue="Gradle.MainCtxcoldstorageserviceKtTest. test store request" />
+        <item itemvalue="Gradle.MainCtxcoldstorageserviceKtTest. test store request 1000" />
+        <item itemvalue="Gradle.MainCtxcoldstorageserviceKtTest. test discarge request exipired" />
+        <item itemvalue="Gradle.MainCtxcoldstorageserviceKtTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-11.0.22-corretto-11.0.22-4caba194b151-bfa3237e" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="217f4ba8-aa26-425e-b4fc-723f99bbea39" name="Changes" comment="" />
+      <created>1710931435282</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1710931435282</updated>
+      <workItem from="1710931436319" duration="3497000" />
+      <workItem from="1710944293399" duration="1678000" />
+      <workItem from="1711042526708" duration="446000" />
+      <workItem from="1711279142551" duration="2826000" />
+      <workItem from="1711284155319" duration="2826000" />
+      <workItem from="1711468445352" duration="632000" />
+      <workItem from="1712671131868" duration="115000" />
+      <workItem from="1712680566698" duration="416000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-function">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/test/MainCtxcoldstorageserviceKtTest.kt</url>
+          <line>48</line>
+          <properties class="test.it.unibo.ctxcoldstorageservice.MainCtxcoldstorageserviceKtTest" method=" test discarge request no exipired">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

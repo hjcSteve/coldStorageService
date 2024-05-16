@@ -141,6 +141,7 @@ QActor coldstorageservice context ctxcoldstorageservice{
 				#]
 
 			 println("$name ) asking to coldRoom") color magenta
+			 updateResource[# "r(1)" #]
 		    request coldroom -m spaceCheck : spaceCheck($KgtoLoad)
 		    }
 	} Transition t0
@@ -151,11 +152,14 @@ QActor coldstorageservice context ctxcoldstorageservice{
 
 	State refuseStoreReq{
 			replyTo storerequest with replyTicketDenied : ticketDenied(D)
+			updateResource[# "load(stg_current_STG ,res_reserved_STG ,max_MAX_STG)" #]
 			println("$name ) ticket denied, not enough space.") color magenta
 			[#
 			Rejected_stores++;	
 			#]
-			updateResource[# "rejected($Rejected_stores, a7341he1y2b3iwnm1c,asd8a)" #]
+			//updateResource[# "rejected($Rejected_stores, a7341he1y2b3iwnm1c,asd8a)" #]
+			//updateResource[# "load(stg_current_STG ,res_reserved_STG ,max_MAX_STG)" #]
+			
 	}Goto s0
 //------------------------------------------------------------------------------------------------------------------
    //TICKET GENERATION AND CURRENT LOAD CONTROL

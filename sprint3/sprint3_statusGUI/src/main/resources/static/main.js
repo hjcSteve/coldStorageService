@@ -6,8 +6,8 @@ var socket = connect();
     cella01: "",
     cella02: "",
     cella03: "",
-    cella04: "door",
-    cella05: "X",
+    cella04: "",
+    cella05: "",
     cella06: "",
     cella10: "",
     cella11: "",
@@ -18,22 +18,22 @@ var socket = connect();
     cella16: "",
     cella20: "",
     cella21: "",
-    cella22: "X",
+    cella22: "",
     cella23: "",
-    cella24: "",
-    cella25: "",
+    cella24: "X",
+    cella25: "X",
     cella26: "",
     cella30: "",
     cella31: "",
-    cella32: "",
+    cella32: "X",
     cella33: "",
-    cella34: "",
+    cella34: "ice",
     cella35: "",
     cella36: "",
-    cella40: "",
+    cella40: "door",
     cella41: "",
     cella42: "",
-    cella43: "ice",
+    cella43: "",
     cella44: "",
     cella45: "",
     cella46: "",
@@ -194,7 +194,7 @@ function setTrolleyPosizione(pos) {
     addDebugToWindow("changed trolley position: "+pos)
     const pos_cleaned = pos.replace(/[()]/g, '');
     const [x, y] = pos_cleaned.split(",");
-    const current_id_cella = "cella" + x + y;
+    const current_id_cella = "cella" + y + x;
 
     setImagesForAllCells()
 

@@ -5,12 +5,12 @@ import org.eclipse.californium.core.CoapResponse;
 import unibo.basicomm23.coap.CoapConnection;
 
 public class StatusObserver {
-    private final Corebusiness logic;
+    private Corebusiness logic;
 
-    //private final CoapConnection coap_connection
-    //private final CoapConnection coap_connection_coldroom;
-    //private final CoapConnection coap_connection_trolley;
-    private final CoapConnection coap_connection_coldstorage;
+    private CoapConnection coap_connection_robot;
+    private CoapConnection coap_connection_coldroom;
+    private CoapConnection coap_connection_trolley;
+    private CoapConnection coap_connection_coldstorage;
 
 
     public StatusObserver(Corebusiness logic) {
@@ -19,8 +19,8 @@ public class StatusObserver {
 
         //---------------coap connection
         //Per ricevere informazioni dal robotpos uso coap perché il qak lo usa
-        /*this.coap_connection_robot = new CoapConnection("127.0.0.1:8020", "ctxbasicrobot/robotpos");
-        coap_connection_robot.observeResource(new CoapHandler() {_robot;
+        this.coap_connection_robot = new CoapConnection("127.0.0.1:8020", "ctxbasicrobot/robotpos");
+        coap_connection_robot.observeResource(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse response) {
                 System.out.println("--OBSERVER BASICROBOT-- onLoad: CoapResponse=  " + response.getResponseText());
@@ -51,7 +51,7 @@ public class StatusObserver {
             }
             @Override
             public void onError() { System.out.println("-- ServiceConnectionManager -- observeResource, error"); }
-        });*/
+        });
 
         this.coap_connection_coldstorage = new CoapConnection("127.0.0.1:8055", "ctxcoldstorageservice/coldstorageservice");
         coap_connection_coldstorage.observeResource(new CoapHandler() {

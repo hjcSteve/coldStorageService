@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Sprint2.md",
+                "file": "Sprint3.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Sprint2.md",
+                "file": "Sprint3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Sprint2.md",
+                "file": "Sprint3.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Sprint2.md"
+                "file": "Sprint3.md"
               }
             }
           }
@@ -148,14 +148,21 @@
   },
   "active": "69c2d019a38b920f",
   "lastOpenFiles": [
+    "img/table.png",
+    "img/cold.png",
+    "img/gui.png",
+    "img/Schermata del 2024-05-17 16-48-23.png",
+    "img/Schermata del 2024-05-17 16-48-00.png",
+    "img/Schermata del 2024-05-17 16-48-57.png",
+    "img/Coldroom.png",
+    "img/ArchM.png",
+    "ArchM.png",
+    "Sprint3.md",
+    "Documento senza nome",
+    "Sprint2.md",
     "Coldroom.png",
     "SAGui.png",
-    "ClientMAN.png",
-    "ClientManager.png",
-    "Arch.png",
     "!!./MVC.png.md",
-    "Sprint2.md",
-    "!!.",
-    "MVC.png"
+    "!!."
   ]
 }

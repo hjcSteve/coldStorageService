@@ -89,33 +89,31 @@ Esempio:
 
 ## Client
 L'interfaccia web viene realizzata con html, css e javascript. E' stato scelto un design semplice e intuitivo per facilitare le operazioni. 
-![[statusgui.png]]
+![](./img/statusgui.png)
 
 
 In particolare i campi sono:
 **Ticket Rejected** e **Status Trolley**:
 Il primo serve a mostrare a schermo un conteggio cumulativo dei ticket rigettati dal sistema dal suo avvio perché lo spazio è insufficiente, mentre il secondo mostra un'immagine corrispondente ai vari stati di esecuzione del robot.
-
-![[gui.png]]
+![](./img/gui.png)
 
 **Robot Position**:
 Una griglia suddivisa in spazi quadrati, virtualmente della dimensione di uno "step" del robot. La legenda delle immagini rappresenta con una "X" eventuali pareti o ostacoli, con i cubetti di ghiaccio la ColdRoom, con una casa la Home, una porta per l'Indoor e con un robottino il Transport Trolley.
-
-![[table.png]]
-![[iceposition.png]]
+![](./img/table.png)
+![](./img/iceposition.png)
 
 **Coldroom status**:
 Similmente a quanto accaduto nella ServiceAccessGui, viene realizzata una barra di caricamento per raffigurare il riempimento della ColdRoom. 
 
-![[cold.png]]
+![](./img/cold.png)
+
 
 
 ## Testing
 
 Un piano di testing finale è stato effettuato inoltre controllando la consistenza del comportamento del robot (controllato via AccessGUI) con l'output visualizzato.
 In particolare, un si è deciso di servirci anche di una comoda schermata di debug per visualizzare il comportamento interno del sistema similmente ad un file di log:
-
-![[debug.png]]
+![](./img/debug.png)
 
 ## Deployment
 

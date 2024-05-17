@@ -21,16 +21,7 @@ body {
     min-height: 100vh;
     padding: 20px;
 }
-.container-table {
-    margin-top:-250px;
-    display: flex;
-    justify-content: center;
-    background-color: black;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 20px;
-    
-}
+
 
 .content {
     background-color: #fff;
@@ -48,7 +39,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
     max-width: 8000px; 
-    margin-top: -150px; 
+    margin-top: -360px; 
 }
 
 .header {
@@ -95,7 +86,36 @@ body {
     overflow-y: auto;
 }
 
+.legend {
+    background-color: white; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    margin-top: 20px; 
+    border-radius: 5px;
+}
+
+.legend img {
+    width: 50px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 8px;
+    padding: 5px;
+}
+
+
 /* -----------Table---------------------- */
+
+
+.container-table {
+    margin-top:-250px;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    
+}
 table {
     width: 100%;
     border-collapse: collapse;

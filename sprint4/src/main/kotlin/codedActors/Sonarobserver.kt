@@ -13,10 +13,11 @@ import kotlinx.coroutines.*
 //User imports JAN2024
 import org.eclipse.paho.client.mqttv3.MqttMessage
 class Sonarobserver ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
-	val LimitDistance = 20
+	val LimitDistance = Configuration.conf.DLIMT
 	val MINT = Configuration.conf.MINT
 	var isStopped=false
 	var lastStopTime:Long = 0;
+
 	override fun getInitialState() : String{
 		return "s0"
 	}
@@ -58,8 +59,8 @@ class Sonarobserver ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						connectToMqttBroker( "tcp://localhost:1883" )
-						subscribe(  "sonardata" ) //mqtt.subscribe(this,topic)
+						connectToMqttBroker( Configuration.conf.broker_address )
+						subscribe(  Configuration.conf.sonardata_topic ) //mqtt.subscribe(this,topic)
 
 					}
 					sysaction { //it:State

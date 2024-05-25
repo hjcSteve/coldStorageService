@@ -64,13 +64,13 @@ Reply space_reserved : space_reserved(D) for spaceCheck
 Dispatch stored_food : stored_food(KG)
 
 
+
 //Eventi di stop e resume per il transport trolley
 Event alarm:alarm(X)
 Event resume:resume(ARG)
 
 Event coldstorage_state:coldstorage_state(X)
 Event trolley_state:trolley_state(X)
-
 
 //DICHIARAZIONE DEI CONTESTI
 Context ctxcoldstorageservice ip [host="localhost" port=8055]
@@ -90,6 +90,7 @@ QActor servicestatusgui context ctxcoldstorageservice{
 
 
 QActor coldstorageservice context ctxcoldstorageservice{
+
 	[#
 	
 	var Trolley_is_working : Boolean = false;
@@ -325,6 +326,8 @@ State s0 initial {
 QActor transporttrolley context ctxcoldstorageservice{
 	[# var LASTSTATE : String = ""
 	var TicketID : String = ""
+	val BROKER_ADDRESS = Configuration.conf.broker_address
+	val TOPIC = Configuration.conf.trolley_state_topic
 	#]
 	State s0 initial {
 		println("$name | init e engage basicrobot") color yellow
@@ -336,7 +339,7 @@ QActor transporttrolley context ctxcoldstorageservice{
 
 	State engaged {
 		println("$name | basicrobot engaged") color yellow
-		connectToMqttBroker "tcp://localhost:1883"		
+		connectToMqttBroker "$BROKER_ADDRESS"		
 		publish "trolley_state" -m trolley_state:trolley_state(engaged)
 	}
 	Goto atHome

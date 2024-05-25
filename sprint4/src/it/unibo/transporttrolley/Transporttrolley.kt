@@ -23,6 +23,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		 var LASTSTATE : String = ""
 			var TicketID : String = ""
+			val BROKER_ADDRESS = Configuration.conf.broker_address
+			val TOPIC = Configuration.conf.trolley_state_topic
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -39,7 +41,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				state("engaged") { //this:State
 					action { //it:State
 						CommUtils.outyellow("$name | basicrobot engaged")
-						connectToMqttBroker( "tcp://localhost:1883" )
+						connectToMqttBroker( "$BROKER_ADDRESS" )
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state(engaged)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state(engaged)").toString(), "trolley_state" )   
 						//genTimer( actor, state )

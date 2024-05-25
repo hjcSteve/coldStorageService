@@ -2,5 +2,8 @@
   "Expirationtime": "100000",
   "MAX_STG": "100",
   "MINT": "5000",
-  "DLIMT": "30"
+  "DLIMT": "30",
+  "broker_address": "tcp://localhost:1883",
+  "trolley_state_topic": "trolley_state",
+  "sonardata_topic": "sonardata"
 }

@@ -6,9 +6,7 @@ Successivamente, si può procedere delineando la struttura complessiva dei macro
 A conclusione dello Sprint0, verrà definito un piano di lavoro che schedulerà gli Sprint successivi.
 
 # Requisiti
-
 I requisiti sono descritti dal committente nel documento: LINK
-
 https://github.com/anatali/issLab23/blob/main/iss23Material/html/TemaFinale23.html
 
 # Analisi dei requisiti
@@ -44,7 +42,6 @@ Da requisiti ColdRoom è inoltre caratterizzato da una quantità massima di cari
 Modelliamo ColdRoom con questi due campi :
 - `ColdRoom.maxStorage` come un numero intero positivo con un valore all'inizializzazione del sistema
 - `ColdRoom.currentStorage` come un numero intero inizialmente con valore 0, in ogni momento <=`ColdRoom.maxStorage`
-
 
 `TRANSPORT TROLLEY` : entità logica capace di spostarsi nella `Service area`. Fornisce le interfacce logiche al sistema per pilotare un DDR robot, è attiva e nella nostra architettura figura pertanto come un **attore**.
 
@@ -88,7 +85,6 @@ Reply moverobotdone  :  moverobotok(ARG)
 Reply moverobotfailed:  moverobotfailed(PLANDONE, PLANTODO)
 ```
 
-
 `ColdStorageService` è l'entità che racchiude il core business dell'intero sistema. Dovendo interagire con componenti in un sistema distribuito è necessario che sia modellato come **attore**
 `ColdRoom` potrebbe essere modellato come un **POJO** all'interno del ColdStorageService, ma si è scelto di modellarlo come **attore** per i seguenti motivi:
 - ColdStorageService avrebbe troppe responsabilità e quindi deleghiamo la responsibilità in un componente attore separato (principio di singola responsabilità) 
@@ -107,7 +103,6 @@ Un warning device associa la posizione del transport trolley ad un determinato c
 Entrambi i device sono per il momento descritti nell'ottica di un comportamento **locale**, sul medesimo nodo logico e fisico, destinando ai futuri sprint eventuali distribuzioni su architettura distribuita. I dettagli implementativi verranno sviluppati solamente dallo sprint 2. 
 
 # Macro componenti
-
 I Macro-Componenti del sistema sono dunque:
 - ColdStorageService
 - ColdRoom
@@ -134,8 +129,9 @@ Request dischargefood : dischargefood(TICKETNUM)
 Reply replyChargeTaken : replyChargeTaken(ARG)
 Reply replyTicketExpired: replyTicketExpired(ARG)
 ```
-![[sprint0V1/sistemaarch.png]]
+![[userDocs_0/sistemaarch.png|600]]
 # Piano di Test
+Link: https://github.com/hjcSteve/coldStorageService/blob/main/sprint0/sprint0V1/test/it/unibo/ctxcoldstorageservice/MainCtxcoldstorageserviceKtTest.kt
 
 **Scenario di Test 1: Richiesta con Cold Room Vuota**
 ````
@@ -166,7 +162,7 @@ Reply replyTicketExpired: replyTicketExpired(ARG)
 
 ```
 
-**Scenario di Test 3: Ticket accettato per richiesta di scarico
+**Scenario di Test 3: Ticket accettato per richiesta di scarico**
 ```
 @Test
     fun ` test discarge request no exipired`(){
@@ -181,7 +177,7 @@ Reply replyTicketExpired: replyTicketExpired(ARG)
     }
 ```
 
-**Scenario di Test 4: Ticket rifiutato in quanto scaduto
+**Scenario di Test 4: Ticket rifiutato in quanto scaduto**
 ```
 @Test
     fun ` test discarge request exipired`(){
@@ -195,7 +191,6 @@ Reply replyTicketExpired: replyTicketExpired(ARG)
                 responseMessage.contains("replyTicketExpired"));
     }
 ```
-
 
 # Piano di lavoro
 Si è valutato di suddividere il sistema in 5 step di avanzamento
@@ -215,9 +210,6 @@ Si è valutato di suddividere il sistema in 5 step di avanzamento
 ## Sprint 4 
 **Obiettivo** : Contesto raspberry 
 **TEMPO STIMATO**: 12h di lavoro/uomo
-## Sprint 5
-**Obiettivo**: deployment sul robot fisico e distribuzione del sistema
-**TEMPO STIMATO**: 10h di lavoro/uomo
 
 *Lo sprint 2, 3 e 4 possono essere realizzati in parallelo.*
 

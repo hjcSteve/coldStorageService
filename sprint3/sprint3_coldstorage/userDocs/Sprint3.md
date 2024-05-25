@@ -2,7 +2,7 @@
 
 # Sprint3 - Analisi dei Requisiti
 
-Lo scopo dello sprint è di analizzare e progettare la parte di requisiti inerente la "Service Status GUI", definita dai requisiti come un "pannello di controllo" col ruolo di mostrare ad un **operatore umano** e in ogni momento dell'esecuzione diversi aspetti del sistema ColdStorage. In particolare: 
+Lo scopo dello sprint è di analizzare e progettare la parte di requisiti inerente la "Service Status GUI", definita dai requisiti come un "pannello di osservazione" (output) col ruolo di mostrare ad un **operatore umano** e in ogni momento dell'esecuzione diversi aspetti del sistema ColdStorage. In particolare: 
 - Il numero di ticket rigettati perché la ColdRoom è risultata full.
 - Lo stato del trolley.
 - La posizione del robot nella Service Area.
@@ -39,7 +39,7 @@ Le tre componenti nei riquadri azzurri consistono in classi Java (POJO) definite
 
 Caso di funzionamento:
 
-- All'avvio, la componente `StatusObserver` avvia quattro distinte connessioni e client Coap, registrandosi verso il ColdStorageService (server Coap, IP configurabile e porta 8055) e basicrobot (porta 8020) ad altrettanti "topic" definiti dal nome dell'attore da monitorare (coap resources).
+- All'avvio, la componente `StatusObserver` avvia quattro distinte connessioni e client Coap, registrandosi verso il ColdStorageService (server Coap, IP configurabile e porta 8055) e basicrobot (porta 8020) ad altrettanti componenti definiti dal nome dell'attore da monitorare (coap resources).
 - l Client (browser) riceve la pagina HTTP che presenta diversi campi per mostrare a schermo le informazioni richieste.
 
 All'arrivo di un evento innescato da un attore interno al ColdStorageService:
@@ -73,7 +73,7 @@ Si tratta di una classe custom per gestire un insieme di connessioni che sfrutta
 Coap permette un'efficiente e semplice pattern observer, mediante istanziazione di oggetti CoapConnection con relativo CoapConnectionHandler.
 Quest'ultima è nativamente classe astratta che richiede la ridefinizione dei metodi "onLoad" e "onError" mediante `@Override`. Il primo, gestisce la callback asincrona all'arrivo di un evento oppure la risposta all'invio di un messaggio `get` da parte del coap client mentre il secondo eventuali segnalazioni di errore nella connessione.
 
-**Perchè non MQTT?** Il sistema appena descritto mira ad essere il più leggero possibile e si è deciso di escludere l'introduzione di broker pesante e gestire ogni connessione autonomamente come topic a sè stante.
+**Perchè non MQTT?** Il sistema appena descritto mira ad essere il più leggero possibile e si è deciso di escludere l'introduzione di broker pesante e gestire ogni connessione autonomamente e in modo indipendente.
 
 E' nostro interesse osservare:
 - gli aggiornamenti da parte del ColdRoom sullo stato in tempo reale di peso, spazio riservato e Max storage.

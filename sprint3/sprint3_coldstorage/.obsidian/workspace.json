@@ -11,9 +11,11 @@
             "id": "6354fe5a3fefa764",
             "type": "leaf",
             "state": {
-              "type": "release-notes",
+              "type": "markdown",
               "state": {
-                "currentVersion": "1.5.12"
+                "file": "userDocs/Sprint3.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -67,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "1873946e151aff1f",
@@ -84,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "userDocs/Sprint3.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "userDocs/Sprint3.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -121,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "userDocs/Sprint3.md"
+              }
             }
           }
         ]
@@ -141,6 +146,6 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "6354fe5a3fefa764",
+  "active": "166240f0bc093b12",
   "lastOpenFiles": []
 }

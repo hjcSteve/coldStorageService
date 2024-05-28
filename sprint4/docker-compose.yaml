@@ -14,12 +14,15 @@ services:
     depends_on:
       - wenv
   coldstorage:
-    image: hjcsteve/coldstorageservice:2.0
+    image: hjcsteve/coldstorageservice:4.1
     network_mode: "host"
     depends_on:
       - basicrobot23
   accessgui:
     image: hjcsteve/accessgui:1.0
     network_mode: "host"
-    depends_on:
-      - coldstorage
+
+  statusgui:
+    image: hjcsteve/statusgui:1.0
+    network_mode: "host"
+

@@ -58,6 +58,10 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 												reserved_STG+=Kg;
 								
 								answer("spaceCheck", "space_reserved", "space_reserved($Kg)"   )  
+								
+													Thread.sleep(1000L)
+								updateResourceRep( "load(stg_${current_STG}.0 ,res_${reserved_STG}.0,max_${MAX_STG}.0)"  
+								)
 								}
 								else
 								 {CommUtils.outblue("$name) not enough space for reservation...")
@@ -80,6 +84,10 @@ class Coldroom ( name: String, scope: CoroutineScope, isconfined: Boolean=false 
 											reserved_STG -= Kg;
 											current_STG += Kg;
 								CommUtils.outblue(" $name) Performed the load with success!")
+								
+											Thread.sleep(1000L)
+								updateResourceRep( "load(stg_${current_STG}.0,res_${reserved_STG}.0,max_${MAX_STG}.0)"  
+								)
 						}
 						//genTimer( actor, state )
 					}

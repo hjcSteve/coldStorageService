@@ -22,10 +22,7 @@ with Diagram('coldstorageserviceArch', show=False, outformat='png', graph_attr=g
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxcoldstorageservice', graph_attr=nodeattr):
-          servicestatusgui=Custom('servicestatusgui','./qakicons/symActorSmall.png')
           coldstorageservice=Custom('coldstorageservice','./qakicons/symActorSmall.png')
-          serviceaccessgui=Custom('serviceaccessgui','./qakicons/symActorSmall.png')
-          warningdevice=Custom('warningdevice','./qakicons/symActorSmall.png')
           coldroom=Custom('coldroom','./qakicons/symActorSmall.png')
           alarmdevice=Custom('alarmdevice','./qakicons/symActorSmall.png')
           transporttrolley=Custom('transporttrolley','./qakicons/symActorSmall.png')

@@ -23,8 +23,6 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		 var LASTSTATE : String = ""
 			var TicketID : String = ""
-			val BROKER_ADDRESS = Configuration.conf.broker_address
-			val TOPIC = Configuration.conf.trolley_state_topic
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -41,7 +39,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				state("engaged") { //this:State
 					action { //it:State
 						CommUtils.outyellow("$name | basicrobot engaged")
-						connectToMqttBroker( "$BROKER_ADDRESS" )
+						connectToMqttBroker( "tcp://localhost:1883" )
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state(engaged)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state(engaged)").toString(), "trolley_state" )   
 						//genTimer( actor, state )
@@ -57,6 +55,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | basicrobot at Home")
+						updateResourceRep( "trolleystate($name,4asdasdasdasdas)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -66,6 +66,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				}	 
 				state("goingIndoor") { //this:State
 					action { //it:State
+						request("moverobot", "moverobot(0,4)" ,"basicrobot" )  
 						if( checkMsgContent( Term.createTerm("dischargeTrolley(TICKETID)"), Term.createTerm("dischargeTrolley(Ticketnum)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 LASTSTATE = "goingIndoor" 
@@ -73,14 +74,14 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 								//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
 								publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 								CommUtils.outyellow("$name | vado all'INDOOR")
-								request("moverobot", "moverobot(0,4)" ,"basicrobot" )  
 						}
 						if( checkMsgContent( Term.createTerm("serve_newtruck(TICKET)"), Term.createTerm("serve_newtruck(Ticketnum)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 LASTSTATE = "goingIndoor" 
 												TicketID = payloadArg(0);
 								CommUtils.outyellow("$name | vado all'INDOOR")
-								request("moverobot", "moverobot(0,4)" ,"basicrobot" )  
+								updateResourceRep( "trolleystate($name,1)"  
+								)
 						}
 						//genTimer( actor, state )
 					}
@@ -97,6 +98,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | sono in INDOOR")
 						CommUtils.outyellow("$name | carico il cibo")
+						updateResourceRep("trolleystate($name,2, sosdoterierjenajnefia)" 
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -122,6 +125,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | vado verso la cold room")
+						updateResourceRep( "trolleystate($name,3asdasdasdasdasd)"  
+						)
 						request("moverobot", "moverobot(4,3)" ,"basicrobot" )  
 						//genTimer( actor, state )
 					}
@@ -135,6 +140,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 					action { //it:State
 						 LASTSTATE = "atColdroom"  
 						CommUtils.outyellow("$name | sono in Cold Room")
+						updateResourceRep( "trolleystate($name,4asdasdasdasdas)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -146,7 +153,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 				}	 
 				state("chargeStored") { //this:State
 					action { //it:State
-						 LASTSTATE = "chargedStored"  
+						 LASTSTATE ="chargedStored"  
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | terminato deposito. Aspetto istruzioni")
@@ -165,6 +172,8 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state($LASTSTATE)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state($LASTSTATE)").toString(), "trolley_state" )   
 						CommUtils.outyellow("$name | vado alla posizione HOME")
+						updateResourceRep( "trolleystate($name,5asdasdsadasd.)"  
+						)
 						request("moverobot", "moverobot(0,0)" ,"basicrobot" )  
 						//genTimer( actor, state )
 					}
@@ -180,7 +189,7 @@ class Transporttrolley ( name: String, scope: CoroutineScope, isconfined: Boolea
 						discardMessages = true
 						//val m = MsgUtil.buildEvent(name, "trolley_state", "trolley_state(stopped)" ) 
 						publish(MsgUtil.buildEvent(name,"trolley_state","trolley_state(stopped)").toString(), "trolley_state" )   
-						CommUtils.outyellow("$name | Sono fermo per ostacolo sonar $LASTSTATE")
+						CommUtils.outyellow("$name | Sono fermo per ostacolo sonar")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

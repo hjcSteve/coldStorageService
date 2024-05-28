@@ -16,26 +16,22 @@ class Sonarobserver ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 	val LimitDistance = Configuration.conf.DLIMT
 	val MINT = Configuration.conf.MINT
 	var isStopped=false
-	var lastStopTime:Long = 0;
+	var lastStopTime:Long= 0;
 
 	override fun getInitialState() : String{
 		return "s0"
 	}
 	@OptIn(DelicateCoroutinesApi::class)
 	override fun messageArrived(topic: String, msg: MqttMessage) {
-		CommUtils.outgray("$msg")
 
-		val parsedMsg = msg.toString().split(',')[4]
-		CommUtils.outgray(parsedMsg)
-		val distance = parsedMsg.toLongOrNull() ?: return
-		CommUtils.outgray("$distance")
+		val distance = msg.toString().trim().toFloatOrNull() ?: return
 
 		if( distance < LimitDistance && !isStopped && (lastStopTime == 0.toLong() || ((System.currentTimeMillis() - lastStopTime) >= MINT)) ){
 
 			lastStopTime = System.currentTimeMillis()
 			isStopped=true
-			val m1 = MsgUtil.buildEvent(name, "obstacle", "obstacle($msg)")
-			println("   ${name} |  emit m1= $m1")
+			CommUtils.outgray("alarmm")
+
 			CommUtils.outred("alarm")
 			val event = CommUtils.buildEvent(name, "alarm","alarm(X)")
 			GlobalScope.launch {
@@ -59,8 +55,8 @@ class Sonarobserver ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
-						connectToMqttBroker( Configuration.conf.broker_address )
-						subscribe(  Configuration.conf.sonardata_topic ) //mqtt.subscribe(this,topic)
+						connectToMqttBroker( "tcp://localhost:1883" )
+						subscribe(  "sonardata") //mqtt.subscribe(this,topic)
 
 					}
 					sysaction { //it:State

@@ -6,7 +6,7 @@
 #rinomino la cartella libs in lib :) 
 mv build/libs build/lib
 #faccio il build dell'immagine docker e la taggo con il nome hjcsteve/coldstorageservice:1.2
-docker build -t hjcsteve/coldstorageservice:4.0 .
+docker build -t hjcsteve/coldstorageservice:4.1 .
 #faccio il push dell'immagine su dockerhub di steve :) 
 #se non avete le credenziali non funziona
-docker push hjcsteve/coldstorageservice:4.0
+docker push hjcsteve/coldstorageservice:4.1

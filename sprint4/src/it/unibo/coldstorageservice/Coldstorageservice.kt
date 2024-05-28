@@ -31,6 +31,7 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 			var queuedTicket = tickets.Ticket();
 			var is_queued : Boolean = false;
 			var Ticketnum : Int = 0;
+			var Rejected_stores : Int =0;
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
@@ -67,6 +68,10 @@ class Coldstorageservice ( name: String, scope: CoroutineScope, isconfined: Bool
 					action { //it:State
 						answer("storerequest", "replyTicketDenied", "ticketDenied(D)"   )  
 						CommUtils.outmagenta("$name ) ticket denied, not enough space.")
+						
+									Rejected_stores++;	
+						updateResourceRep( "rejected($Rejected_stores, a7341he1y2b3iwnm1c,asd8a)"  
+						)
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
